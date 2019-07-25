@@ -1,0 +1,9 @@
+server:
+  port: 20192
+spring:
+  application:
+    name: qd-generator
+  datasource:
+    url: jdbc:mysql://localhost:3306/qd_admin
+    username: root
+    password: aA@123456

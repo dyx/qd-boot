@@ -1,0 +1,68 @@
+<template>
+  <qd-form title="新建"
+           :visible="currentVisible"
+           :form="form"
+           :rules="rules"
+           @on-close="close"
+           @on-submit="submit">
+    <template #formItem>
+      #foreach($field in ${table.fields})
+        #if(${cfg.baseDOFieldList.contains($field.propertyName)} or ${field.propertyName} == ${cfg.primaryKey} or ${cfg.logicDeleteFieldName} == ${field.propertyName})
+        #else
+      <form-text label="$!{field.comment}" prop="$!{field.propertyName}" v-model="form.$!{field.propertyName}"></form-text>
+        #end
+      #end
+    </template>
+  </qd-form>
+</template>
+
+<script>
+import { mapActions } from 'vuex'
+import QdForm from '@/components/customize/qd-form'
+import FormText from '@/components/customize/qd-form/components/form-text'
+export default {
+  name: 'Save$!{entity}',
+  components: { FormText, QdForm },
+  props: {
+    visible: false
+  },
+  data () {
+    return {
+      currentVisible: this.visible,
+      form: {},
+      rules: {
+
+      }
+    }
+  },
+  computed: {
+
+  },
+  methods: {
+    ...mapActions([
+      'save$!{entity}'
+    ]),
+    init () {
+      // 设置默认值
+      this.currentVisible = true
+    },
+    close () {
+      this.currentVisible = false
+      this.$emit('on-close')
+    },
+    submit () {
+      this.save$!{entity}(this.form).then(res => {
+        this.currentVisible = false
+        this.$emit('on-success')
+      })
+    }
+  },
+  watch: {
+    visible (val) {
+      if (val) {
+        this.init()
+      }
+    }
+  }
+}
+</script>

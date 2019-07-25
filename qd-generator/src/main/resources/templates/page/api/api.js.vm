@@ -1,0 +1,47 @@
+import axios from '@/libs/api.request'
+
+export const get$!{entity}Page = params => {
+  return axios.request({
+    url: '#if(${controllerMappingHyphenStyle})${controllerMappingHyphen}#else${table.entityPath}#end',
+    method: 'get',
+    params
+  })
+}
+
+export const get$!{entity}ById = id => {
+  return axios.request({
+    url: '#if(${controllerMappingHyphenStyle})${controllerMappingHyphen}#else${table.entityPath}#end/' + id,
+    method: 'get'
+  })
+}
+
+export const save$!{entity} = data => {
+  return axios.request({
+    url: '#if(${controllerMappingHyphenStyle})${controllerMappingHyphen}#else${table.entityPath}#end',
+    method: 'post',
+    data
+  })
+}
+
+export const update$!{entity} = (id, data) => {
+  return axios.request({
+    url: '#if(${controllerMappingHyphenStyle})${controllerMappingHyphen}#else${table.entityPath}#end/' + id,
+    method: 'put',
+    data
+  })
+}
+
+export const remove$!{entity} = id => {
+  return axios.request({
+    url: '#if(${controllerMappingHyphenStyle})${controllerMappingHyphen}#else${table.entityPath}#end/' + id,
+    method: 'delete'
+  })
+}
+
+export const batchRemove$!{entity} = idList => {
+  return axios.request({
+    url: '#if(${controllerMappingHyphenStyle})${controllerMappingHyphen}#else${table.entityPath}#end/batch',
+    method: 'delete',
+    data: idList
+  })
+}

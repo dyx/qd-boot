@@ -1,0 +1,86 @@
+package $!{cfg.basePackage}.model.entity;
+
+#foreach($pkg in ${table.importPackages})
+import $!{pkg};
+#end
+#if(${cfg.isExtendsBaseDO})
+import com.lhd.qd.base.QdBaseDO;
+#end
+import com.baomidou.mybatisplus.annotation.TableId;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+/**
+ * <p>
+ * $!{table.comment}
+ * </p>
+ *
+ * @author $!{author}
+ * @since $!{date}
+ */
+@Setter
+@Getter
+@ToString(callSuper = true)
+#if(${table.convert})
+@TableName("$!{table.name}")
+#end
+#if(${cfg.isExtendsBaseDO})
+public class $!{entity}DO extends QdBaseDO {
+#else
+public class $!{entity}DO {
+#end
+
+## ----------  BEGIN 字段循环遍历  ----------
+#foreach($field in ${table.fields})
+## 过滤掉父类字段
+#if(${cfg.isExtendsBaseDO} && ${cfg.baseDOFieldList.contains($field.propertyName)})
+#else
+#if(${field.keyFlag})
+    #set($keyPropertyName=${field.propertyName})
+#end
+#if("$!field.comment" != "")
+    /**
+     * $!{field.comment}
+     */
+#end
+#if(${field.keyFlag})
+## 主键
+    #if(${field.keyIdentityFlag})
+    @TableId(value = "$!{field.name}", type = IdType.AUTO)
+    #elseif(!$null.isNull(${idType}) && "$!idType" != "")
+    @TableId(value = "$!{field.name}", type = IdType.$!{idType})
+    #elseif(${field.convert})
+    @TableId("$!{field.name}")
+    #end
+## 普通字段
+#elseif(${field.fill})
+## -----   存在字段填充设置   -----
+    #if(${field.convert})
+    @TableField(value = "$!{field.name}", fill = FieldFill.$!{field.fill})
+    #else
+    @TableField(fill = FieldFill.$!{field.fill})
+    #end
+#elseif(${field.convert})
+    @TableField("$!{field.name}")
+#end
+## 乐观锁注解
+#if(${versionFieldName}==${field.name})
+    @Version
+#end
+## 逻辑删除注解
+#if(${logicDeleteFieldName}==${field.name})
+    @TableLogic
+#end
+    private $!{field.propertyType} $!{field.propertyName};
+#end
+#end
+## ----------  END 字段循环遍历  ----------
+
+#if(${entityColumnConstant})
+    #foreach($field in ${table.fields})
+    public static final String $!{field.name.toUpperCase()} = "$!{field.name}";
+
+    #end
+#end
+}

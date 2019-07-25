@@ -1,0 +1,16 @@
+package $!{cfg.basePackage}.dao;
+
+import com.lhd.qd.base.QdBaseMapper;
+import $!{cfg.basePackage}.model.entity.$!{entity}DO;
+
+/**
+ * <p>
+ * $!{table.comment} 数据访问
+ * </p>
+ *
+ * @author $!{author}
+ * @since $!{date}
+ */
+public interface $!{entity}Mapper extends QdBaseMapper<$!{entity}DO> {
+
+}

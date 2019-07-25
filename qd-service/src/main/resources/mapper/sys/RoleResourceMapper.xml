@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lhd.qd.module.sys.role.dao.RoleResourceMapper">
+
+    <select id="selectMenuListByRoleIdList"
+            resultType="com.lhd.qd.module.sys.menu.model.entity.MenuDO">
+        select
+        rr.resource_id id,
+        m.parent_id parentId,
+        m.menu_name menuName,
+        m.page_router_name pageRoutername,
+        m.page_path pagePath,
+        m.icon_name iconName
+        from sys_role_resource rr
+        left join sys_menu m on m.id = rr.resource_id and m.is_deleted = 0
+        where resource_type = 1
+        and rr.role_id in
+        <foreach collection="list" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="selectPageElementGroupByRoleIdList" resultType="com.lhd.qd.module.sys.menu.model.entity.PageElementDO">
+        select
+        pe.menu_id menuId,
+        group_concat(pe.element_code) elementCode
+        from sys_role_resource rr
+        left join sys_page_element pe on pe.id = rr.resource_id and pe.is_deleted = 0
+        where rr.resource_type = 2
+        and rr.role_id in
+        <foreach collection="list" item="item" open="(" separator="," close=")">
+          #{item}
+        </foreach>
+        group by pe.menu_id
+    </select>
+
+    <select id="selectPageElementAndMenuListByRoleId" resultType="com.lhd.qd.module.sys.role.model.dto.RoleResourceDTO">
+        select
+          -id id,
+          0 parentId,
+          menu_name title
+        from sys_menu
+        where is_deleted = 0 and id in (select pe.menu_id
+                                        from sys_role_resource rr
+                                          left join sys_page_element pe on pe.id = rr.resource_id and pe.is_deleted = 0
+                                        where rr.resource_type = 2
+                                              and rr.role_id = #{roleId})
+        union all
+        select
+          pe.id,
+          -pe.menu_id parentId,
+          pe.element_name title
+        from sys_role_resource rr
+          left join sys_page_element pe on pe.id = rr.resource_id and pe.is_deleted = 0
+        where rr.resource_type = 2
+              and rr.role_id = #{roleId}
+        order by id desc
+    </select>
+
+    <select id="selectPermissionListByRoleIdList" resultType="string">
+        select CONCAT(d.dict_desc, #{separator}, pe.url)
+        from sys_role_resource rr
+        left join sys_page_element pe on pe.id = rr.resource_id and pe.is_deleted = 0
+        left join sys_dict d on d.dict_value = pe.method and d.is_deleted = 0
+        where rr.resource_type = 2 and d.type_code = 'pageElementMethod'
+        and rr.role_id in
+        <foreach collection="roleIdList" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        union all
+        select CONCAT('GET', #{separator}, m.index_url)
+        from sys_role_resource rr
+        left join sys_menu m on m.id = rr.resource_id and m.is_deleted = 0
+        where rr.resource_type = 1
+        and m.index_url is not null and m.index_url != ''
+        and rr.role_id in
+        <foreach collection="roleIdList" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="selectCheckedMenuByRoleId" resultType="com.lhd.qd.module.sys.role.model.dto.RoleCheckedResourceDTO">
+        select
+          m.id, m.parent_id parentId,
+          m.menu_name title,
+          resource_id is not null checked
+        from sys_menu m
+        left join (select resource_id
+                   from sys_role_resource
+                   where resource_type = 1 and role_id = #{roleId}) rr on rr.resource_id = m.id
+        where m.is_deleted = 0;
+    </select>
+
+    <select id="selectCheckedPageElementByRoleId" resultType="com.lhd.qd.module.sys.role.model.vo.RoleCheckedPageElementVO">
+        select
+          pe.id, pe.menu_id menuId,
+          pe.element_code elementCode, pe.element_name elementName,
+          resource_id is not null checked
+        from sys_page_element pe
+          left join (select resource_id
+                     from sys_role_resource
+                     where resource_type = 2 and role_id = #{roleId}) rr on rr.resource_id = pe.id
+        where pe.is_deleted = 0
+    </select>
+</mapper>

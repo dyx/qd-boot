@@ -1,0 +1,18 @@
+server:
+  port: 20191
+spring:
+  profiles:
+    active: @profileActive@
+  application:
+    name: qd-service
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+
+mybatis-plus:
+  mapper-locations: classpath:/mapper/**/*Mapper.xml
+  global-config:
+    db-config:
+      id-type: auto
+    banner: false
+  type-aliases-package: com.lhd.qd.module.**.model.entity

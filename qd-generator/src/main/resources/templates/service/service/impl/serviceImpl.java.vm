@@ -1,0 +1,75 @@
+package $!{cfg.basePackage}.service.impl;
+
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.lhd.qd.base.QdBaseServiceImpl;
+import $!{cfg.basePackage}.dao.$!{entity}Mapper;
+import $!{cfg.basePackage}.model.converter.Abstract$!{entity}Converter;
+import $!{cfg.basePackage}.model.dto.$!{entity}PageQuery;
+import $!{cfg.basePackage}.model.dto.$!{entity}SaveDTO;
+import $!{cfg.basePackage}.model.entity.$!{entity}DO;
+import $!{cfg.basePackage}.model.vo.$!{entity}DetailVO;
+import $!{cfg.basePackage}.model.vo.$!{entity}ListVO;
+import $!{cfg.basePackage}.service.$!{entity}Service;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+/**
+ * <p>
+ * $!{table.comment} 服务实现
+ * </p>
+ *
+ * @author $!{author}
+ * @since $!{date}
+ */
+@Service
+public class $!{entity}ServiceImpl extends QdBaseServiceImpl<$!{entity}Mapper, $!{entity}DO> implements $!{entity}Service {
+
+    @Override
+    public IPage<$!{entity}ListVO> page$!{entity}($!{entity}PageQuery query) {
+
+        IPage<$!{entity}DO> doPage = this.page(new Page<>(query.getPage(), query.getSize()),
+                Wrappers.<$!{entity}DO>lambdaQuery());
+
+        return Abstract$!{entity}Converter.INSTANCE.doPage2ListVOPage(doPage);
+    }
+
+    @Override
+    public $!{entity}DetailVO get$!{entity}ById(Long id) {
+
+        $!{entity}DO dataObj = getById(id);
+
+        return Abstract$!{entity}Converter.INSTANCE.do2DetailVO(dataObj);
+    }
+
+    @Override
+    public void save$!{entity}($!{entity}SaveDTO saveDTO) {
+
+        $!{entity}DO dataObj = Abstract$!{entity}Converter.INSTANCE.saveDTO2DO(saveDTO);
+        save(dataObj);
+    }
+
+    @Override
+    public void update$!{entity}(Long id, $!{entity}SaveDTO saveDTO) {
+
+        $!{entity}DO dataObj = Abstract$!{entity}Converter.INSTANCE.saveDTO2DO(saveDTO);
+        dataObj.setId(id);
+        updateById(dataObj);
+    }
+
+    @Override
+    public void remove$!{entity}(Long id) {
+
+        $!{entity}DO dataObj = new $!{entity}DO();
+        dataObj.setId(id);
+        removeByIdWithFill(dataObj);
+    }
+
+    @Override
+    public void batchRemove$!{entity}(List<Long> idList) {
+
+        removeByIdsWithFill(new $!{entity}DO(), idList);
+    }
+}

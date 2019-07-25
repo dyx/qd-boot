@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lhd.qd.module.sys.org.dao.DeptMapper">
+
+    <update id="deleteWithChildren">
+        update sys_dept
+        set update_user_id = #{userId},
+          update_time = now(),
+          is_deleted = 1
+        where is_deleted = 0 AND parent_id = #{id} OR id = #{id}
+    </update>
+
+    <select id="selectCompanyAndSubCompanyDeptIds" resultType="string">
+        select group_concat(id)
+        from sys_dept
+        where company_id in (select id
+                             from sys_company
+                             where id = #{companyId} or parent_id = #{companyId})
+    </select>
+
+    <select id="selectCompanyDeptIds" resultType="string">
+        select group_concat(id)
+        from sys_dept
+        where company_id = #{companyId}
+    </select>
+
+    <select id="selectDeptAndSubDeptDeptIds" resultType="string">
+        select group_concat(id)
+        from sys_dept
+        where id = #{id} or parent_id = #{id}
+    </select>
+</mapper>

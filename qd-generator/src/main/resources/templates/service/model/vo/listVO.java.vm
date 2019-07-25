@@ -1,0 +1,34 @@
+package $!{cfg.basePackage}.model.vo;
+
+#foreach($pkg in ${table.importPackages})
+#if(!${cfg.excludePackageList.contains($pkg)})
+import $!{pkg};
+#end
+#end
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+/**
+ * @author $!{author}
+ * @since $!{date}
+ */
+@Setter
+@Getter
+@ToString
+@ApiModel(value = "$!{table.comment}列表视图对象")
+public class $!{entity}ListVO {
+
+## ----------  BEGIN 字段循环遍历  ----------
+#foreach($field in ${table.fields})
+    #if(${logicDeleteFieldName} != ${field.propertyName}
+    && "updateUserId" != ${field.propertyName}
+    && "updateTime" != ${field.propertyName})
+    @ApiModelProperty(value = "$!{field.comment}")
+    private $!{field.propertyType} $!{field.propertyName};
+    #end
+#end
+## ----------  END 字段循环遍历  ----------
+}

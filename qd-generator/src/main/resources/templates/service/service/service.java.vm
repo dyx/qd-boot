@@ -1,0 +1,61 @@
+package $!{cfg.basePackage}.service;
+
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.lhd.qd.base.QdBaseService;
+import $!{cfg.basePackage}.model.dto.$!{entity}PageQuery;
+import $!{cfg.basePackage}.model.dto.$!{entity}SaveDTO;
+import $!{cfg.basePackage}.model.entity.$!{entity}DO;
+import $!{cfg.basePackage}.model.vo.$!{entity}DetailVO;
+import $!{cfg.basePackage}.model.vo.$!{entity}ListVO;
+
+import java.util.List;
+
+/**
+ * <p>
+ * $!{table.comment} 服务
+ * </p>
+ *
+ * @author $!{author}
+ * @since $!{date}
+ */
+public interface $!{entity}Service extends QdBaseService<$!{entity}DO> {
+
+    /**
+     * $!{table.comment}分页列表
+     * @param query
+     * @return
+     */
+    IPage<$!{entity}ListVO> page$!{entity}($!{entity}PageQuery query);
+
+    /**
+     * $!{table.comment}详情
+     * @param id
+     * @return
+     */
+    $!{entity}DetailVO get$!{entity}ById(Long id);
+
+    /**
+     * 新增$!{table.comment}
+     * @param saveDTO
+     */
+    void save$!{entity}($!{entity}SaveDTO saveDTO);
+
+    /**
+     * 修改$!{table.comment}
+     * @param id
+     * @param saveDTO
+     */
+    void update$!{entity}(Long id, $!{entity}SaveDTO saveDTO);
+
+    /**
+     * 删除$!{table.comment}
+     * @param id
+     */
+    void remove$!{entity}(Long id);
+
+    /**
+     * 批量删除$!{table.comment}
+     * @param idList
+     */
+    void batchRemove$!{entity}(List<Long> idList);
+}

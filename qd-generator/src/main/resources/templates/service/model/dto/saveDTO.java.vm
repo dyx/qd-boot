@@ -1,0 +1,33 @@
+package $!{cfg.basePackage}.model.dto;
+
+#foreach($pkg in ${table.importPackages})
+#if(!${cfg.excludePackageList.contains($pkg)})
+import $!{pkg};
+#end
+#end
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+/**
+ * @author $!{author}
+ * @since $!{date}
+ */
+@Setter
+@Getter
+@ToString
+@ApiModel(value = "$!{table.comment}新增传输对象")
+public class $!{entity}SaveDTO {
+
+## ----------  BEGIN 字段循环遍历  ----------
+#foreach($field in ${table.fields})
+    #if(${cfg.baseDOFieldList.contains($field.propertyName)})
+    #else
+    @ApiModelProperty(value = "$!{field.comment}")
+    private $!{field.propertyType} $!{field.propertyName};
+    #end
+#end
+## ----------  END 字段循环遍历  ----------
+}

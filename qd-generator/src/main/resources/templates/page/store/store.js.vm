@@ -1,0 +1,61 @@
+import * as Api from '@/api/module/$!{cfg.moduleName}/$!{cfg.entityNameInPackage}'
+export default {
+  state: {},
+  mutations: {},
+  actions: {
+    get$!{entity}Page ({ commit }, params) {
+      return new Promise((resolve, reject) => {
+        Api.get$!{entity}Page(params).then(res => {
+          resolve(res)
+        }).catch(err => {
+          reject(err)
+        })
+      })
+    },
+    get$!{entity}ById ({ commit }, data) {
+      return new Promise((resolve, reject) => {
+        Api.get$!{entity}ById(data).then(res => {
+          resolve(res)
+        }).catch(err => {
+          reject(err)
+        })
+      })
+    },
+    save$!{entity} ({ commit }, data) {
+      return new Promise((resolve, reject) => {
+        Api.save$!{entity}(data).then(res => {
+          resolve(res)
+        }).catch(err => {
+          reject(err)
+        })
+      })
+    },
+    update$!{entity} ({ commit }, { id, data }) {
+      return new Promise((resolve, reject) => {
+        Api.update$!{entity}(id, data).then(res => {
+          resolve(res)
+        }).catch(err => {
+          reject(err)
+        })
+      })
+    },
+    remove$!{entity} ({ commit }, id) {
+      return new Promise((resolve, reject) => {
+        Api.remove$!{entity}(id).then(res => {
+          resolve(res)
+        }).catch(err => {
+          reject(err)
+        })
+      })
+    },
+    batchRemove$!{entity} ({ commit }, idList) {
+      return new Promise((resolve, reject) => {
+        Api.batchRemove$!{entity}(idList).then(res => {
+          resolve(res)
+        }).catch(err => {
+          reject(err)
+        })
+      })
+    }
+  }
+}
