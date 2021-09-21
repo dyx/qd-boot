@@ -1,10 +1,10 @@
 package com.lhd.qd.base;
 
+import cn.hutool.core.util.EnumUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.lhd.qd.constant.SortOrderEnum;
-import org.apache.commons.lang3.EnumUtils;
-import org.apache.commons.lang3.StringUtils;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -29,11 +29,12 @@ public class QdBaseServiceImpl<M extends QdBaseMapper<T>, T> extends ServiceImpl
 
     protected boolean isOrderBy(QdBasePageQuery query, String field) {
 
-        if (query == null || StringUtils.isEmpty(query.getSortField()) || !field.equals(query.getSortField())) {
+        if (query == null || StrUtil.isEmpty(query.getSortField()) || !field.equals(query.getSortField())) {
             return false;
         }
 
-        SortOrderEnum sortOrderEnum = EnumUtils.getEnumIgnoreCase(SortOrderEnum.class, query.getSortOrder());
+
+        SortOrderEnum sortOrderEnum = EnumUtil.getEnumMap(SortOrderEnum.class).get(query.getSortOrder().toUpperCase());
         return sortOrderEnum != null && sortOrderEnum != SortOrderEnum.NORMAL;
     }
 
@@ -43,6 +44,6 @@ public class QdBaseServiceImpl<M extends QdBaseMapper<T>, T> extends ServiceImpl
             return false;
         }
 
-        return EnumUtils.getEnumIgnoreCase(SortOrderEnum.class, query.getSortOrder()) == SortOrderEnum.ASC;
+        return EnumUtil.getEnumMap(SortOrderEnum.class).get(query.getSortOrder().toUpperCase()) == SortOrderEnum.ASC;
     }
 }

@@ -1,5 +1,7 @@
 package com.lhd.qd.module.sys.login.service.impl;
 
+import cn.hutool.core.date.DateField;
+import cn.hutool.core.date.DateUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.lhd.qd.base.QdBaseServiceImpl;
 import com.lhd.qd.config.QdProperty;
@@ -9,7 +11,6 @@ import com.lhd.qd.module.sys.login.model.dto.LoginDto;
 import com.lhd.qd.module.sys.login.model.dto.TokenDto;
 import com.lhd.qd.module.sys.login.model.vo.LoginVo;
 import com.lhd.qd.module.sys.login.service.LoginService;
-import com.lhd.qd.tree.AbstractTreeVo;
 import com.lhd.qd.module.sys.org.service.DeptService;
 import com.lhd.qd.module.sys.role.service.RoleResourceService;
 import com.lhd.qd.module.sys.user.dao.UserMapper;
@@ -19,12 +20,11 @@ import com.lhd.qd.module.sys.user.model.vo.UserCacheVo;
 import com.lhd.qd.module.sys.user.model.vo.UserInfoVo;
 import com.lhd.qd.module.sys.user.model.vo.UserRoleVo;
 import com.lhd.qd.module.sys.user.service.UserRoleService;
+import com.lhd.qd.tree.AbstractTreeVo;
 import com.lhd.qd.util.*;
-import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.List;
 
 import static com.lhd.qd.constant.CommonConsts.SUPER_ADMIN_USER_ID;
@@ -90,7 +90,7 @@ public class LoginServiceImpl extends QdBaseServiceImpl<UserMapper, UserDo> impl
         // 生成token
         String token = JwtUtils.generate(new TokenDto(dataObj.getId(), clientId),
                 dataObj.getSalt(),
-                DateUtils.addMinutes(new Date(), qdProperty.getTokenExpiresMinutes()));
+                DateUtil.date().offset(DateField.MINUTE, qdProperty.getTokenExpiresMinutes()));
         long expireSeconds = qdProperty.getTokenExpiresMinutes() * 60;
 
 

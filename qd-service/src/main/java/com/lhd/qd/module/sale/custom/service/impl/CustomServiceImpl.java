@@ -1,7 +1,7 @@
 package com.lhd.qd.module.sale.custom.service.impl;
 
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lhd.qd.base.QdBaseServiceImpl;
@@ -36,7 +36,7 @@ public class CustomServiceImpl extends QdBaseServiceImpl<CustomMapper, CustomDo>
         IPage<CustomDo> doPage = this.page(new Page<>(query.getPage(), query.getSize()),
                 Wrappers.<CustomDo>lambdaQuery()
                         .apply(DataPermissionUtils.getSql(DataObjEnum.CUSTOM))
-                        .like(StringUtils.isNotEmpty(query.getCustomName()), CustomDo::getCustomName, query.getCustomName()));
+                        .like(StrUtil.isNotEmpty(query.getCustomName()), CustomDo::getCustomName, query.getCustomName()));
 
         return AbstractCustomConverter.INSTANCE.doPage2ListVoPage(doPage);
     }

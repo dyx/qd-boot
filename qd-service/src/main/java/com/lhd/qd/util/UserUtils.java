@@ -1,11 +1,12 @@
 package com.lhd.qd.util;
 
+import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.lhd.qd.constant.CommonConsts;
 import com.lhd.qd.constant.RedisConsts;
 import com.lhd.qd.constant.dict.PageElementMethodEnum;
 import com.lhd.qd.module.sys.user.model.converter.AbstractUserConverter;
 import com.lhd.qd.module.sys.user.model.vo.UserCacheVo;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 import java.util.regex.Pattern;
@@ -34,7 +35,7 @@ public class UserUtils {
 
     public static Boolean hasPermission(String method, String url) {
 
-        if (StringUtils.isEmpty(method) || StringUtils.isEmpty(url)) {
+        if (StrUtil.isEmpty(method) || StrUtil.isEmpty(url)) {
             return false;
         }
 
@@ -64,7 +65,7 @@ public class UserUtils {
         for (String permission: permissionList) {
 
             String regex = "^" + permission.replaceAll("\\{.*?\\}", "[a-zA-Z\\\\d]+") + "$";
-            if (StringUtils.isNotEmpty(permission)) {
+            if (StrUtil.isNotEmpty(permission)) {
 
                 if (permission.equals(parentPermission)
                         || Pattern.compile(regex).matcher(currentPermission).find()) {

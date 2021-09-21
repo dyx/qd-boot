@@ -1,5 +1,6 @@
 package com.lhd.qd.module.sys.user.service.impl;
 
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -22,7 +23,6 @@ import com.lhd.qd.module.sys.user.service.UserService;
 import com.lhd.qd.util.DataPermissionUtils;
 import com.lhd.qd.util.SecurityUtils;
 import com.lhd.qd.util.UuidUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -47,11 +47,11 @@ public class UserServiceImpl extends QdBaseServiceImpl<UserMapper, UserDo> imple
         IPage<UserDo> doPage = this.page(new Page<>(query.getPage(), query.getSize()),
                 Wrappers.<UserDo>lambdaQuery()
                         .apply(DataPermissionUtils.getSql(DataObjEnum.USER, "id", "dept_id"))
-                        .like(StringUtils.isNotEmpty(query.getFullName()), UserDo::getFullName, query.getFullName())
-                        .like(StringUtils.isNotEmpty(query.getUsername()), UserDo::getUsername, query.getUsername())
+                        .like(StrUtil.isNotEmpty(query.getFullName()), UserDo::getFullName, query.getFullName())
+                        .like(StrUtil.isNotEmpty(query.getUsername()), UserDo::getUsername, query.getUsername())
                         .eq(query.getGender() != null, UserDo::getGender, query.getGender())
-                        .ge(StringUtils.isNotEmpty(query.getStartCreateTime()), UserDo::getCreateTime, query.getStartCreateTime())
-                        .le(StringUtils.isNotEmpty(query.getEndCreateTime()), UserDo::getCreateTime, query.getEndCreateTime())
+                        .ge(StrUtil.isNotEmpty(query.getStartCreateTime()), UserDo::getCreateTime, query.getStartCreateTime())
+                        .le(StrUtil.isNotEmpty(query.getEndCreateTime()), UserDo::getCreateTime, query.getEndCreateTime())
                         .orderBy(isOrderBy(query, "create_time"), isAsc(query), UserDo::getCreateTime));
 
         return AbstractUserConverter.INSTANCE.doPage2ListVoPage(doPage);
@@ -64,8 +64,8 @@ public class UserServiceImpl extends QdBaseServiceImpl<UserMapper, UserDo> imple
         IPage<UserDo> doPage = this.page(new Page<>(query.getPage(), query.getSize()),
                 Wrappers.<UserDo>lambdaQuery()
                         .apply(DataPermissionUtils.getSql(DataObjEnum.USER, "id", "dept_id"))
-                        .like(StringUtils.isNotEmpty(query.getFullName()), UserDo::getFullName, query.getFullName())
-                        .like(StringUtils.isNotEmpty(query.getUsername()), UserDo::getUsername, query.getUsername())
+                        .like(StrUtil.isNotEmpty(query.getFullName()), UserDo::getFullName, query.getFullName())
+                        .like(StrUtil.isNotEmpty(query.getUsername()), UserDo::getUsername, query.getUsername())
                         .orderBy(isOrderBy(query, "create_time"), isAsc(query), UserDo::getCreateTime));
 
         return AbstractUserConverter.INSTANCE.doPage2RefListVoPage(doPage);

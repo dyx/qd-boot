@@ -1,8 +1,8 @@
 package com.lhd.qd.util;
 
+import cn.hutool.core.util.StrUtil;
 import com.lhd.qd.constant.http.ErrorCodeEnum;
 import com.lhd.qd.exception.BusinessException;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.*;
 import org.springframework.stereotype.Component;
@@ -88,7 +88,7 @@ public class RedisUtils {
      * @param fieldValue
      */
     public void setHash(String key, String fieldName, Object fieldValue) {
-        if (StringUtils.isEmpty(key) || StringUtils.isEmpty(fieldName)) {
+        if (StrUtil.isEmpty(key) || StrUtil.isEmpty(fieldName)) {
             throw new BusinessException(ErrorCodeEnum.REDIS_EMPTY_KEY);
         }
         hashOperations.put(key, fieldName, fieldValue);

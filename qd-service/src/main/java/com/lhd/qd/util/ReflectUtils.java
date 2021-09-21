@@ -1,7 +1,7 @@
 package com.lhd.qd.util;
 
+import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
@@ -18,7 +18,7 @@ public class ReflectUtils {
      */
     public static Field getField(Object obj, String fieldName) {
 
-        if (obj == null || StringUtils.isEmpty(fieldName)) {
+        if (obj == null || StrUtil.isEmpty(fieldName)) {
             return null;
         }
 

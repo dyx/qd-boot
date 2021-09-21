@@ -1,12 +1,12 @@
 package com.lhd.qd.util;
 
+import cn.hutool.core.util.StrUtil;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.lhd.qd.constant.CommonConsts;
-import org.apache.commons.lang3.StringUtils;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -76,7 +76,7 @@ public class JacksonUtils {
      */
     public static <T> T toObj(String str, Class<T> clazz) {
 
-        if (StringUtils.isEmpty(str) || clazz == null) {
+        if (StrUtil.isEmpty(str) || clazz == null) {
             return null;
         }
 

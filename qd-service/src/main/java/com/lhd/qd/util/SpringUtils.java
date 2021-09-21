@@ -1,6 +1,5 @@
 package com.lhd.qd.util;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -25,12 +24,5 @@ public class SpringUtils implements ApplicationContextAware {
             return null;
         }
         return context.getBean(clazz);
-    }
-
-    public static <T> T getBean(String beanName, Class<T> clazz) {
-        if (StringUtils.isEmpty(beanName) || clazz == null) {
-            return null;
-        }
-        return context.getBean(beanName, clazz);
     }
 }

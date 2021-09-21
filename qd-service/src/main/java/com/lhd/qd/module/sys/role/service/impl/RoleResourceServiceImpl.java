@@ -1,5 +1,6 @@
 package com.lhd.qd.module.sys.role.service.impl;
 
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.lhd.qd.base.QdBaseServiceImpl;
 import com.lhd.qd.constant.CommonConsts;
@@ -19,7 +20,6 @@ import com.lhd.qd.module.sys.role.model.vo.RoleResourceVo;
 import com.lhd.qd.module.sys.role.service.RoleResourceService;
 import com.lhd.qd.tree.AbstractTreeVo;
 import com.lhd.qd.util.TreeUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -53,7 +53,7 @@ public class RoleResourceServiceImpl extends QdBaseServiceImpl<RoleResourceMappe
         List<PageElementDo> doList = baseMapper.selectPageElementGroupByRoleIdList(roleIdList);
         for (PageElementDo dataObj : doList) {
 
-            if (StringUtils.isNotEmpty(dataObj.getElementCode())) {
+            if (StrUtil.isNotEmpty(dataObj.getElementCode())) {
                 pageElementMap.put(dataObj.getMenuId(), dataObj.getElementCode().split(","));
             }
         }

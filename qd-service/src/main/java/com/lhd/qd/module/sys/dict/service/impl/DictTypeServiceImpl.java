@@ -1,10 +1,9 @@
 package com.lhd.qd.module.sys.dict.service.impl;
 
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.lhd.qd.base.QdBaseDo;
 import com.lhd.qd.base.QdBaseServiceImpl;
 import com.lhd.qd.exception.BusinessException;
 import com.lhd.qd.module.sys.dict.dao.DictTypeMapper;
@@ -18,12 +17,6 @@ import com.lhd.qd.module.sys.dict.service.DictService;
 import com.lhd.qd.module.sys.dict.service.DictTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import static java.util.stream.Collectors.toSet;
 
 /**
  * <p>
@@ -44,8 +37,8 @@ public class DictTypeServiceImpl extends QdBaseServiceImpl<DictTypeMapper, DictT
 
         IPage<DictTypeDo> doPage = this.page(new Page<>(query.getPage(), query.getSize()),
                 Wrappers.<DictTypeDo>lambdaQuery()
-                        .like(StringUtils.isNotEmpty(query.getTypeCode()), DictTypeDo::getTypeCode, query.getTypeCode())
-                        .like(StringUtils.isNotEmpty(query.getTypeDesc()), DictTypeDo::getTypeDesc, query.getTypeDesc()));
+                        .like(StrUtil.isNotEmpty(query.getTypeCode()), DictTypeDo::getTypeCode, query.getTypeCode())
+                        .like(StrUtil.isNotEmpty(query.getTypeDesc()), DictTypeDo::getTypeDesc, query.getTypeDesc()));
 
         return AbstractDictTypeConverter.INSTANCE.doPage2ListVoPage(doPage);
     }

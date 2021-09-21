@@ -1,12 +1,13 @@
 package com.lhd.qd.util;
 
+import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.StrUtil;
 import com.lhd.qd.constant.dict.DataObjEnum;
 import com.lhd.qd.constant.dict.DataPermissionTypeEnum;
 import com.lhd.qd.exception.BusinessException;
 import com.lhd.qd.module.sys.data.rule.model.dto.DataRuleDto;
 import com.lhd.qd.module.sys.data.rule.service.impl.DataRuleServiceImpl;
 import com.lhd.qd.module.sys.user.model.vo.UserCacheVo;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -47,7 +48,7 @@ public class DataPermissionUtils {
             return ALL_PERM;
         }
 
-        if (dataObjEnum == null || StringUtils.isEmpty(userColumn) || StringUtils.isEmpty(deptColumn)) {
+        if (dataObjEnum == null || StrUtil.isEmpty(userColumn) || StrUtil.isEmpty(deptColumn)) {
             throw new BusinessException("参数不能为空");
         }
 
@@ -91,9 +92,9 @@ public class DataPermissionUtils {
         }
 
         // 自定义部门权限
-        if (StringUtils.isNotEmpty(dataRuleDto.getCustomDeptIds())) {
+        if (StrUtil.isNotEmpty(dataRuleDto.getCustomDeptIds())) {
 
-            sql += String.format(" %s %s", StringUtils.isNotEmpty(sql) ? "or" : "",
+            sql += String.format(" %s %s", StrUtil.isNotEmpty(sql) ? "or" : "",
                     getDeptSql(deptColumn, dataRuleDto.getCustomDeptIds()));
         }
 
@@ -168,10 +169,10 @@ public class DataPermissionUtils {
 
     private static void appendDeptId(String deptIds, Set<Long> deptIdSet) {
 
-        if (StringUtils.isNotEmpty(deptIds)) {
+        if (StrUtil.isNotEmpty(deptIds)) {
             String[] customDeptIds = deptIds.split(",");
             for (String customDeptId : customDeptIds) {
-                if (StringUtils.isNotEmpty(customDeptId)) {
+                if (StrUtil.isNotEmpty(customDeptId)) {
                     deptIdSet.add(Long.valueOf(customDeptId));
                 }
             }
@@ -181,7 +182,7 @@ public class DataPermissionUtils {
     private static String getDeptSql(String column, String customDeptIds) {
 
         Set<String> idSet = new HashSet<>(Arrays.asList(customDeptIds.split(",")))
-                .stream().filter(StringUtils::isNotEmpty).collect(Collectors.toSet());
-        return String.format(" %s in (%s)", column, StringUtils.join(idSet, ","));
+                .stream().filter(StrUtil::isNotEmpty).collect(Collectors.toSet());
+        return String.format(" %s in (%s)", column, CollUtil.join(idSet, ","));
     }
 }

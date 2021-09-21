@@ -1,7 +1,7 @@
 package com.lhd.qd.module.sys.role.service.impl;
 
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lhd.qd.base.QdBaseServiceImpl;
@@ -32,7 +32,7 @@ public class RoleServiceImpl extends QdBaseServiceImpl<RoleMapper, RoleDo> imple
 
         IPage<RoleDo> doPage = this.page(new Page<>(query.getPage(), query.getSize()),
                 Wrappers.<RoleDo>lambdaQuery()
-                        .like(StringUtils.isNotEmpty(query.getRoleName()), RoleDo::getRoleName, query.getRoleName()));
+                        .like(StrUtil.isNotEmpty(query.getRoleName()), RoleDo::getRoleName, query.getRoleName()));
 
         return AbstractRoleConverter.INSTANCE.doPage2ListVoPage(doPage);
     }

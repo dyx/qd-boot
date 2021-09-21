@@ -1,13 +1,13 @@
 package com.lhd.qd.base;
 
+import cn.hutool.core.util.EnumUtil;
+import cn.hutool.core.util.StrUtil;
 import com.lhd.qd.constant.SortOrderEnum;
 import com.lhd.qd.exception.BusinessException;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.apache.commons.lang3.EnumUtils;
-import org.apache.commons.lang3.StringUtils;
 
 import java.io.Serializable;
 
@@ -64,8 +64,8 @@ public class QdBasePageQuery implements Serializable {
 
     public void setSortOrder(String sortOrder) {
 
-        if (StringUtils.isNotEmpty(sortOrder)
-                && !EnumUtils.isValidEnumIgnoreCase(SortOrderEnum.class, sortOrder)) {
+        if (StrUtil.isNotEmpty(sortOrder)
+                && !EnumUtil.contains(SortOrderEnum.class, sortOrder.toUpperCase())) {
             throw new BusinessException("排序规则参数值错误");
         }
 

@@ -29,6 +29,6 @@ public abstract class AbstractDataRuleConverter {
      * @param saveDto
      * @return
      */
-    @Mapping(target = "customDeptIds", expression = "java( org.apache.commons.lang3.StringUtils.join(saveDto.getCustomDeptIds(),\",\") )")
+    @Mapping(target = "customDeptIds", expression = "java( cn.hutool.core.util.ArrayUtil.join(saveDto.getCustomDeptIds(),\",\") )")
     public abstract DataRuleDo saveDto2Do(DataRuleSaveDto saveDto);
 }

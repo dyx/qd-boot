@@ -1,5 +1,6 @@
 package com.lhd.qd.module.sys.data.rule.service.impl;
 
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.lhd.qd.base.QdBaseServiceImpl;
 import com.lhd.qd.constant.dict.DataPermissionTypeEnum;
@@ -12,7 +13,6 @@ import com.lhd.qd.module.sys.data.rule.model.dto.DataRuleSaveDto;
 import com.lhd.qd.module.sys.data.rule.model.entity.DataRuleDo;
 import com.lhd.qd.module.sys.data.rule.model.vo.DataRuleCheckedTreeVo;
 import com.lhd.qd.module.sys.data.rule.service.DataRuleService;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -49,7 +49,7 @@ public class DataRuleServiceImpl extends QdBaseServiceImpl<DataRuleMapper, DataR
         StringBuilder builder = new StringBuilder();
         for (DataRuleDo dataObj : doList) {
             if (DataPermissionTypeEnum.CUSTOM_PERMISSION.getValue().equals(dataObj.getPermissionType())) {
-                if (StringUtils.isNotEmpty(dataObj.getCustomDeptIds())) {
+                if (StrUtil.isNotEmpty(dataObj.getCustomDeptIds())) {
                     // 拼接自定义部门id
                     builder.append(",");
                     builder.append(dataObj.getCustomDeptIds());
