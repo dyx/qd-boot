@@ -4,52 +4,52 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lhd.qd.base.QdBaseService;
 import com.lhd.qd.module.sys.user.model.dto.UserPageQuery;
 import com.lhd.qd.module.sys.user.model.dto.UserRefPageQuery;
-import com.lhd.qd.module.sys.user.model.dto.UserSaveDTO;
-import com.lhd.qd.module.sys.user.model.entity.UserDO;
-import com.lhd.qd.module.sys.user.model.vo.UserDetailVO;
-import com.lhd.qd.module.sys.user.model.vo.UserListVO;
-import com.lhd.qd.module.sys.user.model.vo.UserRefListVO;
+import com.lhd.qd.module.sys.user.model.dto.UserSaveDto;
+import com.lhd.qd.module.sys.user.model.entity.UserDo;
+import com.lhd.qd.module.sys.user.model.vo.UserDetailVo;
+import com.lhd.qd.module.sys.user.model.vo.UserListVo;
+import com.lhd.qd.module.sys.user.model.vo.UserRefListVo;
 
 import java.util.List;
 
 /**
  * @author lhd
  */
-public interface UserService extends QdBaseService<UserDO> {
+public interface UserService extends QdBaseService<UserDo> {
 
     /**
      * 用户分页列表
      * @param query
      * @return
      */
-    IPage<UserListVO> pageUser(UserPageQuery query);
+    IPage<UserListVo> pageUser(UserPageQuery query);
 
     /**
      * 用户参照分页列表
      * @param query
      * @return
      */
-    IPage<UserRefListVO> pageRefUser(UserRefPageQuery query);
+    IPage<UserRefListVo> pageRefUser(UserRefPageQuery query);
 
     /**
      * 用户详情
      * @param id
      * @return
      */
-    UserDetailVO getUserById(Long id);
+    UserDetailVo getUserById(Long id);
 
     /**
      * 新增用户
-     * @param saveDTO
+     * @param saveDto
      */
-    void saveUser(UserSaveDTO saveDTO);
+    void saveUser(UserSaveDto saveDto);
 
     /**
      * 修改用户
      * @param id
-     * @param saveDTO
+     * @param saveDto
      */
-    void updateUser(Long id, UserSaveDTO saveDTO);
+    void updateUser(Long id, UserSaveDto saveDto);
 
     /**
      * 删除用户

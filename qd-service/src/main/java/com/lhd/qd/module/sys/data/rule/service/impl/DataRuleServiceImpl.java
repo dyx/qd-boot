@@ -5,12 +5,12 @@ import com.lhd.qd.base.QdBaseServiceImpl;
 import com.lhd.qd.constant.dict.DataPermissionTypeEnum;
 import com.lhd.qd.module.sys.data.rule.dao.DataRuleMapper;
 import com.lhd.qd.module.sys.data.rule.model.converter.AbstractDataRuleConverter;
-import com.lhd.qd.module.sys.data.rule.model.dto.DataObjDTO;
-import com.lhd.qd.module.sys.data.rule.model.dto.DataRuleDTO;
-import com.lhd.qd.module.sys.data.rule.model.dto.DataRulePermDTO;
-import com.lhd.qd.module.sys.data.rule.model.dto.DataRuleSaveDTO;
-import com.lhd.qd.module.sys.data.rule.model.entity.DataRuleDO;
-import com.lhd.qd.module.sys.data.rule.model.vo.DataRuleCheckedTreeVO;
+import com.lhd.qd.module.sys.data.rule.model.dto.DataObjDto;
+import com.lhd.qd.module.sys.data.rule.model.dto.DataRuleDto;
+import com.lhd.qd.module.sys.data.rule.model.dto.DataRulePermDto;
+import com.lhd.qd.module.sys.data.rule.model.dto.DataRuleSaveDto;
+import com.lhd.qd.module.sys.data.rule.model.entity.DataRuleDo;
+import com.lhd.qd.module.sys.data.rule.model.vo.DataRuleCheckedTreeVo;
 import com.lhd.qd.module.sys.data.rule.service.DataRuleService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -29,17 +29,17 @@ import java.util.Map;
  * @since 2019-07-24
  */
 @Service
-public class DataRuleServiceImpl extends QdBaseServiceImpl<DataRuleMapper, DataRuleDO> implements DataRuleService {
+public class DataRuleServiceImpl extends QdBaseServiceImpl<DataRuleMapper, DataRuleDo> implements DataRuleService {
 
     private static final Integer BASE_PERM_TYPE = 1;
     private static final Integer CUSTOM_PERM_TYPE = 2;
 
     @Override
-    public DataRuleDTO getPermissionTypeList(Integer objId, List<Long> roleIdList) {
+    public DataRuleDto getPermissionTypeList(Integer objId, List<Long> roleIdList) {
 
-        List<DataRuleDO> doList = list(Wrappers.<DataRuleDO>lambdaQuery()
-                .eq(DataRuleDO::getDataObjId, objId)
-                .in(DataRuleDO::getRoleId, roleIdList));
+        List<DataRuleDo> doList = list(Wrappers.<DataRuleDo>lambdaQuery()
+                .eq(DataRuleDo::getDataObjId, objId)
+                .in(DataRuleDo::getRoleId, roleIdList));
 
         if (doList == null || doList.size() == 0) {
             return null;
@@ -47,7 +47,7 @@ public class DataRuleServiceImpl extends QdBaseServiceImpl<DataRuleMapper, DataR
 
         List<Integer> permissionTypeList = new ArrayList<>();
         StringBuilder builder = new StringBuilder();
-        for (DataRuleDO dataObj : doList) {
+        for (DataRuleDo dataObj : doList) {
             if (DataPermissionTypeEnum.CUSTOM_PERMISSION.getValue().equals(dataObj.getPermissionType())) {
                 if (StringUtils.isNotEmpty(dataObj.getCustomDeptIds())) {
                     // 拼接自定义部门id
@@ -59,67 +59,67 @@ public class DataRuleServiceImpl extends QdBaseServiceImpl<DataRuleMapper, DataR
             }
         }
 
-        DataRuleDTO dataRuleDTO = new DataRuleDTO();
-        dataRuleDTO.setPermissionTypeList(permissionTypeList);
-        dataRuleDTO.setCustomDeptIds(builder.toString());
+        DataRuleDto dataRuleDto = new DataRuleDto();
+        dataRuleDto.setPermissionTypeList(permissionTypeList);
+        dataRuleDto.setCustomDeptIds(builder.toString());
 
-        return dataRuleDTO;
+        return dataRuleDto;
     }
 
     @Override
-    public List<DataRuleCheckedTreeVO> getCheckedTreeByRoleId(Long roleId) {
+    public List<DataRuleCheckedTreeVo> getCheckedTreeByRoleId(Long roleId) {
 
         // 已配置的数据规则
-        List<DataRuleDO> doList = list(Wrappers.<DataRuleDO>lambdaQuery().eq(DataRuleDO::getRoleId, roleId));
-        Map<String, DataRuleDO> ruleMap = new HashMap<>(16);
-        for (DataRuleDO dataObj: doList) {
+        List<DataRuleDo> doList = list(Wrappers.<DataRuleDo>lambdaQuery().eq(DataRuleDo::getRoleId, roleId));
+        Map<String, DataRuleDo> ruleMap = new HashMap<>(16);
+        for (DataRuleDo dataObj: doList) {
             ruleMap.put(getRuleKey(dataObj.getDataObjId(), dataObj.getPermissionType()), dataObj);
         }
 
         // 数据对象
-        List<DataObjDTO> objList = baseMapper.selectDataObjList();
+        List<DataObjDto> objList = baseMapper.selectDataObjList();
 
         // 数据权限类型
-        List<DataRulePermDTO> permList = baseMapper.selectDataPermList();
+        List<DataRulePermDto> permList = baseMapper.selectDataPermList();
 
         // 构建树结构
-        List<DataRuleCheckedTreeVO> treeList =  new ArrayList<>();
-        for (DataObjDTO obj : objList) {
+        List<DataRuleCheckedTreeVo> treeList =  new ArrayList<>();
+        for (DataObjDto obj : objList) {
 
             // 第一级 数据对象
-            DataRuleCheckedTreeVO objTreeVO = new DataRuleCheckedTreeVO();
-            objTreeVO.setId(obj.getId());
-            objTreeVO.setTitle(obj.getObjName());
-            objTreeVO.setLevel(1);
+            DataRuleCheckedTreeVo objTreeVo = new DataRuleCheckedTreeVo();
+            objTreeVo.setId(obj.getId());
+            objTreeVo.setTitle(obj.getObjName());
+            objTreeVo.setLevel(1);
 
-            List<DataRuleCheckedTreeVO> objChildren = new ArrayList<>();
+            List<DataRuleCheckedTreeVo> objChildren = new ArrayList<>();
             // 第二级 权限类别
-            DataRuleCheckedTreeVO baseCategoryTreeVO = new DataRuleCheckedTreeVO();
-            baseCategoryTreeVO.setId(BASE_PERM_TYPE);
-            baseCategoryTreeVO.setTitle("基础权限");
-            baseCategoryTreeVO.setLevel(2);
+            DataRuleCheckedTreeVo baseCategoryTreeVo = new DataRuleCheckedTreeVo();
+            baseCategoryTreeVo.setId(BASE_PERM_TYPE);
+            baseCategoryTreeVo.setTitle("基础权限");
+            baseCategoryTreeVo.setLevel(2);
             // 第三级 权限类型
-            baseCategoryTreeVO.setChildren(getPermList(false, obj.getId(), permList, ruleMap));
-            objChildren.add(baseCategoryTreeVO);
+            baseCategoryTreeVo.setChildren(getPermList(false, obj.getId(), permList, ruleMap));
+            objChildren.add(baseCategoryTreeVo);
 
 
-            DataRuleCheckedTreeVO customCategoryTreeVO = new DataRuleCheckedTreeVO();
-            customCategoryTreeVO.setId(CUSTOM_PERM_TYPE);
-            customCategoryTreeVO.setTitle("自定义权限");
-            customCategoryTreeVO.setLevel(2);
-            customCategoryTreeVO.setChildren(getPermList(true, obj.getId(), permList, ruleMap));
-            objChildren.add(customCategoryTreeVO);
+            DataRuleCheckedTreeVo customCategoryTreeVo = new DataRuleCheckedTreeVo();
+            customCategoryTreeVo.setId(CUSTOM_PERM_TYPE);
+            customCategoryTreeVo.setTitle("自定义权限");
+            customCategoryTreeVo.setLevel(2);
+            customCategoryTreeVo.setChildren(getPermList(true, obj.getId(), permList, ruleMap));
+            objChildren.add(customCategoryTreeVo);
 
 
-            objTreeVO.setChildren(objChildren);
-            treeList.add(objTreeVO);
+            objTreeVo.setChildren(objChildren);
+            treeList.add(objTreeVo);
         }
 
         return treeList;
     }
 
     @Override
-    public void batchSaveByRoleId(Long roleId, List<DataRuleSaveDTO> dtoList) {
+    public void batchSaveByRoleId(Long roleId, List<DataRuleSaveDto> dtoList) {
 
         if (roleId == null) {
             return;
@@ -131,10 +131,10 @@ public class DataRuleServiceImpl extends QdBaseServiceImpl<DataRuleMapper, DataR
             return;
         }
 
-        List<DataRuleDO> doList = new ArrayList<>();
-        for (DataRuleSaveDTO dto: dtoList) {
+        List<DataRuleDo> doList = new ArrayList<>();
+        for (DataRuleSaveDto dto: dtoList) {
 
-            DataRuleDO dataObj = AbstractDataRuleConverter.INSTANCE.saveDTO2DO(dto);
+            DataRuleDo dataObj = AbstractDataRuleConverter.INSTANCE.saveDto2Do(dto);
             dataObj.setRoleId(roleId);
             doList.add(dataObj);
         }
@@ -147,46 +147,46 @@ public class DataRuleServiceImpl extends QdBaseServiceImpl<DataRuleMapper, DataR
         return String.format("%s,%s", objId, permissionType);
     }
 
-    private List<DataRuleCheckedTreeVO> getPermList(Boolean isCustomType, Integer objId, List<DataRulePermDTO> permList, Map<String, DataRuleDO> ruleMap) {
+    private List<DataRuleCheckedTreeVo> getPermList(Boolean isCustomType, Integer objId, List<DataRulePermDto> permList, Map<String, DataRuleDo> ruleMap) {
 
-        List<DataRuleCheckedTreeVO> list = new ArrayList<>();
-        for (DataRulePermDTO perm : permList) {
+        List<DataRuleCheckedTreeVo> list = new ArrayList<>();
+        for (DataRulePermDto perm : permList) {
 
             if (isCustomType) {
                 if (perm.getPermissionType() == 3) {
 
-                    list.add(convertTreeVO(objId, perm, ruleMap));
+                    list.add(convertTreeVo(objId, perm, ruleMap));
                 }
             } else {
                 if (perm.getPermissionType() != 3) {
 
-                    list.add(convertTreeVO(objId, perm, ruleMap));
+                    list.add(convertTreeVo(objId, perm, ruleMap));
                 }
             }
         }
         return list;
     }
 
-    private DataRuleCheckedTreeVO convertTreeVO(Integer objId, DataRulePermDTO perm, Map<String, DataRuleDO> ruleMap) {
+    private DataRuleCheckedTreeVo convertTreeVo(Integer objId, DataRulePermDto perm, Map<String, DataRuleDo> ruleMap) {
 
-        DataRuleCheckedTreeVO permTreeVO = new DataRuleCheckedTreeVO();
-        permTreeVO.setId(perm.getPermissionType());
-        permTreeVO.setTitle(perm.getPermissionTypeName());
-        permTreeVO.setDataObjId(objId);
-        permTreeVO.setLevel(3);
+        DataRuleCheckedTreeVo permTreeVo = new DataRuleCheckedTreeVo();
+        permTreeVo.setId(perm.getPermissionType());
+        permTreeVo.setTitle(perm.getPermissionTypeName());
+        permTreeVo.setDataObjId(objId);
+        permTreeVo.setLevel(3);
 
-        DataRuleDO dataRuleDO = ruleMap.get(getRuleKey(objId, perm.getPermissionType()));
-        if (dataRuleDO != null) {
-            permTreeVO.setChecked(true);
-            permTreeVO.setCustomDeptIds(dataRuleDO.getCustomDeptIds());
+        DataRuleDo dataRuleDo = ruleMap.get(getRuleKey(objId, perm.getPermissionType()));
+        if (dataRuleDo != null) {
+            permTreeVo.setChecked(true);
+            permTreeVo.setCustomDeptIds(dataRuleDo.getCustomDeptIds());
         } else {
-            permTreeVO.setChecked(false);
+            permTreeVo.setChecked(false);
         }
-        return permTreeVO;
+        return permTreeVo;
     }
 
     private void removeByRoleId(Long roleId) {
 
-        remove(Wrappers.<DataRuleDO>lambdaQuery().eq(DataRuleDO::getRoleId, roleId));
+        remove(Wrappers.<DataRuleDo>lambdaQuery().eq(DataRuleDo::getRoleId, roleId));
     }
 }

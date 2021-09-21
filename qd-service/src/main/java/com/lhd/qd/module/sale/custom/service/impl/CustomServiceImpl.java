@@ -4,30 +4,20 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.lhd.qd.base.QdBaseDO;
 import com.lhd.qd.base.QdBaseServiceImpl;
 import com.lhd.qd.constant.dict.DataObjEnum;
 import com.lhd.qd.module.sale.custom.dao.CustomMapper;
 import com.lhd.qd.module.sale.custom.model.converter.AbstractCustomConverter;
 import com.lhd.qd.module.sale.custom.model.dto.CustomPageQuery;
-import com.lhd.qd.module.sale.custom.model.dto.CustomSaveDTO;
-import com.lhd.qd.module.sale.custom.model.entity.CustomDO;
-import com.lhd.qd.module.sale.custom.model.vo.CustomDetailVO;
-import com.lhd.qd.module.sale.custom.model.vo.CustomListVO;
+import com.lhd.qd.module.sale.custom.model.dto.CustomSaveDto;
+import com.lhd.qd.module.sale.custom.model.entity.CustomDo;
+import com.lhd.qd.module.sale.custom.model.vo.CustomDetailVo;
+import com.lhd.qd.module.sale.custom.model.vo.CustomListVo;
 import com.lhd.qd.module.sale.custom.service.CustomService;
-import com.lhd.qd.module.sys.trans.model.dto.TransDTO;
-import com.lhd.qd.module.sys.trans.model.vo.TransVO;
-import com.lhd.qd.module.sys.trans.service.TransService;
-import com.lhd.qd.module.sys.trans.util.SysTransDtoUtils;
 import com.lhd.qd.util.DataPermissionUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-
-import static java.util.stream.Collectors.toSet;
 
 /**
  * <p>
@@ -38,41 +28,38 @@ import static java.util.stream.Collectors.toSet;
  * @since 2019-07-19
  */
 @Service
-public class CustomServiceImpl extends QdBaseServiceImpl<CustomMapper, CustomDO> implements CustomService {
-
-    @Autowired
-    private TransService transService;
+public class CustomServiceImpl extends QdBaseServiceImpl<CustomMapper, CustomDo> implements CustomService {
 
     @Override
-    public IPage<CustomListVO> pageCustom(CustomPageQuery query) {
+    public IPage<CustomListVo> pageCustom(CustomPageQuery query) {
 
-        IPage<CustomDO> doPage = this.page(new Page<>(query.getPage(), query.getSize()),
-                Wrappers.<CustomDO>lambdaQuery()
+        IPage<CustomDo> doPage = this.page(new Page<>(query.getPage(), query.getSize()),
+                Wrappers.<CustomDo>lambdaQuery()
                         .apply(DataPermissionUtils.getSql(DataObjEnum.CUSTOM))
-                        .like(StringUtils.isNotEmpty(query.getCustomName()), CustomDO::getCustomName, query.getCustomName()));
+                        .like(StringUtils.isNotEmpty(query.getCustomName()), CustomDo::getCustomName, query.getCustomName()));
 
-        return AbstractCustomConverter.INSTANCE.doPage2ListVOPage(doPage, getTransVO(doPage.getRecords()));
+        return AbstractCustomConverter.INSTANCE.doPage2ListVoPage(doPage);
     }
 
     @Override
-    public CustomDetailVO getCustomById(Long id) {
+    public CustomDetailVo getCustomById(Long id) {
 
-        CustomDO dataObj = getById(id);
+        CustomDo dataObj = getById(id);
 
-        return AbstractCustomConverter.INSTANCE.do2DetailVO(dataObj, getTransVO(Collections.singletonList(dataObj)));
+        return AbstractCustomConverter.INSTANCE.do2DetailVo(dataObj);
     }
 
     @Override
-    public void saveCustom(CustomSaveDTO saveDTO) {
+    public void saveCustom(CustomSaveDto saveDto) {
 
-        CustomDO dataObj = AbstractCustomConverter.INSTANCE.saveDTO2DO(saveDTO);
+        CustomDo dataObj = AbstractCustomConverter.INSTANCE.saveDto2Do(saveDto);
         save(dataObj);
     }
 
     @Override
-    public void updateCustom(Long id, CustomSaveDTO saveDTO) {
+    public void updateCustom(Long id, CustomSaveDto saveDto) {
 
-        CustomDO dataObj = AbstractCustomConverter.INSTANCE.saveDTO2DO(saveDTO);
+        CustomDo dataObj = AbstractCustomConverter.INSTANCE.saveDto2Do(saveDto);
         dataObj.setId(id);
         updateById(dataObj);
     }
@@ -80,7 +67,7 @@ public class CustomServiceImpl extends QdBaseServiceImpl<CustomMapper, CustomDO>
     @Override
     public void removeCustom(Long id) {
 
-        CustomDO dataObj = new CustomDO();
+        CustomDo dataObj = new CustomDo();
         dataObj.setId(id);
         removeByIdWithFill(dataObj);
     }
@@ -88,20 +75,6 @@ public class CustomServiceImpl extends QdBaseServiceImpl<CustomMapper, CustomDO>
     @Override
     public void batchRemoveCustom(List<Long> idList) {
 
-        removeByIdsWithFill(new CustomDO(), idList);
-    }
-
-    private List<TransVO> getTransVO(List<CustomDO> doList) {
-
-        List<TransDTO> dtoList = new ArrayList<>();
-        dtoList.add(SysTransDtoUtils.transCreateUser(doList.stream().map(QdBaseDO::getCreateUserId).collect(toSet())));
-        dtoList.add(SysTransDtoUtils.transUpdateUser(doList.stream().map(QdBaseDO::getUpdateUserId).collect(toSet())));
-
-        dtoList.add(SysTransDtoUtils.transUserFullNameById(doList.stream().map(CustomDO::getOwnerId).collect(toSet()),
-                CustomDO::getOwnerId, CustomDetailVO::getOwnerName));
-        dtoList.add(SysTransDtoUtils.transDeptNameById(doList.stream().map(CustomDO::getOwnerDeptId).collect(toSet()),
-                CustomDO::getOwnerDeptId, CustomDetailVO::getOwnerDeptName));
-
-        return transService.getTransValue(dtoList);
+        removeByIdsWithFill(new CustomDo(), idList);
     }
 }

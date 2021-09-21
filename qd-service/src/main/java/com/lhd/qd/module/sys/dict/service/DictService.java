@@ -3,11 +3,11 @@ package com.lhd.qd.module.sys.dict.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lhd.qd.base.QdBaseService;
 import com.lhd.qd.module.sys.dict.model.dto.DictPageQuery;
-import com.lhd.qd.module.sys.dict.model.dto.DictSaveDTO;
-import com.lhd.qd.module.sys.dict.model.entity.DictDO;
-import com.lhd.qd.module.sys.dict.model.vo.DictDetailVO;
-import com.lhd.qd.module.sys.dict.model.vo.DictListVO;
-import com.lhd.qd.module.sys.dict.model.vo.DictPageBindVO;
+import com.lhd.qd.module.sys.dict.model.dto.DictSaveDto;
+import com.lhd.qd.module.sys.dict.model.entity.DictDo;
+import com.lhd.qd.module.sys.dict.model.vo.DictDetailVo;
+import com.lhd.qd.module.sys.dict.model.vo.DictListVo;
+import com.lhd.qd.module.sys.dict.model.vo.DictPageBindVo;
 
 import java.util.List;
 import java.util.Map;
@@ -20,14 +20,14 @@ import java.util.Map;
  * @author lhd
  * @since 2019-05-31
  */
-public interface DictService extends QdBaseService<DictDO> {
+public interface DictService extends QdBaseService<DictDo> {
 
     /**
      * 字典分页列表
      * @param query
      * @return
      */
-    IPage<DictListVO> pageDict(DictPageQuery query);
+    IPage<DictListVo> pageDict(DictPageQuery query);
 
     /**
      * 根据类型编码获取字典
@@ -35,34 +35,34 @@ public interface DictService extends QdBaseService<DictDO> {
      * @param query
      * @return
      */
-    IPage<DictListVO> pageDictByTypeCode(String typeCode, DictPageQuery query);
+    IPage<DictListVo> pageDictByTypeCode(String typeCode, DictPageQuery query);
 
     /**
      * 根据类型编码获取字典缓存
      * @param typeCode
      * @return
      */
-    List<DictPageBindVO> listDictCacheByTypeCode(String typeCode);
+    List<DictPageBindVo> listDictCacheByTypeCode(String typeCode);
 
     /**
      * 字典详情
      * @param id
      * @return
      */
-    DictDetailVO getDictById(Long id);
+    DictDetailVo getDictById(Long id);
 
     /**
      * 新增字典
-     * @param saveDTO
+     * @param saveDto
      */
-    void saveDict(DictSaveDTO saveDTO);
+    void saveDict(DictSaveDto saveDto);
 
     /**
      * 修改字典
      * @param id
-     * @param saveDTO
+     * @param saveDto
      */
-    void updateDict(Long id, DictSaveDTO saveDTO);
+    void updateDict(Long id, DictSaveDto saveDto);
 
     /**
      * 根据编码修改字典缓存，并校验编码
@@ -93,5 +93,5 @@ public interface DictService extends QdBaseService<DictDO> {
      * 用于前端字段翻译、控件绑定
      * @return
      */
-    Map<String, List<DictPageBindVO>> getPageCacheMap();
+    Map<String, List<DictPageBindVo>> getPageCacheMap();
 }

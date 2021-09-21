@@ -5,18 +5,13 @@ import com.lhd.qd.base.QdBaseServiceImpl;
 import com.lhd.qd.constant.CommonConsts;
 import com.lhd.qd.module.sys.org.dao.CompanyMapper;
 import com.lhd.qd.module.sys.org.model.converter.AbstractCompanyConverter;
-import com.lhd.qd.module.sys.org.model.dto.CompanySaveDTO;
-import com.lhd.qd.module.sys.org.model.entity.CompanyDO;
-import com.lhd.qd.module.sys.org.model.vo.CompanyDetailVO;
-import com.lhd.qd.module.sys.org.model.vo.CompanyTreeVO;
+import com.lhd.qd.module.sys.org.model.dto.CompanySaveDto;
+import com.lhd.qd.module.sys.org.model.entity.CompanyDo;
+import com.lhd.qd.module.sys.org.model.vo.CompanyDetailVo;
+import com.lhd.qd.module.sys.org.model.vo.CompanyTreeVo;
 import com.lhd.qd.module.sys.org.service.CompanyService;
-import com.lhd.qd.module.sys.trans.model.dto.TransDTO;
-import com.lhd.qd.module.sys.trans.model.vo.TransVO;
-import com.lhd.qd.module.sys.trans.service.TransService;
-import com.lhd.qd.module.sys.trans.util.SysTransDtoUtils;
-import com.lhd.qd.module.sys.user.model.vo.UserCacheVO;
+import com.lhd.qd.module.sys.user.model.vo.UserCacheVo;
 import com.lhd.qd.util.UserUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -34,52 +29,49 @@ import static java.util.stream.Collectors.toSet;
  * @since 2019-07-12
  */
 @Service
-public class CompanyServiceImpl extends QdBaseServiceImpl<CompanyMapper, CompanyDO> implements CompanyService {
-
-    @Autowired
-    private TransService transService;
+public class CompanyServiceImpl extends QdBaseServiceImpl<CompanyMapper, CompanyDo> implements CompanyService {
 
     @Override
-    public List<CompanyTreeVO> getCompanyTree() {
+    public List<CompanyTreeVo> getCompanyTree() {
 
-        UserCacheVO userCacheVO = UserUtils.getCurrentUser();
+        UserCacheVo userCacheVo = UserUtils.getCurrentUser();
 
         // 非超级管理员只能看到本公司及下级公司
-        if (!CommonConsts.SUPER_ADMIN_USER_ID.equals(userCacheVO.getId())) {
+        if (!CommonConsts.SUPER_ADMIN_USER_ID.equals(userCacheVo.getId())) {
 
-            List<CompanyDO> doList = list(Wrappers.<CompanyDO>lambdaQuery()
-                    .nested(item -> item.eq(CompanyDO::getParentId, userCacheVO.getCompanyId())
+            List<CompanyDo> doList = list(Wrappers.<CompanyDo>lambdaQuery()
+                    .nested(item -> item.eq(CompanyDo::getParentId, userCacheVo.getCompanyId())
                             .or()
-                            .eq(CompanyDO::getId, userCacheVO.getCompanyId())));
+                            .eq(CompanyDo::getId, userCacheVo.getCompanyId())));
 
-            CompanyDO detailDO = getById(userCacheVO.getCompanyId());
+            CompanyDo detailDo = getById(userCacheVo.getCompanyId());
 
-            return buildTree(detailDO.getParentId(), doList);
+            return buildTree(detailDo.getParentId(), doList);
         }
 
-        List<CompanyDO> doList = list(null);
+        List<CompanyDo> doList = list(null);
         return buildTree(0L, doList);
     }
 
     @Override
-    public CompanyDetailVO getCompanyById(Long id) {
+    public CompanyDetailVo getCompanyById(Long id) {
 
-        CompanyDO dataObj = getById(id);
+        CompanyDo dataObj = getById(id);
 
-        return AbstractCompanyConverter.INSTANCE.do2DetailVO(dataObj, getTransVO(Collections.singletonList(dataObj)));
+        return AbstractCompanyConverter.INSTANCE.do2DetailVo(dataObj);
     }
 
     @Override
-    public void saveCompany(CompanySaveDTO saveDTO) {
+    public void saveCompany(CompanySaveDto saveDto) {
 
-        CompanyDO dataObj = AbstractCompanyConverter.INSTANCE.saveDTO2DO(saveDTO);
+        CompanyDo dataObj = AbstractCompanyConverter.INSTANCE.saveDto2Do(saveDto);
         save(dataObj);
     }
 
     @Override
-    public void updateCompany(Long id, CompanySaveDTO saveDTO) {
+    public void updateCompany(Long id, CompanySaveDto saveDto) {
 
-        CompanyDO dataObj = AbstractCompanyConverter.INSTANCE.saveDTO2DO(saveDTO);
+        CompanyDo dataObj = AbstractCompanyConverter.INSTANCE.saveDto2Do(saveDto);
         dataObj.setId(id);
         updateById(dataObj);
     }
@@ -93,14 +85,14 @@ public class CompanyServiceImpl extends QdBaseServiceImpl<CompanyMapper, Company
         }
     }
 
-    private static List<CompanyTreeVO> buildTree(Long parentId, List<CompanyDO> doList) {
+    private static List<CompanyTreeVo> buildTree(Long parentId, List<CompanyDo> doList) {
 
-        List<CompanyTreeVO> treeList =  new ArrayList<>();
-        for (CompanyDO dataObj : doList) {
+        List<CompanyTreeVo> treeList =  new ArrayList<>();
+        for (CompanyDo dataObj : doList) {
 
             if (parentId.equals(dataObj.getParentId())) {
 
-                CompanyTreeVO vo = AbstractCompanyConverter.INSTANCE.do2TreeVO(dataObj);
+                CompanyTreeVo vo = AbstractCompanyConverter.INSTANCE.do2TreeVo(dataObj);
                 vo.setChildren(buildTree(dataObj.getId(), doList));
 
                 treeList.add(vo);
@@ -108,14 +100,5 @@ public class CompanyServiceImpl extends QdBaseServiceImpl<CompanyMapper, Company
         }
 
         return treeList;
-    }
-
-    private List<TransVO> getTransVO(List<CompanyDO> doList) {
-
-        List<TransDTO> dtoList = new ArrayList<>();
-
-        dtoList.add(SysTransDtoUtils.transCompanyNameById(doList.stream().map(CompanyDO::getParentId).collect(toSet()),
-                CompanyDO::getParentId, CompanyDetailVO::getParentName));
-        return transService.getTransValue(dtoList);
     }
 }

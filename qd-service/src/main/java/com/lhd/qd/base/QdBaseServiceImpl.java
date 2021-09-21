@@ -1,10 +1,8 @@
 package com.lhd.qd.base;
 
-import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.lhd.qd.constant.SortOrderEnum;
-import com.lhd.qd.util.LambdaConvertUtils;
 import org.apache.commons.lang3.EnumUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -32,17 +30,6 @@ public class QdBaseServiceImpl<M extends QdBaseMapper<T>, T> extends ServiceImpl
     protected boolean isOrderBy(QdBasePageQuery query, String field) {
 
         if (query == null || StringUtils.isEmpty(query.getSortField()) || !field.equals(query.getSortField())) {
-            return false;
-        }
-
-        SortOrderEnum sortOrderEnum = EnumUtils.getEnumIgnoreCase(SortOrderEnum.class, query.getSortOrder());
-        return sortOrderEnum != null && sortOrderEnum != SortOrderEnum.NORMAL;
-    }
-
-    protected boolean isOrderBy(QdBasePageQuery query, SFunction<T, ?> field) {
-
-        if (query == null || StringUtils.isEmpty(query.getSortField())
-                || !LambdaConvertUtils.lambdaToProperty(field).equals(query.getSortField())) {
             return false;
         }
 

@@ -1,7 +1,7 @@
 package com.lhd.qd.module.sys.role.dao;
 
 import com.lhd.qd.base.QdBaseMapper;
-import com.lhd.qd.module.sys.role.model.entity.RoleDO;
+import com.lhd.qd.module.sys.role.model.entity.RoleDo;
 
 /**
  * <p>
@@ -11,6 +11,6 @@ import com.lhd.qd.module.sys.role.model.entity.RoleDO;
  * @author lhd
  * @since 2019-05-23
  */
-public interface RoleMapper extends QdBaseMapper<RoleDO> {
+public interface RoleMapper extends QdBaseMapper<RoleDo> {
 
 }

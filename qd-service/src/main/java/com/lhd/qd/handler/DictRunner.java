@@ -2,7 +2,7 @@ package com.lhd.qd.handler;
 
 import com.lhd.qd.constant.RedisConsts;
 import com.lhd.qd.exception.BusinessException;
-import com.lhd.qd.module.sys.dict.model.vo.DictPageBindVO;
+import com.lhd.qd.module.sys.dict.model.vo.DictPageBindVo;
 import com.lhd.qd.module.sys.dict.service.DictService;
 import com.lhd.qd.util.RedisUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +29,7 @@ public class DictRunner implements CommandLineRunner {
     @Override
     public void run(String... args) {
 
-        Map<String, List<DictPageBindVO>> dictMap = dictService.getPageCacheMap();
+        Map<String, List<DictPageBindVo>> dictMap = dictService.getPageCacheMap();
         dictMap.forEach((key, value) -> redisUtils.setHash(RedisConsts.DICT_KEY, key, value));
         if (dictMap.size() == 0) {
             throw new BusinessException("缓存数据字典异常");

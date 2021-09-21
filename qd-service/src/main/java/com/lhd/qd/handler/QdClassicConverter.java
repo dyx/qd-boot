@@ -12,6 +12,6 @@ public class QdClassicConverter extends ClassicConverter {
 
     @Override
     public String convert(ILoggingEvent event) {
-        return String.format("%s-%s", HttpUtils.getIP(), HttpUtils.getOSBrowser());
+        return String.format("%s-%s", HttpUtils.getIp(), HttpUtils.getOsBrowser());
     }
 }

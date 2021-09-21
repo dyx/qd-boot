@@ -2,17 +2,15 @@ package com.lhd.qd.module.sys.org.model.converter;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.lhd.qd.module.sys.org.model.dto.DeptSaveDTO;
-import com.lhd.qd.module.sys.org.model.entity.DeptDO;
-import com.lhd.qd.module.sys.org.model.vo.DeptDetailVO;
-import com.lhd.qd.module.sys.org.model.vo.DeptListVO;
-import com.lhd.qd.module.sys.org.model.vo.DeptTreeVO;
-import com.lhd.qd.module.sys.trans.model.vo.TransVO;
-import com.lhd.qd.module.sys.trans.util.TransUtils;
-import org.mapstruct.*;
+import com.lhd.qd.module.sys.org.model.dto.DeptSaveDto;
+import com.lhd.qd.module.sys.org.model.entity.DeptDo;
+import com.lhd.qd.module.sys.org.model.vo.DeptDetailVo;
+import com.lhd.qd.module.sys.org.model.vo.DeptListVo;
+import com.lhd.qd.module.sys.org.model.vo.DeptTreeVo;
+import org.mapstruct.BeanMapping;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
-
-import java.util.List;
 
 /**
  * @author lhd
@@ -29,14 +27,14 @@ public abstract class AbstractDeptConverter {
      * @return
      */
     @BeanMapping(resultType = Page.class)
-    public abstract IPage<DeptListVO> doPage2ListVOPage(IPage<DeptDO> doPage);
+    public abstract IPage<DeptListVo> doPage2ListVoPage(IPage<DeptDo> doPage);
 
     /**
      * do 转换为 列表vo
      * @param dataObj
      * @return
      */
-    public abstract DeptListVO do2ListVO(DeptDO dataObj);
+    public abstract DeptListVo do2ListVo(DeptDo dataObj);
 
     /**
      * do 转换为 树vo
@@ -44,25 +42,19 @@ public abstract class AbstractDeptConverter {
      * @return
      */
     @Mapping(target = "title", source = "deptName")
-    public abstract DeptTreeVO do2TreeVO(DeptDO dataObj);
+    public abstract DeptTreeVo do2TreeVo(DeptDo dataObj);
 
     /**
      * do 转换为 详情vo
      * @param dataObj
-     * @param transVOList
      * @return
      */
-    public abstract DeptDetailVO do2DetailVO(DeptDO dataObj, @Context List<TransVO> transVOList);
-    @AfterMapping
-    public void fillJoinField(DeptDO dataObj, @MappingTarget DeptDetailVO detailVO, @Context List<TransVO> transVOList) {
-
-        TransUtils.trans(dataObj, detailVO, transVOList);
-    }
+    public abstract DeptDetailVo do2DetailVo(DeptDo dataObj);
 
     /**
      * 新增dto 转换为 do
-     * @param saveDTO
+     * @param saveDto
      * @return
      */
-    public abstract DeptDO saveDTO2DO(DeptSaveDTO saveDTO);
+    public abstract DeptDo saveDto2Do(DeptSaveDto saveDto);
 }

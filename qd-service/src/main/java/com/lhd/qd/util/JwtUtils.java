@@ -6,7 +6,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.lhd.qd.constant.http.ErrorCodeEnum;
 import com.lhd.qd.exception.BusinessException;
-import com.lhd.qd.module.sys.login.model.dto.TokenDTO;
+import com.lhd.qd.module.sys.login.model.dto.TokenDto;
 
 import java.util.Date;
 
@@ -24,15 +24,15 @@ public class JwtUtils {
     /**
      * 生成token
      *
-     * @param tokenDTO
+     * @param tokenDto
      * @param secret
      * @param expiresDate
      * @return
      */
-    public static String generate(TokenDTO tokenDTO, String secret, Date expiresDate) {
+    public static String generate(TokenDto tokenDto, String secret, Date expiresDate) {
         return JWT.create()
-                .withClaim(CLAIM_KEY_ID, tokenDTO.getUserId())
-                .withClaim(CLAIM_KEY_CLIENT_ID, tokenDTO.getClientId())
+                .withClaim(CLAIM_KEY_ID, tokenDto.getUserId())
+                .withClaim(CLAIM_KEY_CLIENT_ID, tokenDto.getClientId())
                 .withExpiresAt(expiresDate)
                 .sign(Algorithm.HMAC256(secret));
     }
@@ -43,10 +43,10 @@ public class JwtUtils {
      * @param token
      * @return
      */
-    public static TokenDTO parse(String token) {
+    public static TokenDto parse(String token) {
         try {
             DecodedJWT jwt = JWT.decode(token);
-            return new TokenDTO(jwt.getClaim(CLAIM_KEY_ID).asLong(), jwt.getClaim(CLAIM_KEY_CLIENT_ID).asString());
+            return new TokenDto(jwt.getClaim(CLAIM_KEY_ID).asLong(), jwt.getClaim(CLAIM_KEY_CLIENT_ID).asString());
         } catch (Exception e) {
             throw new BusinessException(ErrorCodeEnum.JWT_PARSE_ERROR);
         }

@@ -4,9 +4,9 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lhd.qd.base.QdBaseController;
 import com.lhd.qd.constant.http.ApiResult;
 import com.lhd.qd.module.sys.menu.model.dto.PageElementPageQuery;
-import com.lhd.qd.module.sys.menu.model.dto.PageElementSaveDTO;
-import com.lhd.qd.module.sys.menu.model.vo.PageElementDetailVO;
-import com.lhd.qd.module.sys.menu.model.vo.PageElementListVO;
+import com.lhd.qd.module.sys.menu.model.dto.PageElementSaveDto;
+import com.lhd.qd.module.sys.menu.model.vo.PageElementDetailVo;
+import com.lhd.qd.module.sys.menu.model.vo.PageElementListVo;
 import com.lhd.qd.module.sys.menu.service.PageElementService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -30,34 +30,34 @@ public class PageElementController extends QdBaseController {
     @Autowired
     private PageElementService service;
 
-    @ApiOperation(value = "列表", response = PageElementListVO.class)
+    @ApiOperation(value = "列表", response = PageElementListVo.class)
     @GetMapping("{menuId}/page-element")
-    public ApiResult<IPage<PageElementListVO>> getPageByMenuId(@PathVariable("menuId") Long menuId, PageElementPageQuery query) {
+    public ApiResult<IPage<PageElementListVo>> getPageByMenuId(@PathVariable("menuId") Long menuId, PageElementPageQuery query) {
 
         return success(service.pagePageElementByMenuId(menuId, query));
     }
 
-    @ApiOperation(value = "详情", response = PageElementDetailVO.class)
+    @ApiOperation(value = "详情", response = PageElementDetailVo.class)
     @GetMapping(value = "page-element/{id}")
-    public ApiResult<PageElementDetailVO> getById(@PathVariable("id") Long id) {
+    public ApiResult<PageElementDetailVo> getById(@PathVariable("id") Long id) {
 
         return success(service.getPageElementById(id));
     }
 
     @ApiOperation(value = "新增")
     @PostMapping("{menuId}/page-element")
-    public ApiResult save(@PathVariable("menuId") Long menuId, @Validated @RequestBody PageElementSaveDTO saveDTO) {
+    public ApiResult save(@PathVariable("menuId") Long menuId, @Validated @RequestBody PageElementSaveDto saveDto) {
 
-        service.savePageElement(menuId, saveDTO);
+        service.savePageElement(menuId, saveDto);
 
         return success();
     }
 
     @ApiOperation(value = "修改")
     @PutMapping(value = "page-element/{id}")
-    public ApiResult update(@PathVariable("id") Long id, @Validated @RequestBody PageElementSaveDTO saveDTO) {
+    public ApiResult update(@PathVariable("id") Long id, @Validated @RequestBody PageElementSaveDto saveDto) {
 
-        service.updatePageElement(id, saveDTO);
+        service.updatePageElement(id, saveDto);
 
         return success();
     }

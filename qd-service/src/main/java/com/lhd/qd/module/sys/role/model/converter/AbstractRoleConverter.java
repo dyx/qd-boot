@@ -2,14 +2,14 @@ package com.lhd.qd.module.sys.role.model.converter;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.lhd.qd.module.sys.menu.model.vo.ResourceTreeVO;
-import com.lhd.qd.module.sys.role.model.dto.RoleCheckedResourceDTO;
-import com.lhd.qd.module.sys.role.model.dto.RoleResourceDTO;
-import com.lhd.qd.module.sys.role.model.dto.RoleSaveDTO;
-import com.lhd.qd.module.sys.role.model.entity.RoleDO;
-import com.lhd.qd.module.sys.role.model.vo.RoleCheckedMenuTreeVO;
-import com.lhd.qd.module.sys.role.model.vo.RoleDetailVO;
-import com.lhd.qd.module.sys.role.model.vo.RoleListVO;
+import com.lhd.qd.module.sys.menu.model.vo.ResourceTreeVo;
+import com.lhd.qd.module.sys.role.model.dto.RoleCheckedResourceDto;
+import com.lhd.qd.module.sys.role.model.dto.RoleResourceDto;
+import com.lhd.qd.module.sys.role.model.dto.RoleSaveDto;
+import com.lhd.qd.module.sys.role.model.entity.RoleDo;
+import com.lhd.qd.module.sys.role.model.vo.RoleCheckedMenuTreeVo;
+import com.lhd.qd.module.sys.role.model.vo.RoleDetailVo;
+import com.lhd.qd.module.sys.role.model.vo.RoleListVo;
 import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -30,28 +30,28 @@ public abstract class AbstractRoleConverter {
      * @return
      */
     @BeanMapping(resultType = Page.class)
-    public abstract IPage<RoleListVO> doPage2ListVOPage(IPage<RoleDO> doPage);
+    public abstract IPage<RoleListVo> doPage2ListVoPage(IPage<RoleDo> doPage);
 
     /**
      * do 转换为 列表vo
      * @param dataObj
      * @return
      */
-    public abstract RoleListVO do2ListVO(RoleDO dataObj);
+    public abstract RoleListVo do2ListVo(RoleDo dataObj);
 
     /**
      * do 转换为 详情vo
      * @param dataObj
      * @return
      */
-    public abstract RoleDetailVO do2DetailVO(RoleDO dataObj);
+    public abstract RoleDetailVo do2DetailVo(RoleDo dataObj);
 
     /**
      * 新增dto 转换为 do
-     * @param saveDTO
+     * @param saveDto
      * @return
      */
-    public abstract RoleDO saveDTO2DO(RoleSaveDTO saveDTO);
+    public abstract RoleDo saveDto2Do(RoleSaveDto saveDto);
 
     /**
      * dto 转换为 树vo
@@ -60,12 +60,12 @@ public abstract class AbstractRoleConverter {
      */
     @Mapping(target = "id", expression = "java( Math.abs(dto.getId()) )")
     @Mapping(target = "parentId", expression = "java( Math.abs(dto.getParentId()) )")
-    public abstract ResourceTreeVO roleResourceDTO2ResourceTreeVO(RoleResourceDTO dto);
+    public abstract ResourceTreeVo roleResourceDto2ResourceTreeVo(RoleResourceDto dto);
 
     /**
      * dto 转换为 树vo
      * @param dto
      * @return
      */
-    public abstract RoleCheckedMenuTreeVO roleCheckedResourceDTO2RoleCheckedMenuTreeVO(RoleCheckedResourceDTO dto);
+    public abstract RoleCheckedMenuTreeVo roleCheckedResourceDto2RoleCheckedMenuTreeVo(RoleCheckedResourceDto dto);
 }

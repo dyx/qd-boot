@@ -3,10 +3,10 @@ package com.lhd.qd.module.sys.user.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lhd.qd.base.QdBasePageQuery;
 import com.lhd.qd.base.QdBaseService;
-import com.lhd.qd.module.sys.user.model.entity.UserRoleDO;
-import com.lhd.qd.module.sys.user.model.vo.UserAssignRoleVO;
-import com.lhd.qd.module.sys.user.model.vo.UserListVO;
-import com.lhd.qd.module.sys.user.model.vo.UserRoleVO;
+import com.lhd.qd.module.sys.user.model.entity.UserRoleDo;
+import com.lhd.qd.module.sys.user.model.vo.UserAssignRoleVo;
+import com.lhd.qd.module.sys.user.model.vo.UserListVo;
+import com.lhd.qd.module.sys.user.model.vo.UserRoleVo;
 
 import java.util.List;
 import java.util.Map;
@@ -20,21 +20,21 @@ import java.util.Set;
  * @author lhd
  * @since 2019-05-24
  */
-public interface UserRoleService extends QdBaseService<UserRoleDO> {
+public interface UserRoleService extends QdBaseService<UserRoleDo> {
 
     /**
      * 根据用户id获取角色列表
      * @param userId
      * @return
      */
-    List<UserRoleVO> getRoleListByUserId(Long userId);
+    List<UserRoleVo> getRoleListByUserId(Long userId);
 
     /**
      * 获取所有角色，并设置用户的角色为选中状态
      * @param userId
      * @return
      */
-    List<UserAssignRoleVO> getRoleListWithChecked(Long userId);
+    List<UserAssignRoleVo> getRoleListWithChecked(Long userId);
 
     /**
      * 用户分配角色
@@ -56,7 +56,7 @@ public interface UserRoleService extends QdBaseService<UserRoleDO> {
      * @param query
      * @return
      */
-    IPage<UserListVO> getUserPageByRoleId(Long roleId, QdBasePageQuery query);
+    IPage<UserListVo> getUserPageByRoleId(Long roleId, QdBasePageQuery query);
 
     /**
      * 获取用户所有角色，使用逗号分隔

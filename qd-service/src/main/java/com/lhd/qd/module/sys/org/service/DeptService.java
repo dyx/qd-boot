@@ -1,10 +1,10 @@
 package com.lhd.qd.module.sys.org.service;
 
 import com.lhd.qd.base.QdBaseService;
-import com.lhd.qd.module.sys.org.model.dto.DeptSaveDTO;
-import com.lhd.qd.module.sys.org.model.entity.DeptDO;
-import com.lhd.qd.module.sys.org.model.vo.DeptDetailVO;
-import com.lhd.qd.module.sys.org.model.vo.DeptTreeVO;
+import com.lhd.qd.module.sys.org.model.dto.DeptSaveDto;
+import com.lhd.qd.module.sys.org.model.entity.DeptDo;
+import com.lhd.qd.module.sys.org.model.vo.DeptDetailVo;
+import com.lhd.qd.module.sys.org.model.vo.DeptTreeVo;
 
 import java.util.List;
 
@@ -16,41 +16,41 @@ import java.util.List;
  * @author lhd
  * @since 2019-07-12
  */
-public interface DeptService extends QdBaseService<DeptDO> {
+public interface DeptService extends QdBaseService<DeptDo> {
 
     /**
      * 根据公司获取部门
      * @param companyId
      * @return
      */
-    List<DeptTreeVO> getDeptTreeByCompanyId(Long companyId);
+    List<DeptTreeVo> getDeptTreeByCompanyId(Long companyId);
 
     /**
      * 根据公司获取部门参照
      * @param companyId
      * @return
      */
-    List<DeptTreeVO> getDeptRefTreeByCompanyId(Long companyId);
+    List<DeptTreeVo> getDeptRefTreeByCompanyId(Long companyId);
 
     /**
      * 部门详情
      * @param id
      * @return
      */
-    DeptDetailVO getDeptById(Long id);
+    DeptDetailVo getDeptById(Long id);
 
     /**
      * 新增部门
-     * @param saveDTO
+     * @param saveDto
      */
-    void saveDept(DeptSaveDTO saveDTO);
+    void saveDept(DeptSaveDto saveDto);
 
     /**
      * 修改部门
      * @param id
-     * @param saveDTO
+     * @param saveDto
      */
-    void updateDept(Long id, DeptSaveDTO saveDTO);
+    void updateDept(Long id, DeptSaveDto saveDto);
 
     /**
      * 删除部门

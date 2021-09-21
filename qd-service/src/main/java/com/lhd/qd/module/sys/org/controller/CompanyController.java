@@ -2,9 +2,9 @@ package com.lhd.qd.module.sys.org.controller;
 
 import com.lhd.qd.base.QdBaseController;
 import com.lhd.qd.constant.http.ApiResult;
-import com.lhd.qd.module.sys.org.model.dto.CompanySaveDTO;
-import com.lhd.qd.module.sys.org.model.vo.CompanyDetailVO;
-import com.lhd.qd.module.sys.org.model.vo.CompanyTreeVO;
+import com.lhd.qd.module.sys.org.model.dto.CompanySaveDto;
+import com.lhd.qd.module.sys.org.model.vo.CompanyDetailVo;
+import com.lhd.qd.module.sys.org.model.vo.CompanyTreeVo;
 import com.lhd.qd.module.sys.org.service.CompanyService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -30,41 +30,41 @@ public class CompanyController extends QdBaseController {
     @Autowired
     private CompanyService service;
 
-    @ApiOperation(value = "树结构", response = CompanyTreeVO.class)
+    @ApiOperation(value = "树结构", response = CompanyTreeVo.class)
     @GetMapping(value = "tree")
-    public ApiResult<List<CompanyTreeVO>> getTree() {
+    public ApiResult<List<CompanyTreeVo>> getTree() {
 
         return success(service.getCompanyTree());
     }
 
-    @ApiOperation(value = "参照树结构", response = CompanyTreeVO.class)
+    @ApiOperation(value = "参照树结构", response = CompanyTreeVo.class)
     @GetMapping(value = "ref/tree")
-    public ApiResult<List<CompanyTreeVO>> getRefTree() {
+    public ApiResult<List<CompanyTreeVo>> getRefTree() {
 
         return success(service.getCompanyTree());
     }
 
-    @ApiOperation(value = "详情", response = CompanyDetailVO.class)
+    @ApiOperation(value = "详情", response = CompanyDetailVo.class)
     @GetMapping(value = "{id}")
-    public ApiResult<CompanyDetailVO> getById(@PathVariable("id") Long id) {
+    public ApiResult<CompanyDetailVo> getById(@PathVariable("id") Long id) {
 
         return success(service.getCompanyById(id));
     }
 
     @ApiOperation(value = "新增")
     @PostMapping
-    public ApiResult save(@Validated @RequestBody CompanySaveDTO saveDTO) {
+    public ApiResult save(@Validated @RequestBody CompanySaveDto saveDto) {
 
-        service.saveCompany(saveDTO);
+        service.saveCompany(saveDto);
 
         return success();
     }
 
     @ApiOperation(value = "修改")
     @PutMapping(value = "{id}")
-    public ApiResult update(@PathVariable("id") Long id, @Validated @RequestBody CompanySaveDTO saveDTO) {
+    public ApiResult update(@PathVariable("id") Long id, @Validated @RequestBody CompanySaveDto saveDto) {
 
-        service.updateCompany(id, saveDTO);
+        service.updateCompany(id, saveDto);
 
         return success();
     }

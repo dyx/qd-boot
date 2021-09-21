@@ -6,10 +6,10 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lhd.qd.base.QdBasePageQuery;
 import com.lhd.qd.base.QdBaseServiceImpl;
 import com.lhd.qd.module.sys.user.dao.UserRoleMapper;
-import com.lhd.qd.module.sys.user.model.entity.UserRoleDO;
-import com.lhd.qd.module.sys.user.model.vo.UserAssignRoleVO;
-import com.lhd.qd.module.sys.user.model.vo.UserListVO;
-import com.lhd.qd.module.sys.user.model.vo.UserRoleVO;
+import com.lhd.qd.module.sys.user.model.entity.UserRoleDo;
+import com.lhd.qd.module.sys.user.model.vo.UserAssignRoleVo;
+import com.lhd.qd.module.sys.user.model.vo.UserListVo;
+import com.lhd.qd.module.sys.user.model.vo.UserRoleVo;
 import com.lhd.qd.module.sys.user.service.UserRoleService;
 import org.springframework.stereotype.Service;
 
@@ -28,16 +28,16 @@ import static java.util.stream.Collectors.toList;
  * @since 2019-05-24
  */
 @Service
-public class UserRoleServiceImpl extends QdBaseServiceImpl<UserRoleMapper, UserRoleDO> implements UserRoleService {
+public class UserRoleServiceImpl extends QdBaseServiceImpl<UserRoleMapper, UserRoleDo> implements UserRoleService {
 
     @Override
-    public List<UserRoleVO> getRoleListByUserId(Long userId) {
+    public List<UserRoleVo> getRoleListByUserId(Long userId) {
 
         return baseMapper.selectRoleListByUserId(userId);
     }
 
     @Override
-    public List<UserAssignRoleVO> getRoleListWithChecked(Long userId) {
+    public List<UserAssignRoleVo> getRoleListWithChecked(Long userId) {
         return baseMapper.selectRoleListWithChecked(userId);
     }
 
@@ -48,7 +48,7 @@ public class UserRoleServiceImpl extends QdBaseServiceImpl<UserRoleMapper, UserR
             return;
         }
 
-        remove(Wrappers.<UserRoleDO>lambdaQuery().eq(UserRoleDO::getUserId, userId));
+        remove(Wrappers.<UserRoleDo>lambdaQuery().eq(UserRoleDo::getUserId, userId));
 
         if (roleIdList == null || roleIdList.size() == 0) {
             return;
@@ -63,7 +63,7 @@ public class UserRoleServiceImpl extends QdBaseServiceImpl<UserRoleMapper, UserR
             return;
         }
 
-        remove(Wrappers.<UserRoleDO>lambdaQuery().eq(UserRoleDO::getRoleId, roleId));
+        remove(Wrappers.<UserRoleDo>lambdaQuery().eq(UserRoleDo::getRoleId, roleId));
 
         if (userIdList == null || userIdList.size() == 0) {
             return;
@@ -73,9 +73,9 @@ public class UserRoleServiceImpl extends QdBaseServiceImpl<UserRoleMapper, UserR
     }
 
     @Override
-    public IPage<UserListVO> getUserPageByRoleId(Long roleId, QdBasePageQuery query) {
+    public IPage<UserListVo> getUserPageByRoleId(Long roleId, QdBasePageQuery query) {
 
-        IPage<UserListVO> page = new Page<>(query.getPage(), query.getSize());
+        IPage<UserListVo> page = new Page<>(query.getPage(), query.getSize());
 
         return baseMapper.selectUserPageByRoleId(page,
                 Wrappers.query().eq("ur.role_id", roleId));
@@ -91,9 +91,9 @@ public class UserRoleServiceImpl extends QdBaseServiceImpl<UserRoleMapper, UserR
         return baseMapper.selectRoleNamesByUserId(idSet);
     }
 
-    private List<UserRoleDO> getUserRole(Long id, List<Long> idList) {
+    private List<UserRoleDo> getUserRole(Long id, List<Long> idList) {
         return idList.stream().map(item -> {
-                    UserRoleDO dataObj = new UserRoleDO();
+                    UserRoleDo dataObj = new UserRoleDo();
                     dataObj.setUserId(id);
                     dataObj.setRoleId(item);
                     return dataObj;

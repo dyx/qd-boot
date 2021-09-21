@@ -4,7 +4,7 @@ import com.lhd.qd.constant.CommonConsts;
 import com.lhd.qd.constant.RedisConsts;
 import com.lhd.qd.constant.dict.PageElementMethodEnum;
 import com.lhd.qd.module.sys.user.model.converter.AbstractUserConverter;
-import com.lhd.qd.module.sys.user.model.vo.UserCacheVO;
+import com.lhd.qd.module.sys.user.model.vo.UserCacheVo;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
@@ -24,10 +24,10 @@ public class UserUtils {
         return JwtUtils.parse(HttpUtils.getToken()).getClientId();
     }
 
-    public static UserCacheVO getCurrentUser() {
+    public static UserCacheVo getCurrentUser() {
 
         RedisUtils redisUtils = SpringUtils.getBean(RedisUtils.class);
-        UserCacheVO vo = AbstractUserConverter.INSTANCE.map2CacheVO(redisUtils.getHash(RedisConsts.getUserKey(getUserId())));
+        UserCacheVo vo = AbstractUserConverter.INSTANCE.map2CacheVo(redisUtils.getHash(RedisConsts.getUserKey(getUserId())));
 
         return vo;
     }

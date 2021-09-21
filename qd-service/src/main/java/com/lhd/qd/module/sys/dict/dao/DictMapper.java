@@ -1,7 +1,7 @@
 package com.lhd.qd.module.sys.dict.dao;
 
 import com.lhd.qd.base.QdBaseMapper;
-import com.lhd.qd.module.sys.dict.model.entity.DictDO;
+import com.lhd.qd.module.sys.dict.model.entity.DictDo;
 
 /**
  * <p>
@@ -11,6 +11,6 @@ import com.lhd.qd.module.sys.dict.model.entity.DictDO;
  * @author lhd
  * @since 2019-05-31
  */
-public interface DictMapper extends QdBaseMapper<DictDO> {
+public interface DictMapper extends QdBaseMapper<DictDo> {
 
 }

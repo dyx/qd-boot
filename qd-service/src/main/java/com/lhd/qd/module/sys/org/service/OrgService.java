@@ -1,6 +1,6 @@
 package com.lhd.qd.module.sys.org.service;
 
-import com.lhd.qd.module.sys.org.model.vo.OrgTreeVO;
+import com.lhd.qd.module.sys.org.model.vo.OrgTreeVo;
 
 import java.util.List;
 
@@ -18,5 +18,5 @@ public interface OrgService {
      * 组织树
      * @return
      */
-    List<OrgTreeVO> getTree();
+    List<OrgTreeVo> getTree();
 }

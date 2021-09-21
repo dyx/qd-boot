@@ -2,7 +2,7 @@ package com.lhd.qd.module.sys.org.dao;
 
 
 import com.lhd.qd.base.QdBaseMapper;
-import com.lhd.qd.module.sys.org.model.entity.DeptDO;
+import com.lhd.qd.module.sys.org.model.entity.DeptDo;
 import org.apache.ibatis.annotations.Param;
 
 /**
@@ -13,7 +13,7 @@ import org.apache.ibatis.annotations.Param;
  * @author lhd
  * @since 2019-07-12
  */
-public interface DeptMapper extends QdBaseMapper<DeptDO> {
+public interface DeptMapper extends QdBaseMapper<DeptDo> {
 
     /**
      * 删除本级及子级

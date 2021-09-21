@@ -1,11 +1,11 @@
 package com.lhd.qd.module.sys.role.service;
 
 import com.lhd.qd.base.QdBaseService;
-import com.lhd.qd.tree.AbstractTreeVO;
-import com.lhd.qd.module.sys.role.model.dto.RoleAssignResourceDTO;
-import com.lhd.qd.module.sys.role.model.entity.RoleResourceDO;
-import com.lhd.qd.module.sys.role.model.vo.RoleCheckedResourceVO;
-import com.lhd.qd.module.sys.role.model.vo.RoleResourceVO;
+import com.lhd.qd.tree.AbstractTreeVo;
+import com.lhd.qd.module.sys.role.model.dto.RoleAssignResourceDto;
+import com.lhd.qd.module.sys.role.model.entity.RoleResourceDo;
+import com.lhd.qd.module.sys.role.model.vo.RoleCheckedResourceVo;
+import com.lhd.qd.module.sys.role.model.vo.RoleResourceVo;
 
 import java.util.List;
 import java.util.Map;
@@ -18,14 +18,14 @@ import java.util.Map;
  * @author lhd
  * @since 2019-05-25
  */
-public interface RoleResourceService extends QdBaseService<RoleResourceDO> {
+public interface RoleResourceService extends QdBaseService<RoleResourceDo> {
 
     /**
      * 根据角色id列表获取菜单树
      * @param roleIdList
      * @return
      */
-    List<AbstractTreeVO> getMenuTreeByRoleIdList(List<Long> roleIdList);
+    List<AbstractTreeVo> getMenuTreeByRoleIdList(List<Long> roleIdList);
 
     /**
      * 根据角色获取页面元素
@@ -46,19 +46,19 @@ public interface RoleResourceService extends QdBaseService<RoleResourceDO> {
      * @param roleId
      * @return
      */
-    RoleResourceVO getResourceByRoleId(Long roleId);
+    RoleResourceVo getResourceByRoleId(Long roleId);
 
     /**
      * 获取角色下的资源，并设置选中状态
      * @param roleId
      * @return
      */
-    RoleCheckedResourceVO getCheckedResourceByRoleId(Long roleId);
+    RoleCheckedResourceVo getCheckedResourceByRoleId(Long roleId);
 
     /**
      * 分配角色资源
      * @param roleId
      * @param dto
      */
-    void updateRoleResource(Long roleId, RoleAssignResourceDTO dto);
+    void updateRoleResource(Long roleId, RoleAssignResourceDto dto);
 }

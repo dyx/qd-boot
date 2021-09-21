@@ -1,12 +1,11 @@
 package com.lhd.qd.util;
 
-import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.lhd.qd.constant.dict.DataObjEnum;
 import com.lhd.qd.constant.dict.DataPermissionTypeEnum;
 import com.lhd.qd.exception.BusinessException;
-import com.lhd.qd.module.sys.data.rule.model.dto.DataRuleDTO;
+import com.lhd.qd.module.sys.data.rule.model.dto.DataRuleDto;
 import com.lhd.qd.module.sys.data.rule.service.impl.DataRuleServiceImpl;
-import com.lhd.qd.module.sys.user.model.vo.UserCacheVO;
+import com.lhd.qd.module.sys.user.model.vo.UserCacheVo;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.*;
@@ -38,25 +37,13 @@ public class DataPermissionUtils {
      * @param dataObjEnum
      * @param userColumn
      * @param deptColumn
-     * @param <T>
-     * @return
-     */
-    public static <T> String getSql(DataObjEnum dataObjEnum, SFunction<T, ?> userColumn, SFunction<T, ?> deptColumn) {
-        return getSql(dataObjEnum, LambdaConvertUtils.lambdaToColumn(userColumn), LambdaConvertUtils.lambdaToColumn(deptColumn));
-    }
-
-    /**
-     * 获取权限拼接sql
-     * @param dataObjEnum
-     * @param userColumn
-     * @param deptColumn
      * @return
      */
     public static String getSql(DataObjEnum dataObjEnum, String userColumn, String deptColumn) {
 
-        UserCacheVO userCacheVO = UserUtils.getCurrentUser();
+        UserCacheVo userCacheVo = UserUtils.getCurrentUser();
         // 超级管理员为所有权限
-        if (SUPER_ADMIN_USER_ID.equals(userCacheVO.getId())) {
+        if (SUPER_ADMIN_USER_ID.equals(userCacheVo.getId())) {
             return ALL_PERM;
         }
 
@@ -64,14 +51,14 @@ public class DataPermissionUtils {
             throw new BusinessException("参数不能为空");
         }
 
-        DataRuleDTO dataRuleDTO = SpringUtils.getBean(DataRuleServiceImpl.class)
-                .getPermissionTypeList(dataObjEnum.getId(), userCacheVO.getRoleIdList());
-        if (dataRuleDTO == null) {
+        DataRuleDto dataRuleDto = SpringUtils.getBean(DataRuleServiceImpl.class)
+                .getPermissionTypeList(dataObjEnum.getId(), userCacheVo.getRoleIdList());
+        if (dataRuleDto == null) {
             throw new BusinessException("为查询到相关的数据权限配置");
         }
 
         String sql = "";
-        List<Integer> permissionTypeList = dataRuleDTO.getPermissionTypeList();
+        List<Integer> permissionTypeList = dataRuleDto.getPermissionTypeList();
         if (permissionTypeList != null && permissionTypeList.size() > 0) {
             // 有一个无权，全部无权
             if (permissionTypeList.contains(DataPermissionTypeEnum.NO_PERMISSION.getValue())) {
@@ -87,27 +74,27 @@ public class DataPermissionUtils {
             Integer maxPermissionType = Collections.max(permissionTypeList);
             if (COMPANY_AND_SUB_COMPANY.getValue().equals(maxPermissionType)) {
 
-                sql = getDeptSql(deptColumn, userCacheVO.getCompanyAndSubCompanyDeptIds());
+                sql = getDeptSql(deptColumn, userCacheVo.getCompanyAndSubCompanyDeptIds());
             } else if (COMPANY.getValue().equals(maxPermissionType)) {
 
-                sql = getDeptSql(deptColumn, userCacheVO.getCompanyDeptIds());
+                sql = getDeptSql(deptColumn, userCacheVo.getCompanyDeptIds());
             } else if (DataPermissionTypeEnum.DEPT_AND_SUB_DEPT.getValue().equals(maxPermissionType)) {
 
-                sql = getDeptSql(deptColumn, userCacheVO.getDeptAndSubDeptDeptIds());
+                sql = getDeptSql(deptColumn, userCacheVo.getDeptAndSubDeptDeptIds());
             } else if (DEPT.getValue().equals(maxPermissionType)) {
 
-                sql = String.format(" %s = '%s'", deptColumn, userCacheVO.getDeptId());
+                sql = String.format(" %s = '%s'", deptColumn, userCacheVo.getDeptId());
             } else if (OWNER.getValue().equals(maxPermissionType)) {
 
-                sql = String.format(" %s = '%s'", userColumn, userCacheVO.getId());
+                sql = String.format(" %s = '%s'", userColumn, userCacheVo.getId());
             }
         }
 
         // 自定义部门权限
-        if (StringUtils.isNotEmpty(dataRuleDTO.getCustomDeptIds())) {
+        if (StringUtils.isNotEmpty(dataRuleDto.getCustomDeptIds())) {
 
             sql += String.format(" %s %s", StringUtils.isNotEmpty(sql) ? "or" : "",
-                    getDeptSql(deptColumn, dataRuleDTO.getCustomDeptIds()));
+                    getDeptSql(deptColumn, dataRuleDto.getCustomDeptIds()));
         }
 
         return " (" + sql + ") ";
@@ -121,9 +108,9 @@ public class DataPermissionUtils {
      */
     public static void hasPerm(DataObjEnum dataObjEnum, Long ownerId, Long ownerDeptId) {
 
-        UserCacheVO userCacheVO = UserUtils.getCurrentUser();
+        UserCacheVo userCacheVo = UserUtils.getCurrentUser();
         // 超级管理员为所有权限
-        if (SUPER_ADMIN_USER_ID.equals(userCacheVO.getId())) {
+        if (SUPER_ADMIN_USER_ID.equals(userCacheVo.getId())) {
             return;
         }
 
@@ -131,14 +118,14 @@ public class DataPermissionUtils {
             throw new BusinessException("参数不能为空");
         }
 
-        DataRuleDTO dataRuleDTO = SpringUtils.getBean(DataRuleServiceImpl.class)
-                .getPermissionTypeList(dataObjEnum.getId(), userCacheVO.getRoleIdList());
-        if (dataRuleDTO == null) {
+        DataRuleDto dataRuleDto = SpringUtils.getBean(DataRuleServiceImpl.class)
+                .getPermissionTypeList(dataObjEnum.getId(), userCacheVo.getRoleIdList());
+        if (dataRuleDto == null) {
             throw new BusinessException("为查询到相关的数据权限配置");
         }
 
         Set<Long> deptIdSet = new HashSet<>();
-        List<Integer> permissionTypeList = dataRuleDTO.getPermissionTypeList();
+        List<Integer> permissionTypeList = dataRuleDto.getPermissionTypeList();
         if (permissionTypeList != null && permissionTypeList.size() > 0) {
             // 有一个无权，全部无权
             if (permissionTypeList.contains(DataPermissionTypeEnum.NO_PERMISSION.getValue())) {
@@ -154,25 +141,25 @@ public class DataPermissionUtils {
             Integer maxPermissionType = Collections.max(permissionTypeList);
             if (COMPANY_AND_SUB_COMPANY.getValue().equals(maxPermissionType)) {
 
-                appendDeptId(userCacheVO.getCompanyAndSubCompanyDeptIds(), deptIdSet);
+                appendDeptId(userCacheVo.getCompanyAndSubCompanyDeptIds(), deptIdSet);
             } else if (COMPANY.getValue().equals(maxPermissionType)) {
 
-                appendDeptId(userCacheVO.getCompanyDeptIds(), deptIdSet);
+                appendDeptId(userCacheVo.getCompanyDeptIds(), deptIdSet);
             } else if (DataPermissionTypeEnum.DEPT_AND_SUB_DEPT.getValue().equals(maxPermissionType)) {
 
-                appendDeptId(userCacheVO.getDeptAndSubDeptDeptIds(), deptIdSet);
+                appendDeptId(userCacheVo.getDeptAndSubDeptDeptIds(), deptIdSet);
             } else if (DEPT.getValue().equals(maxPermissionType)) {
-                deptIdSet.add(userCacheVO.getDeptId());
+                deptIdSet.add(userCacheVo.getDeptId());
             } else if (OWNER.getValue().equals(maxPermissionType)) {
 
-                if (!ownerDeptId.equals(userCacheVO.getId())) {
+                if (!ownerDeptId.equals(userCacheVo.getId())) {
                     throw new BusinessException("暂无该条记录的操作权限");
                 }
             }
         }
 
         // 自定义部门权限
-        appendDeptId(dataRuleDTO.getCustomDeptIds(), deptIdSet);
+        appendDeptId(dataRuleDto.getCustomDeptIds(), deptIdSet);
 
         if (!deptIdSet.contains(ownerDeptId)) {
             throw new BusinessException("暂无该条记录的操作权限");

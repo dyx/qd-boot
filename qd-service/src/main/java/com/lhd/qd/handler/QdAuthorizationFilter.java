@@ -3,7 +3,7 @@ package com.lhd.qd.handler;
 import com.lhd.qd.config.QdProperty;
 import com.lhd.qd.constant.http.ApiResult;
 import com.lhd.qd.constant.http.ErrorCodeEnum;
-import com.lhd.qd.module.sys.user.model.vo.UserCacheVO;
+import com.lhd.qd.module.sys.user.model.vo.UserCacheVo;
 import com.lhd.qd.util.HttpUtils;
 import com.lhd.qd.util.JacksonUtils;
 import com.lhd.qd.util.JwtUtils;
@@ -44,24 +44,24 @@ public class QdAuthorizationFilter implements Filter {
 
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
-        String requestURI = request.getRequestURI();
+        String requestUri = request.getRequestURI();
 
-        if (!isIgnoreUrl(requestURI)) {
+        if (!isIgnoreUrl(requestUri)) {
 
             try {
 
-                UserCacheVO userCacheVO = UserUtils.getCurrentUser();
+                UserCacheVo userCacheVo = UserUtils.getCurrentUser();
                 // 校验token
-                if (!JwtUtils.verify(HttpUtils.getToken(), userCacheVO.getSalt())) {
-                    log.debug("鉴权URL：{}", requestURI);
+                if (!JwtUtils.verify(HttpUtils.getToken(), userCacheVo.getSalt())) {
+                    log.debug("鉴权URL：{}", requestUri);
                     response.sendError(HttpStatus.UNAUTHORIZED.value());
                     return;
                 }
 
                 String method = request.getMethod();
                 // 校验权限
-                if (!UserUtils.hasPermission(method, requestURI)) {
-                    log.debug("鉴权权限：{}:{}", method, requestURI);
+                if (!UserUtils.hasPermission(method, requestUri)) {
+                    log.debug("鉴权权限：{}:{}", method, requestUri);
                     HttpUtils.setResponseBody(response, JacksonUtils.toStr(ApiResult.fail("暂无此功能权限")));
                     return;
                 }

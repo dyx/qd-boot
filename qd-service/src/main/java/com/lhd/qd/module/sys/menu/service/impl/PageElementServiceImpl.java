@@ -8,10 +8,10 @@ import com.lhd.qd.exception.BusinessException;
 import com.lhd.qd.module.sys.menu.dao.PageElementMapper;
 import com.lhd.qd.module.sys.menu.model.converter.AbstractPageElementConverter;
 import com.lhd.qd.module.sys.menu.model.dto.PageElementPageQuery;
-import com.lhd.qd.module.sys.menu.model.dto.PageElementSaveDTO;
-import com.lhd.qd.module.sys.menu.model.entity.PageElementDO;
-import com.lhd.qd.module.sys.menu.model.vo.PageElementDetailVO;
-import com.lhd.qd.module.sys.menu.model.vo.PageElementListVO;
+import com.lhd.qd.module.sys.menu.model.dto.PageElementSaveDto;
+import com.lhd.qd.module.sys.menu.model.entity.PageElementDo;
+import com.lhd.qd.module.sys.menu.model.vo.PageElementDetailVo;
+import com.lhd.qd.module.sys.menu.model.vo.PageElementListVo;
 import com.lhd.qd.module.sys.menu.service.PageElementService;
 import org.springframework.stereotype.Service;
 
@@ -24,43 +24,43 @@ import org.springframework.stereotype.Service;
  * @since 2019-05-25
  */
 @Service
-public class PageElementServiceImpl extends QdBaseServiceImpl<PageElementMapper, PageElementDO> implements PageElementService {
+public class PageElementServiceImpl extends QdBaseServiceImpl<PageElementMapper, PageElementDo> implements PageElementService {
 
     @Override
-    public IPage<PageElementListVO> pagePageElementByMenuId(Long menuId, PageElementPageQuery query) {
+    public IPage<PageElementListVo> pagePageElementByMenuId(Long menuId, PageElementPageQuery query) {
 
-        IPage<PageElementDO> doPage = this.page(new Page<>(query.getPage(), query.getSize()),
-                Wrappers.<PageElementDO>lambdaQuery().eq(PageElementDO::getMenuId, menuId));
+        IPage<PageElementDo> doPage = this.page(new Page<>(query.getPage(), query.getSize()),
+                Wrappers.<PageElementDo>lambdaQuery().eq(PageElementDo::getMenuId, menuId));
 
-        return AbstractPageElementConverter.INSTANCE.doPage2ListVOPage(doPage);
+        return AbstractPageElementConverter.INSTANCE.doPage2ListVoPage(doPage);
     }
 
     @Override
-    public PageElementDetailVO getPageElementById(Long id) {
+    public PageElementDetailVo getPageElementById(Long id) {
 
-        PageElementDO dataObj = getById(id);
+        PageElementDo dataObj = getById(id);
 
-        return AbstractPageElementConverter.INSTANCE.do2DetailVO(dataObj);
+        return AbstractPageElementConverter.INSTANCE.do2DetailVo(dataObj);
     }
 
     @Override
-    public void savePageElement(Long menuId, PageElementSaveDTO saveDTO) {
+    public void savePageElement(Long menuId, PageElementSaveDto saveDto) {
 
-        vaild(null, menuId, saveDTO);
+        valid(null, menuId, saveDto);
 
-        PageElementDO dataObj = AbstractPageElementConverter.INSTANCE.saveDTO2DO(saveDTO);
+        PageElementDo dataObj = AbstractPageElementConverter.INSTANCE.saveDto2Do(saveDto);
         dataObj.setMenuId(menuId);
         save(dataObj);
     }
 
     @Override
-    public void updatePageElement(Long id, PageElementSaveDTO saveDTO) {
+    public void updatePageElement(Long id, PageElementSaveDto saveDto) {
 
         Long menuId = getById(id).getMenuId();
 
-        vaild(id, menuId, saveDTO);
+        valid(id, menuId, saveDto);
 
-        PageElementDO dataObj = AbstractPageElementConverter.INSTANCE.saveDTO2DO(saveDTO);
+        PageElementDo dataObj = AbstractPageElementConverter.INSTANCE.saveDto2Do(saveDto);
         dataObj.setId(id);
         updateById(dataObj);
     }
@@ -68,25 +68,25 @@ public class PageElementServiceImpl extends QdBaseServiceImpl<PageElementMapper,
     @Override
     public void removePageElement(Long id) {
 
-        PageElementDO dataObj = new PageElementDO();
+        PageElementDo dataObj = new PageElementDo();
         dataObj.setId(id);
         removeByIdWithFill(dataObj);
     }
 
-    private void vaild(Long id, Long menuId, PageElementSaveDTO saveDTO) {
+    private void valid(Long id, Long menuId, PageElementSaveDto saveDto) {
 
-        boolean isExist = count(Wrappers.<PageElementDO>lambdaQuery()
-                .eq(PageElementDO::getMenuId, menuId)
-                .eq(PageElementDO::getElementCode, saveDTO.getElementCode())
-                .ne(id != null, PageElementDO::getId, id)) > 0;
+        boolean isExist = count(Wrappers.<PageElementDo>lambdaQuery()
+                .eq(PageElementDo::getMenuId, menuId)
+                .eq(PageElementDo::getElementCode, saveDto.getElementCode())
+                .ne(id != null, PageElementDo::getId, id)) > 0;
         if (isExist) {
             throw new BusinessException("编码在该菜单下已存在，请更换");
         }
 
-        isExist = count(Wrappers.<PageElementDO>lambdaQuery()
-                .eq(PageElementDO::getMenuId, menuId)
-                .eq(PageElementDO::getElementName, saveDTO.getElementName())
-                .ne(id != null, PageElementDO::getId, id)) > 0;
+        isExist = count(Wrappers.<PageElementDo>lambdaQuery()
+                .eq(PageElementDo::getMenuId, menuId)
+                .eq(PageElementDo::getElementName, saveDto.getElementName())
+                .ne(id != null, PageElementDo::getId, id)) > 0;
         if (isExist) {
             throw new BusinessException("名称在该菜单下已存在，请更换");
         }

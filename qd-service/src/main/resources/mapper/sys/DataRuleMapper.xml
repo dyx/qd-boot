@@ -2,12 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lhd.qd.module.sys.data.rule.dao.DataRuleMapper">
 
-    <select id="selectDataObjList" resultType="com.lhd.qd.module.sys.data.rule.model.dto.DataObjDTO">
+    <select id="selectDataObjList" resultType="com.lhd.qd.module.sys.data.rule.model.dto.DataObjDto">
         select id, obj_name objName
         from sys_data_obj
     </select>
 
-    <select id="selectDataPermList" resultType="com.lhd.qd.module.sys.data.rule.model.dto.DataRulePermDTO">
+    <select id="selectDataPermList" resultType="com.lhd.qd.module.sys.data.rule.model.dto.DataRulePermDto">
         select dict_value permissionType, dict_desc permissionTypeName
         from sys_dict
         where type_code = 'dataPermissionType' and is_deleted = 0

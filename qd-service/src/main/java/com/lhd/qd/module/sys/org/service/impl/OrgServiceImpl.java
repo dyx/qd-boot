@@ -2,8 +2,8 @@ package com.lhd.qd.module.sys.org.service.impl;
 
 import com.lhd.qd.module.sys.org.dao.OrgMapper;
 import com.lhd.qd.module.sys.org.model.converter.AbstractOrgConverter;
-import com.lhd.qd.module.sys.org.model.dto.OrgTreeDTO;
-import com.lhd.qd.module.sys.org.model.vo.OrgTreeVO;
+import com.lhd.qd.module.sys.org.model.dto.OrgTreeDto;
+import com.lhd.qd.module.sys.org.model.vo.OrgTreeVo;
 import com.lhd.qd.module.sys.org.service.OrgService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,24 +26,24 @@ public class OrgServiceImpl implements OrgService {
     private OrgMapper mapper;
 
     @Override
-    public List<OrgTreeVO> getTree() {
+    public List<OrgTreeVo> getTree() {
 
-        List<OrgTreeDTO> list = mapper.selectOrgTree();
+        List<OrgTreeDto> list = mapper.selectOrgTree();
 
         return buildTree(0L, list);
     }
 
-    private static List<OrgTreeVO> buildTree(Long parentId, List<OrgTreeDTO> dtoList) {
+    private static List<OrgTreeVo> buildTree(Long parentId, List<OrgTreeDto> dtoList) {
 
-        List<OrgTreeVO> treeList =  new ArrayList<>();
-        for (OrgTreeDTO dto : dtoList) {
+        List<OrgTreeVo> treeList =  new ArrayList<>();
+        for (OrgTreeDto dto : dtoList) {
 
             if (parentId.equals(dto.getParentId())) {
 
-                OrgTreeVO treeVO = AbstractOrgConverter.INSTANCE.dto2TreeVO(dto);
-                treeVO.setChildren(buildTree(dto.getId(), dtoList));
+                OrgTreeVo treeVo = AbstractOrgConverter.INSTANCE.dto2TreeVo(dto);
+                treeVo.setChildren(buildTree(dto.getId(), dtoList));
 
-                treeList.add(treeVO);
+                treeList.add(treeVo);
             }
         }
 

@@ -1,6 +1,6 @@
 package com.lhd.qd.util;
 
-import com.lhd.qd.tree.AbstractTreeVO;
+import com.lhd.qd.tree.AbstractTreeVo;
 import com.lhd.qd.tree.AbstractTreeVoFactory;
 import com.lhd.qd.tree.ITree;
 
@@ -23,15 +23,15 @@ public class TreeUtils {
      * @throws IllegalAccessException
      * @throws InstantiationException
      */
-    public static <T extends ITree> List<AbstractTreeVO> buildTree(Class<? extends AbstractTreeVoFactory> factoryClass,
+    public static <T extends ITree> List<AbstractTreeVo> buildTree(Class<? extends AbstractTreeVoFactory> factoryClass,
                                                                    Long parentId,
                                                                    List<T> entityList) throws IllegalAccessException, InstantiationException {
-        List<AbstractTreeVO> treeList =  new ArrayList<>();
+        List<AbstractTreeVo> treeList =  new ArrayList<>();
         for (T entity : entityList) {
 
             if (parentId.equals(entity.getParentId())) {
 
-                AbstractTreeVO vo = factoryClass.newInstance().produce(entity);
+                AbstractTreeVo vo = factoryClass.newInstance().produce(entity);
                 vo.setChildren(buildTree(factoryClass, entity.getId(), entityList));
 
                 treeList.add(vo);
@@ -41,7 +41,7 @@ public class TreeUtils {
         return treeList;
     }
 
-    private static Boolean isLeaf(List<AbstractTreeVO> list) {
+    private static Boolean isLeaf(List<AbstractTreeVo> list) {
         return list == null || list.size() == 0;
     }
 }

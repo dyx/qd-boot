@@ -5,19 +5,19 @@ import com.lhd.qd.base.QdBaseServiceImpl;
 import com.lhd.qd.constant.CommonConsts;
 import com.lhd.qd.constant.dict.ResourceTypeEnum;
 import com.lhd.qd.exception.BusinessException;
-import com.lhd.qd.module.sys.menu.model.entity.PageElementDO;
+import com.lhd.qd.module.sys.menu.model.entity.PageElementDo;
 import com.lhd.qd.module.sys.menu.model.factory.ResourceTreeVoFactory;
 import com.lhd.qd.module.sys.menu.model.factory.RouterTreeVoFactory;
 import com.lhd.qd.module.sys.role.dao.RoleResourceMapper;
-import com.lhd.qd.module.sys.role.model.dto.RoleAssignResourceDTO;
-import com.lhd.qd.module.sys.role.model.entity.RoleResourceDO;
+import com.lhd.qd.module.sys.role.model.dto.RoleAssignResourceDto;
+import com.lhd.qd.module.sys.role.model.entity.RoleResourceDo;
 import com.lhd.qd.module.sys.role.model.factory.RoleCheckedMenuTreeVoFactory;
 import com.lhd.qd.module.sys.role.model.factory.RoleResourceTreeVoFactory;
-import com.lhd.qd.module.sys.role.model.vo.RoleCheckedPageElementVO;
-import com.lhd.qd.module.sys.role.model.vo.RoleCheckedResourceVO;
-import com.lhd.qd.module.sys.role.model.vo.RoleResourceVO;
+import com.lhd.qd.module.sys.role.model.vo.RoleCheckedPageElementVo;
+import com.lhd.qd.module.sys.role.model.vo.RoleCheckedResourceVo;
+import com.lhd.qd.module.sys.role.model.vo.RoleResourceVo;
 import com.lhd.qd.module.sys.role.service.RoleResourceService;
-import com.lhd.qd.tree.AbstractTreeVO;
+import com.lhd.qd.tree.AbstractTreeVo;
 import com.lhd.qd.util.TreeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -33,10 +33,10 @@ import java.util.*;
  * @since 2019-05-25
  */
 @Service
-public class RoleResourceServiceImpl extends QdBaseServiceImpl<RoleResourceMapper, RoleResourceDO> implements RoleResourceService {
+public class RoleResourceServiceImpl extends QdBaseServiceImpl<RoleResourceMapper, RoleResourceDo> implements RoleResourceService {
 
     @Override
-    public List<AbstractTreeVO> getMenuTreeByRoleIdList(List<Long> roleIdList) {
+    public List<AbstractTreeVo> getMenuTreeByRoleIdList(List<Long> roleIdList) {
 
         try {
             return TreeUtils.buildTree(RouterTreeVoFactory.class, 0L, baseMapper.selectMenuListByRoleIdList(roleIdList));
@@ -50,8 +50,8 @@ public class RoleResourceServiceImpl extends QdBaseServiceImpl<RoleResourceMappe
 
         Map<Long, String[]> pageElementMap = new HashMap<>(16);
 
-        List<PageElementDO> doList = baseMapper.selectPageElementGroupByRoleIdList(roleIdList);
-        for (PageElementDO dataObj : doList) {
+        List<PageElementDo> doList = baseMapper.selectPageElementGroupByRoleIdList(roleIdList);
+        for (PageElementDo dataObj : doList) {
 
             if (StringUtils.isNotEmpty(dataObj.getElementCode())) {
                 pageElementMap.put(dataObj.getMenuId(), dataObj.getElementCode().split(","));
@@ -68,9 +68,9 @@ public class RoleResourceServiceImpl extends QdBaseServiceImpl<RoleResourceMappe
     }
 
     @Override
-    public RoleResourceVO getResourceByRoleId(Long roleId) {
+    public RoleResourceVo getResourceByRoleId(Long roleId) {
 
-        List<AbstractTreeVO> pageElementList;
+        List<AbstractTreeVo> pageElementList;
         try {
             pageElementList = TreeUtils.buildTree(RoleResourceTreeVoFactory.class, 0L,
                     baseMapper.selectPageElementAndMenuListByRoleId(roleId));
@@ -79,7 +79,7 @@ public class RoleResourceServiceImpl extends QdBaseServiceImpl<RoleResourceMappe
         }
 
 
-        List<AbstractTreeVO> menuList;
+        List<AbstractTreeVo> menuList;
         try {
             menuList = TreeUtils.buildTree(ResourceTreeVoFactory.class, 0L,
                     baseMapper.selectMenuListByRoleIdList(Collections.singletonList(roleId)));
@@ -87,17 +87,17 @@ public class RoleResourceServiceImpl extends QdBaseServiceImpl<RoleResourceMappe
             throw new BusinessException("构建菜单树异常", e);
         }
 
-        RoleResourceVO roleResourceVO = new RoleResourceVO();
-        roleResourceVO.setMenuList(menuList);
-        roleResourceVO.setPageElementList(pageElementList);
+        RoleResourceVo roleResourceVo = new RoleResourceVo();
+        roleResourceVo.setMenuList(menuList);
+        roleResourceVo.setPageElementList(pageElementList);
 
-        return roleResourceVO;
+        return roleResourceVo;
     }
 
     @Override
-    public RoleCheckedResourceVO getCheckedResourceByRoleId(Long roleId) {
+    public RoleCheckedResourceVo getCheckedResourceByRoleId(Long roleId) {
 
-        RoleCheckedResourceVO vo = new RoleCheckedResourceVO();
+        RoleCheckedResourceVo vo = new RoleCheckedResourceVo();
         vo.setMenuList(getCheckedMenuTreeByRoleId(roleId));
         vo.setPageElementMap(getPageElementCheckedListByRoleId(roleId));
 
@@ -105,16 +105,16 @@ public class RoleResourceServiceImpl extends QdBaseServiceImpl<RoleResourceMappe
     }
 
     @Override
-    public void updateRoleResource(Long roleId, RoleAssignResourceDTO dto) {
+    public void updateRoleResource(Long roleId, RoleAssignResourceDto dto) {
 
-        remove(Wrappers.<RoleResourceDO>lambdaQuery().eq(RoleResourceDO::getRoleId, roleId));
+        remove(Wrappers.<RoleResourceDo>lambdaQuery().eq(RoleResourceDo::getRoleId, roleId));
 
-        List<RoleResourceDO> doList = new ArrayList<>();
+        List<RoleResourceDo> doList = new ArrayList<>();
 
         List<Long> menuList = dto.getMenuList();
         if (menuList !=null && menuList.size() > 0) {
             menuList.forEach(item -> {
-                RoleResourceDO dataObj = new RoleResourceDO();
+                RoleResourceDo dataObj = new RoleResourceDo();
                 dataObj.setRoleId(roleId);
                 dataObj.setResourceId(item);
                 dataObj.setResourceType(ResourceTypeEnum.MENU.getValue());
@@ -125,7 +125,7 @@ public class RoleResourceServiceImpl extends QdBaseServiceImpl<RoleResourceMappe
         List<Long> pageElementList = dto.getPageElementList();
         if (pageElementList !=null && pageElementList.size() > 0) {
             pageElementList.forEach(item -> {
-                RoleResourceDO dataObj = new RoleResourceDO();
+                RoleResourceDo dataObj = new RoleResourceDo();
                 dataObj.setRoleId(roleId);
                 dataObj.setResourceId(item);
                 dataObj.setResourceType(ResourceTypeEnum.PAGE_ELEMENT.getValue());
@@ -136,7 +136,7 @@ public class RoleResourceServiceImpl extends QdBaseServiceImpl<RoleResourceMappe
         saveBatch(doList);
     }
 
-    private List<AbstractTreeVO> getCheckedMenuTreeByRoleId(Long roleId) {
+    private List<AbstractTreeVo> getCheckedMenuTreeByRoleId(Long roleId) {
 
         try {
             return TreeUtils.buildTree(RoleCheckedMenuTreeVoFactory.class, 0L, baseMapper.selectCheckedMenuByRoleId(roleId));
@@ -145,14 +145,14 @@ public class RoleResourceServiceImpl extends QdBaseServiceImpl<RoleResourceMappe
         }
     }
 
-    private Map<Long, List<RoleCheckedPageElementVO>> getPageElementCheckedListByRoleId(Long roleId) {
+    private Map<Long, List<RoleCheckedPageElementVo>> getPageElementCheckedListByRoleId(Long roleId) {
 
-        Map<Long, List<RoleCheckedPageElementVO>> pageElementMap = new HashMap<>(16);
+        Map<Long, List<RoleCheckedPageElementVo>> pageElementMap = new HashMap<>(16);
 
-        List<RoleCheckedPageElementVO> voList = baseMapper.selectCheckedPageElementByRoleId(roleId);
-        for (RoleCheckedPageElementVO vo : voList) {
+        List<RoleCheckedPageElementVo> voList = baseMapper.selectCheckedPageElementByRoleId(roleId);
+        for (RoleCheckedPageElementVo vo : voList) {
 
-            List<RoleCheckedPageElementVO> list = pageElementMap.computeIfAbsent(vo.getMenuId(), key -> new ArrayList<>());
+            List<RoleCheckedPageElementVo> list = pageElementMap.computeIfAbsent(vo.getMenuId(), key -> new ArrayList<>());
             list.add(vo);
         }
 

@@ -4,22 +4,18 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.lhd.qd.base.QdBaseDO;
+import com.lhd.qd.base.QdBaseDo;
 import com.lhd.qd.base.QdBaseServiceImpl;
 import com.lhd.qd.exception.BusinessException;
 import com.lhd.qd.module.sys.dict.dao.DictTypeMapper;
 import com.lhd.qd.module.sys.dict.model.converter.AbstractDictTypeConverter;
 import com.lhd.qd.module.sys.dict.model.dto.DictTypePageQuery;
-import com.lhd.qd.module.sys.dict.model.dto.DictTypeSaveDTO;
-import com.lhd.qd.module.sys.dict.model.entity.DictTypeDO;
-import com.lhd.qd.module.sys.dict.model.vo.DictTypeDetailVO;
-import com.lhd.qd.module.sys.dict.model.vo.DictTypeListVO;
+import com.lhd.qd.module.sys.dict.model.dto.DictTypeSaveDto;
+import com.lhd.qd.module.sys.dict.model.entity.DictTypeDo;
+import com.lhd.qd.module.sys.dict.model.vo.DictTypeDetailVo;
+import com.lhd.qd.module.sys.dict.model.vo.DictTypeListVo;
 import com.lhd.qd.module.sys.dict.service.DictService;
 import com.lhd.qd.module.sys.dict.service.DictTypeService;
-import com.lhd.qd.module.sys.trans.model.dto.TransDTO;
-import com.lhd.qd.module.sys.trans.model.vo.TransVO;
-import com.lhd.qd.module.sys.trans.service.TransService;
-import com.lhd.qd.module.sys.trans.util.SysTransDtoUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,57 +34,54 @@ import static java.util.stream.Collectors.toSet;
  * @since 2019-06-01
  */
 @Service
-public class DictTypeServiceImpl extends QdBaseServiceImpl<DictTypeMapper, DictTypeDO> implements DictTypeService {
+public class DictTypeServiceImpl extends QdBaseServiceImpl<DictTypeMapper, DictTypeDo> implements DictTypeService {
 
     @Autowired
     private DictService dictService;
 
-    @Autowired
-    private TransService transService;
-
     @Override
-    public IPage<DictTypeListVO> pageDictType(DictTypePageQuery query) {
+    public IPage<DictTypeListVo> pageDictType(DictTypePageQuery query) {
 
-        IPage<DictTypeDO> doPage = this.page(new Page<>(query.getPage(), query.getSize()),
-                Wrappers.<DictTypeDO>lambdaQuery()
-                        .like(StringUtils.isNotEmpty(query.getTypeCode()), DictTypeDO::getTypeCode, query.getTypeCode())
-                        .like(StringUtils.isNotEmpty(query.getTypeDesc()), DictTypeDO::getTypeDesc, query.getTypeDesc()));
+        IPage<DictTypeDo> doPage = this.page(new Page<>(query.getPage(), query.getSize()),
+                Wrappers.<DictTypeDo>lambdaQuery()
+                        .like(StringUtils.isNotEmpty(query.getTypeCode()), DictTypeDo::getTypeCode, query.getTypeCode())
+                        .like(StringUtils.isNotEmpty(query.getTypeDesc()), DictTypeDo::getTypeDesc, query.getTypeDesc()));
 
-        return AbstractDictTypeConverter.INSTANCE.doPage2ListVOPage(doPage);
+        return AbstractDictTypeConverter.INSTANCE.doPage2ListVoPage(doPage);
     }
 
     @Override
-    public DictTypeDetailVO getDictTypeById(Long id) {
+    public DictTypeDetailVo getDictTypeById(Long id) {
 
-        DictTypeDO dataObj = getById(id);
+        DictTypeDo dataObj = getById(id);
 
-        return AbstractDictTypeConverter.INSTANCE.do2DetailVO(dataObj, getTransVO(Collections.singletonList(dataObj)));
+        return AbstractDictTypeConverter.INSTANCE.do2DetailVo(dataObj);
     }
 
     @Override
     public Boolean isExistByCode(String typeCode) {
-        return count(Wrappers.<DictTypeDO>lambdaQuery().eq(DictTypeDO::getTypeCode, typeCode)) > 0;
+        return count(Wrappers.<DictTypeDo>lambdaQuery().eq(DictTypeDo::getTypeCode, typeCode)) > 0;
     }
 
     @Override
-    public void saveDictType(DictTypeSaveDTO saveDTO) {
+    public void saveDictType(DictTypeSaveDto saveDto) {
 
-        vaild(null, saveDTO);
+        valid(null, saveDto);
 
-        DictTypeDO dataObj = AbstractDictTypeConverter.INSTANCE.saveDTO2DO(saveDTO);
+        DictTypeDo dataObj = AbstractDictTypeConverter.INSTANCE.saveDto2Do(saveDto);
         save(dataObj);
     }
 
     @Override
-    public void updateDictType(Long id, DictTypeSaveDTO saveDTO) {
+    public void updateDictType(Long id, DictTypeSaveDto saveDto) {
 
-        vaild(id, saveDTO);
+        valid(id, saveDto);
 
-        DictTypeDO dataObj = AbstractDictTypeConverter.INSTANCE.saveDTO2DO(saveDTO);
+        DictTypeDo dataObj = AbstractDictTypeConverter.INSTANCE.saveDto2Do(saveDto);
         dataObj.setId(id);
         updateById(dataObj);
 
-        dictService.updateDictCache(saveDTO.getTypeCode());
+        dictService.updateDictCache(saveDto.getTypeCode());
     }
 
     @Override
@@ -96,29 +89,20 @@ public class DictTypeServiceImpl extends QdBaseServiceImpl<DictTypeMapper, DictT
 
         String typeCode = getById(id).getTypeCode();
 
-        DictTypeDO dataObj = new DictTypeDO();
+        DictTypeDo dataObj = new DictTypeDo();
         dataObj.setId(id);
         removeByIdWithFill(dataObj);
 
         dictService.removeDictByTypeCode(typeCode);
     }
 
-    private void vaild(Long id, DictTypeSaveDTO saveDTO) {
+    private void valid(Long id, DictTypeSaveDto saveDto) {
 
-        Integer count = count(Wrappers.<DictTypeDO>lambdaQuery()
-                .eq(DictTypeDO::getTypeCode, saveDTO.getTypeCode())
-                .ne(id != null, DictTypeDO::getId, id));
+        Long count = count(Wrappers.<DictTypeDo>lambdaQuery()
+                .eq(DictTypeDo::getTypeCode, saveDto.getTypeCode())
+                .ne(id != null, DictTypeDo::getId, id));
         if (count > 0) {
             throw new BusinessException("编码已存在，请更换。");
         }
-    }
-
-    private List<TransVO> getTransVO(List<DictTypeDO> doList) {
-
-        List<TransDTO> dtoList = new ArrayList<>();
-        dtoList.add(SysTransDtoUtils.transCreateUser(doList.stream().map(QdBaseDO::getCreateUserId).collect(toSet())));
-        dtoList.add(SysTransDtoUtils.transUpdateUser(doList.stream().map(QdBaseDO::getUpdateUserId).collect(toSet())));
-
-        return transService.getTransValue(dtoList);
     }
 }

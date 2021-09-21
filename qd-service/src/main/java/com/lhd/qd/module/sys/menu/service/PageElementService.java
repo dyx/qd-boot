@@ -3,10 +3,10 @@ package com.lhd.qd.module.sys.menu.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lhd.qd.base.QdBaseService;
 import com.lhd.qd.module.sys.menu.model.dto.PageElementPageQuery;
-import com.lhd.qd.module.sys.menu.model.dto.PageElementSaveDTO;
-import com.lhd.qd.module.sys.menu.model.entity.PageElementDO;
-import com.lhd.qd.module.sys.menu.model.vo.PageElementDetailVO;
-import com.lhd.qd.module.sys.menu.model.vo.PageElementListVO;
+import com.lhd.qd.module.sys.menu.model.dto.PageElementSaveDto;
+import com.lhd.qd.module.sys.menu.model.entity.PageElementDo;
+import com.lhd.qd.module.sys.menu.model.vo.PageElementDetailVo;
+import com.lhd.qd.module.sys.menu.model.vo.PageElementListVo;
 
 /**
  * <p>
@@ -16,7 +16,7 @@ import com.lhd.qd.module.sys.menu.model.vo.PageElementListVO;
  * @author lhd
  * @since 2019-05-25
  */
-public interface PageElementService extends QdBaseService<PageElementDO> {
+public interface PageElementService extends QdBaseService<PageElementDo> {
 
     /**
      * 页面元素分页列表
@@ -24,28 +24,28 @@ public interface PageElementService extends QdBaseService<PageElementDO> {
      * @param query
      * @return
      */
-    IPage<PageElementListVO> pagePageElementByMenuId(Long menuId, PageElementPageQuery query);
+    IPage<PageElementListVo> pagePageElementByMenuId(Long menuId, PageElementPageQuery query);
 
     /**
      * 页面元素详情
      * @param id
      * @return
      */
-    PageElementDetailVO getPageElementById(Long id);
+    PageElementDetailVo getPageElementById(Long id);
 
     /**
      * 新增页面元素
      * @param menuId
-     * @param saveDTO
+     * @param saveDto
      */
-    void savePageElement(Long menuId, PageElementSaveDTO saveDTO);
+    void savePageElement(Long menuId, PageElementSaveDto saveDto);
 
     /**
      * 修改页面元素
      * @param id
-     * @param saveDTO
+     * @param saveDto
      */
-    void updatePageElement(Long id, PageElementSaveDTO saveDTO);
+    void updatePageElement(Long id, PageElementSaveDto saveDto);
 
     /**
      * 删除页面元素

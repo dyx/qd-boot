@@ -4,10 +4,10 @@ import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Constants;
 import com.lhd.qd.base.QdBaseMapper;
-import com.lhd.qd.module.sys.user.model.entity.UserRoleDO;
-import com.lhd.qd.module.sys.user.model.vo.UserAssignRoleVO;
-import com.lhd.qd.module.sys.user.model.vo.UserListVO;
-import com.lhd.qd.module.sys.user.model.vo.UserRoleVO;
+import com.lhd.qd.module.sys.user.model.entity.UserRoleDo;
+import com.lhd.qd.module.sys.user.model.vo.UserAssignRoleVo;
+import com.lhd.qd.module.sys.user.model.vo.UserListVo;
+import com.lhd.qd.module.sys.user.model.vo.UserRoleVo;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -22,21 +22,21 @@ import java.util.Set;
  * @author lhd
  * @since 2019-05-24
  */
-public interface UserRoleMapper extends QdBaseMapper<UserRoleDO> {
+public interface UserRoleMapper extends QdBaseMapper<UserRoleDo> {
 
     /**
      * 根据用户id查询角色列表
      * @param userId
      * @return
      */
-    List<UserRoleVO> selectRoleListByUserId(Long userId);
+    List<UserRoleVo> selectRoleListByUserId(Long userId);
 
     /**
      * 获取所有角色，并设置用户的角色为选中状态
      * @param userId
      * @return
      */
-    List<UserAssignRoleVO> selectRoleListWithChecked(Long userId);
+    List<UserAssignRoleVo> selectRoleListWithChecked(Long userId);
 
     /**
      * 根据角色获取用户
@@ -44,7 +44,7 @@ public interface UserRoleMapper extends QdBaseMapper<UserRoleDO> {
      * @param queryWrapper
      * @return
      */
-    IPage<UserListVO> selectUserPageByRoleId(IPage<UserListVO> page, @Param(Constants.WRAPPER) Wrapper queryWrapper);
+    IPage<UserListVo> selectUserPageByRoleId(IPage<UserListVo> page, @Param(Constants.WRAPPER) Wrapper queryWrapper);
 
     /**
      * 获取用户所有角色，使用逗号分隔

@@ -2,10 +2,10 @@ package com.lhd.qd.module.sys.menu.model.converter;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.lhd.qd.module.sys.menu.model.dto.PageElementSaveDTO;
-import com.lhd.qd.module.sys.menu.model.entity.PageElementDO;
-import com.lhd.qd.module.sys.menu.model.vo.PageElementDetailVO;
-import com.lhd.qd.module.sys.menu.model.vo.PageElementListVO;
+import com.lhd.qd.module.sys.menu.model.dto.PageElementSaveDto;
+import com.lhd.qd.module.sys.menu.model.entity.PageElementDo;
+import com.lhd.qd.module.sys.menu.model.vo.PageElementDetailVo;
+import com.lhd.qd.module.sys.menu.model.vo.PageElementListVo;
 import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
@@ -25,26 +25,26 @@ public abstract class AbstractPageElementConverter {
      * @return
      */
     @BeanMapping(resultType = Page.class)
-    public abstract IPage<PageElementListVO> doPage2ListVOPage(IPage<PageElementDO> doPage);
+    public abstract IPage<PageElementListVo> doPage2ListVoPage(IPage<PageElementDo> doPage);
 
     /**
      * do 转换为 列表vo
      * @param dataObj
      * @return
      */
-    public abstract PageElementListVO do2ListVO(PageElementDO dataObj);
+    public abstract PageElementListVo do2ListVo(PageElementDo dataObj);
 
     /**
      * do 转换为 详情vo
      * @param dataObj
      * @return
      */
-    public abstract PageElementDetailVO do2DetailVO(PageElementDO dataObj);
+    public abstract PageElementDetailVo do2DetailVo(PageElementDo dataObj);
 
     /**
      * 新增dto 转换为 do
-     * @param saveDTO
+     * @param saveDto
      * @return
      */
-    public abstract PageElementDO saveDTO2DO(PageElementSaveDTO saveDTO);
+    public abstract PageElementDo saveDto2Do(PageElementSaveDto saveDto);
 }

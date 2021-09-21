@@ -9,10 +9,10 @@ import com.lhd.qd.exception.BusinessException;
 import com.lhd.qd.module.sys.role.dao.RoleMapper;
 import com.lhd.qd.module.sys.role.model.converter.AbstractRoleConverter;
 import com.lhd.qd.module.sys.role.model.dto.RolePageQuery;
-import com.lhd.qd.module.sys.role.model.dto.RoleSaveDTO;
-import com.lhd.qd.module.sys.role.model.entity.RoleDO;
-import com.lhd.qd.module.sys.role.model.vo.RoleDetailVO;
-import com.lhd.qd.module.sys.role.model.vo.RoleListVO;
+import com.lhd.qd.module.sys.role.model.dto.RoleSaveDto;
+import com.lhd.qd.module.sys.role.model.entity.RoleDo;
+import com.lhd.qd.module.sys.role.model.vo.RoleDetailVo;
+import com.lhd.qd.module.sys.role.model.vo.RoleListVo;
 import com.lhd.qd.module.sys.role.service.RoleService;
 import org.springframework.stereotype.Service;
 
@@ -25,41 +25,41 @@ import org.springframework.stereotype.Service;
  * @since 2019-05-23
  */
 @Service
-public class RoleServiceImpl extends QdBaseServiceImpl<RoleMapper, RoleDO> implements RoleService {
+public class RoleServiceImpl extends QdBaseServiceImpl<RoleMapper, RoleDo> implements RoleService {
 
     @Override
-    public IPage<RoleListVO> pageRole(RolePageQuery query) {
+    public IPage<RoleListVo> pageRole(RolePageQuery query) {
 
-        IPage<RoleDO> doPage = this.page(new Page<>(query.getPage(), query.getSize()),
-                Wrappers.<RoleDO>lambdaQuery()
-                        .like(StringUtils.isNotEmpty(query.getRoleName()), RoleDO::getRoleName, query.getRoleName()));
+        IPage<RoleDo> doPage = this.page(new Page<>(query.getPage(), query.getSize()),
+                Wrappers.<RoleDo>lambdaQuery()
+                        .like(StringUtils.isNotEmpty(query.getRoleName()), RoleDo::getRoleName, query.getRoleName()));
 
-        return AbstractRoleConverter.INSTANCE.doPage2ListVOPage(doPage);
+        return AbstractRoleConverter.INSTANCE.doPage2ListVoPage(doPage);
     }
 
     @Override
-    public RoleDetailVO getRoleById(Long id) {
+    public RoleDetailVo getRoleById(Long id) {
 
-        RoleDO dataObj = getById(id);
+        RoleDo dataObj = getById(id);
 
-        return AbstractRoleConverter.INSTANCE.do2DetailVO(dataObj);
+        return AbstractRoleConverter.INSTANCE.do2DetailVo(dataObj);
     }
 
     @Override
-    public void saveRole(RoleSaveDTO saveDTO) {
+    public void saveRole(RoleSaveDto saveDto) {
 
-        valid(null, saveDTO);
+        valid(null, saveDto);
 
-        RoleDO dataObj = AbstractRoleConverter.INSTANCE.saveDTO2DO(saveDTO);
+        RoleDo dataObj = AbstractRoleConverter.INSTANCE.saveDto2Do(saveDto);
         save(dataObj);
     }
 
     @Override
-    public void updateRole(Long id, RoleSaveDTO saveDTO) {
+    public void updateRole(Long id, RoleSaveDto saveDto) {
 
-        valid(id, saveDTO);
+        valid(id, saveDto);
 
-        RoleDO dataObj = AbstractRoleConverter.INSTANCE.saveDTO2DO(saveDTO);
+        RoleDo dataObj = AbstractRoleConverter.INSTANCE.saveDto2Do(saveDto);
         dataObj.setId(id);
         updateById(dataObj);
     }
@@ -67,15 +67,15 @@ public class RoleServiceImpl extends QdBaseServiceImpl<RoleMapper, RoleDO> imple
     @Override
     public void removeRole(Long id) {
 
-        RoleDO dataObj = new RoleDO();
+        RoleDo dataObj = new RoleDo();
         dataObj.setId(id);
         removeByIdWithFill(dataObj);
     }
 
-    public void valid(Long id, RoleSaveDTO saveDTO) {
-        Integer count = count(Wrappers.<RoleDO>lambdaQuery()
-                .eq(RoleDO::getRoleName, saveDTO.getRoleName())
-                .ne(id != null, RoleDO::getId, id));
+    public void valid(Long id, RoleSaveDto saveDto) {
+        Long count = count(Wrappers.<RoleDo>lambdaQuery()
+                .eq(RoleDo::getRoleName, saveDto.getRoleName())
+                .ne(id != null, RoleDo::getId, id));
         if (count > 0) {
             throw new BusinessException("角色名称已存在，请更换。");
         }

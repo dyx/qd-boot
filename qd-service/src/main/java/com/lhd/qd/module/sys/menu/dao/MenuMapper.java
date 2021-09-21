@@ -1,7 +1,7 @@
 package com.lhd.qd.module.sys.menu.dao;
 
 import com.lhd.qd.base.QdBaseMapper;
-import com.lhd.qd.module.sys.menu.model.entity.MenuDO;
+import com.lhd.qd.module.sys.menu.model.entity.MenuDo;
 
 /**
  * <p>
@@ -11,6 +11,6 @@ import com.lhd.qd.module.sys.menu.model.entity.MenuDO;
  * @author lhd
  * @since 2019-05-25
  */
-public interface MenuMapper extends QdBaseMapper<MenuDO> {
+public interface MenuMapper extends QdBaseMapper<MenuDo> {
 
 }

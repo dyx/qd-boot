@@ -1,8 +1,8 @@
 package com.lhd.qd.module.sys.org.dao;
 
 import com.lhd.qd.base.QdBaseMapper;
-import com.lhd.qd.module.sys.org.model.dto.OrgTreeDTO;
-import com.lhd.qd.module.sys.org.model.entity.CompanyDO;
+import com.lhd.qd.module.sys.org.model.dto.OrgTreeDto;
+import com.lhd.qd.module.sys.org.model.entity.CompanyDo;
 
 import java.util.List;
 
@@ -14,11 +14,11 @@ import java.util.List;
  * @author lhd
  * @since 2019-07-12
  */
-public interface OrgMapper extends QdBaseMapper<CompanyDO> {
+public interface OrgMapper extends QdBaseMapper<CompanyDo> {
 
     /**
      * 组织树
      * @return
      */
-    List<OrgTreeDTO> selectOrgTree();
+    List<OrgTreeDto> selectOrgTree();
 }

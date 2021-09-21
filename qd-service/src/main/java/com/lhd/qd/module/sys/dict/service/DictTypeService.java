@@ -3,10 +3,10 @@ package com.lhd.qd.module.sys.dict.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lhd.qd.base.QdBaseService;
 import com.lhd.qd.module.sys.dict.model.dto.DictTypePageQuery;
-import com.lhd.qd.module.sys.dict.model.dto.DictTypeSaveDTO;
-import com.lhd.qd.module.sys.dict.model.entity.DictTypeDO;
-import com.lhd.qd.module.sys.dict.model.vo.DictTypeDetailVO;
-import com.lhd.qd.module.sys.dict.model.vo.DictTypeListVO;
+import com.lhd.qd.module.sys.dict.model.dto.DictTypeSaveDto;
+import com.lhd.qd.module.sys.dict.model.entity.DictTypeDo;
+import com.lhd.qd.module.sys.dict.model.vo.DictTypeDetailVo;
+import com.lhd.qd.module.sys.dict.model.vo.DictTypeListVo;
 
 /**
  * <p>
@@ -16,21 +16,21 @@ import com.lhd.qd.module.sys.dict.model.vo.DictTypeListVO;
  * @author lhd
  * @since 2019-06-01
  */
-public interface DictTypeService extends QdBaseService<DictTypeDO> {
+public interface DictTypeService extends QdBaseService<DictTypeDo> {
 
     /**
      * 字典类型分页列表
      * @param query
      * @return
      */
-    IPage<DictTypeListVO> pageDictType(DictTypePageQuery query);
+    IPage<DictTypeListVo> pageDictType(DictTypePageQuery query);
 
     /**
      * 字典类型详情
      * @param id
      * @return
      */
-    DictTypeDetailVO getDictTypeById(Long id);
+    DictTypeDetailVo getDictTypeById(Long id);
 
     /**
      * 编码是否存在
@@ -41,16 +41,16 @@ public interface DictTypeService extends QdBaseService<DictTypeDO> {
 
     /**
      * 新增字典类型
-     * @param saveDTO
+     * @param saveDto
      */
-    void saveDictType(DictTypeSaveDTO saveDTO);
+    void saveDictType(DictTypeSaveDto saveDto);
 
     /**
      * 修改字典类型
      * @param id
-     * @param saveDTO
+     * @param saveDto
      */
-    void updateDictType(Long id, DictTypeSaveDTO saveDTO);
+    void updateDictType(Long id, DictTypeSaveDto saveDto);
 
     /**
      * 删除字典类型

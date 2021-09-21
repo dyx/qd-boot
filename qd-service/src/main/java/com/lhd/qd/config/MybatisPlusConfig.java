@@ -1,15 +1,12 @@
 package com.lhd.qd.config;
 
-import com.baomidou.mybatisplus.core.injector.AbstractMethod;
-import com.baomidou.mybatisplus.core.injector.DefaultSqlInjector;
+import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.core.injector.ISqlInjector;
-import com.baomidou.mybatisplus.extension.injector.methods.additional.LogicDeleteByIdWithFill;
-import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
-import com.lhd.qd.handler.LogicDeleteByIdsWithFill;
+import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
+import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
+import com.lhd.qd.handler.QdSqlInjector;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import java.util.List;
 
 /**
  * @author lhd
@@ -17,13 +14,14 @@ import java.util.List;
 @Configuration
 public class MybatisPlusConfig {
 
-    /**
-     * 分页插件
-     * @return
-     */
+
     @Bean
-    public PaginationInterceptor paginationInterceptor() {
-        return new PaginationInterceptor();
+    public MybatisPlusInterceptor mybatisPlusInterceptor() {
+        MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
+        PaginationInnerInterceptor paginationInnerInterceptor = new PaginationInnerInterceptor(DbType.MYSQL);
+        paginationInnerInterceptor.setOptimizeJoin(false);
+        interceptor.addInnerInterceptor(paginationInnerInterceptor);
+        return interceptor;
     }
 
     /**
@@ -32,18 +30,6 @@ public class MybatisPlusConfig {
      */
     @Bean
     public ISqlInjector sqlInjector() {
-
-        return new DefaultSqlInjector() {
-            /**
-             * 注入自定义全局方法
-             */
-            @Override
-            public List<AbstractMethod> getMethodList(Class<?> mapperClass) {
-                List<AbstractMethod> methodList = super.getMethodList(mapperClass);
-                methodList.add(new LogicDeleteByIdWithFill());
-                methodList.add(new LogicDeleteByIdsWithFill());
-                return methodList;
-            }
-        };
+        return new QdSqlInjector();
     }
 }

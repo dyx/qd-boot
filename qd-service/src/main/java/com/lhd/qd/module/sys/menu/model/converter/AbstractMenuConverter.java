@@ -2,12 +2,12 @@ package com.lhd.qd.module.sys.menu.model.converter;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.lhd.qd.module.sys.menu.model.dto.MenuSaveDTO;
-import com.lhd.qd.module.sys.menu.model.entity.MenuDO;
-import com.lhd.qd.module.sys.menu.model.vo.MenuDetailVO;
-import com.lhd.qd.module.sys.menu.model.vo.MenuListVO;
-import com.lhd.qd.module.sys.menu.model.vo.ResourceTreeVO;
-import com.lhd.qd.module.sys.menu.model.vo.RouterTreeVO;
+import com.lhd.qd.module.sys.menu.model.dto.MenuSaveDto;
+import com.lhd.qd.module.sys.menu.model.entity.MenuDo;
+import com.lhd.qd.module.sys.menu.model.vo.MenuDetailVo;
+import com.lhd.qd.module.sys.menu.model.vo.MenuListVo;
+import com.lhd.qd.module.sys.menu.model.vo.ResourceTreeVo;
+import com.lhd.qd.module.sys.menu.model.vo.RouterTreeVo;
 import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -28,28 +28,28 @@ public abstract class AbstractMenuConverter {
      * @return
      */
     @BeanMapping(resultType = Page.class)
-    public abstract IPage<MenuListVO> doPage2ListVOPage(IPage<MenuDO> doPage);
+    public abstract IPage<MenuListVo> doPage2ListVoPage(IPage<MenuDo> doPage);
 
     /**
      * do 转换为 列表vo
      * @param dataObj
      * @return
      */
-    public abstract MenuListVO do2ListVO(MenuDO dataObj);
+    public abstract MenuListVo do2ListVo(MenuDo dataObj);
 
     /**
      * do 转换为 详情vo
      * @param dataObj
      * @return
      */
-    public abstract MenuDetailVO do2DetailVO(MenuDO dataObj);
+    public abstract MenuDetailVo do2DetailVo(MenuDo dataObj);
 
     /**
      * do 转换为 路由树vo
      * @param dataObj
      * @return
      */
-    public abstract RouterTreeVO do2RouterTreeVO(MenuDO dataObj);
+    public abstract RouterTreeVo do2RouterTreeVo(MenuDo dataObj);
 
     /**
      * do 转换为 资源树vo
@@ -57,13 +57,13 @@ public abstract class AbstractMenuConverter {
      * @return
      */
     @Mapping(target = "title", source = "menuName")
-    public abstract ResourceTreeVO do2ResourceTreeVO(MenuDO dataObj);
+    public abstract ResourceTreeVo do2ResourceTreeVo(MenuDo dataObj);
 
 
     /**
      * 新增dto 转换为 do
-     * @param saveDTO
+     * @param saveDto
      * @return
      */
-    public abstract MenuDO saveDTO2DO(MenuSaveDTO saveDTO);
+    public abstract MenuDo saveDto2Do(MenuSaveDto saveDto);
 }

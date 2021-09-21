@@ -2,8 +2,8 @@ package com.lhd.qd.module.sys.login.controller;
 
 import com.lhd.qd.base.QdBaseController;
 import com.lhd.qd.constant.http.ApiResult;
-import com.lhd.qd.module.sys.login.model.dto.LoginDTO;
-import com.lhd.qd.module.sys.login.model.vo.LoginVO;
+import com.lhd.qd.module.sys.login.model.dto.LoginDto;
+import com.lhd.qd.module.sys.login.model.vo.LoginVo;
 import com.lhd.qd.module.sys.login.service.LoginService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -27,7 +27,7 @@ public class LoginController extends QdBaseController {
 
     @ApiOperation(value = "登录")
     @PostMapping("login")
-    public ApiResult<LoginVO> login(@RequestBody LoginDTO dto) {
+    public ApiResult<LoginVo> login(@RequestBody LoginDto dto) {
 
         return success(service.login(dto));
     }

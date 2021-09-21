@@ -10,5 +10,5 @@ public abstract class AbstractTreeVoFactory {
      * @param entity
      * @return
      */
-    public abstract <T extends ITree> AbstractTreeVO produce(T entity);
+    public abstract <T extends ITree> AbstractTreeVo produce(T entity);
 }

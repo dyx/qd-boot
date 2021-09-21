@@ -3,10 +3,10 @@ package com.lhd.qd.module.sys.role.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lhd.qd.base.QdBaseService;
 import com.lhd.qd.module.sys.role.model.dto.RolePageQuery;
-import com.lhd.qd.module.sys.role.model.dto.RoleSaveDTO;
-import com.lhd.qd.module.sys.role.model.entity.RoleDO;
-import com.lhd.qd.module.sys.role.model.vo.RoleDetailVO;
-import com.lhd.qd.module.sys.role.model.vo.RoleListVO;
+import com.lhd.qd.module.sys.role.model.dto.RoleSaveDto;
+import com.lhd.qd.module.sys.role.model.entity.RoleDo;
+import com.lhd.qd.module.sys.role.model.vo.RoleDetailVo;
+import com.lhd.qd.module.sys.role.model.vo.RoleListVo;
 
 /**
  * <p>
@@ -16,34 +16,34 @@ import com.lhd.qd.module.sys.role.model.vo.RoleListVO;
  * @author lhd
  * @since 2019-05-23
  */
-public interface RoleService extends QdBaseService<RoleDO> {
+public interface RoleService extends QdBaseService<RoleDo> {
 
     /**
      * 角色分页列表
      * @param query
      * @return
      */
-    IPage<RoleListVO> pageRole(RolePageQuery query);
+    IPage<RoleListVo> pageRole(RolePageQuery query);
 
     /**
      * 角色详情
      * @param id
      * @return
      */
-    RoleDetailVO getRoleById(Long id);
+    RoleDetailVo getRoleById(Long id);
 
     /**
      * 新增角色
-     * @param saveDTO
+     * @param saveDto
      */
-    void saveRole(RoleSaveDTO saveDTO);
+    void saveRole(RoleSaveDto saveDto);
 
     /**
      * 修改角色
      * @param id
-     * @param saveDTO
+     * @param saveDto
      */
-    void updateRole(Long id, RoleSaveDTO saveDTO);
+    void updateRole(Long id, RoleSaveDto saveDto);
 
     /**
      * 删除角色

@@ -5,11 +5,11 @@ import com.lhd.qd.base.QdBaseController;
 import com.lhd.qd.constant.http.ApiResult;
 import com.lhd.qd.module.sys.user.model.dto.UserPageQuery;
 import com.lhd.qd.module.sys.user.model.dto.UserRefPageQuery;
-import com.lhd.qd.module.sys.user.model.dto.UserSaveDTO;
-import com.lhd.qd.module.sys.user.model.vo.UserAssignRoleVO;
-import com.lhd.qd.module.sys.user.model.vo.UserDetailVO;
-import com.lhd.qd.module.sys.user.model.vo.UserListVO;
-import com.lhd.qd.module.sys.user.model.vo.UserRefListVO;
+import com.lhd.qd.module.sys.user.model.dto.UserSaveDto;
+import com.lhd.qd.module.sys.user.model.vo.UserAssignRoleVo;
+import com.lhd.qd.module.sys.user.model.vo.UserDetailVo;
+import com.lhd.qd.module.sys.user.model.vo.UserListVo;
+import com.lhd.qd.module.sys.user.model.vo.UserRefListVo;
 import com.lhd.qd.module.sys.user.service.UserRoleService;
 import com.lhd.qd.module.sys.user.service.UserService;
 import io.swagger.annotations.Api;
@@ -34,41 +34,41 @@ public class UserController extends QdBaseController {
     @Autowired
     private UserRoleService userRoleService;
 
-    @ApiOperation(value = "列表", response = UserListVO.class)
+    @ApiOperation(value = "列表", response = UserListVo.class)
     @GetMapping
-    public ApiResult<IPage<UserListVO>> getList(UserPageQuery query) {
+    public ApiResult<IPage<UserListVo>> getList(UserPageQuery query) {
 
         return success(service.pageUser(query));
     }
 
-    @ApiOperation(value = "参照列表", response = UserRefListVO.class)
+    @ApiOperation(value = "参照列表", response = UserRefListVo.class)
     @GetMapping(value = "ref")
-    public ApiResult<IPage<UserRefListVO>> getRefList(UserRefPageQuery query) {
+    public ApiResult<IPage<UserRefListVo>> getRefList(UserRefPageQuery query) {
 
         return success(service.pageRefUser(query));
     }
 
-    @ApiOperation(value = "详情", response = UserDetailVO.class)
+    @ApiOperation(value = "详情", response = UserDetailVo.class)
     @GetMapping(value = "{id}")
-    public ApiResult<UserDetailVO> getById(@PathVariable("id") Long id) {
+    public ApiResult<UserDetailVo> getById(@PathVariable("id") Long id) {
 
         return success(service.getUserById(id));
     }
 
     @ApiOperation(value = "新增")
     @PostMapping
-    public ApiResult save(@Validated @RequestBody UserSaveDTO saveDTO) {
+    public ApiResult save(@Validated @RequestBody UserSaveDto saveDto) {
 
-        service.saveUser(saveDTO);
+        service.saveUser(saveDto);
 
         return success();
     }
 
     @ApiOperation(value = "修改")
     @PutMapping(value = "{id}")
-    public ApiResult update(@PathVariable("id") Long id, @Validated @RequestBody UserSaveDTO saveDTO) {
+    public ApiResult update(@PathVariable("id") Long id, @Validated @RequestBody UserSaveDto saveDto) {
 
-        service.updateUser(id, saveDTO);
+        service.updateUser(id, saveDto);
 
         return success();
     }
@@ -91,9 +91,9 @@ public class UserController extends QdBaseController {
         return success();
     }
 
-    @ApiOperation(value = "获取用户分配角色列表", response = UserAssignRoleVO.class)
+    @ApiOperation(value = "获取用户分配角色列表", response = UserAssignRoleVo.class)
     @GetMapping(value = "{id}/role/assign")
-    public ApiResult<List<UserAssignRoleVO>> getAssignRoleList(@PathVariable("id") Long id) {
+    public ApiResult<List<UserAssignRoleVo>> getAssignRoleList(@PathVariable("id") Long id) {
 
         return success(userRoleService.getRoleListWithChecked(id));
     }

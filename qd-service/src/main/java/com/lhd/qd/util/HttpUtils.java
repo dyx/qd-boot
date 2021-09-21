@@ -57,9 +57,9 @@ public class HttpUtils {
      * 获取浏览器信息
      * @return
      */
-    public static String getOSBrowser() {
+    public static String getOsBrowser() {
 
-        return getOSBrowser(getRequest());
+        return getOsBrowser(getRequest());
     }
 
     /**
@@ -67,7 +67,7 @@ public class HttpUtils {
      * @param request
      * @return
      */
-    public static String getOSBrowser(HttpServletRequest request) {
+    public static String getOsBrowser(HttpServletRequest request) {
 
         if (request == null) {
             return "";
@@ -86,8 +86,8 @@ public class HttpUtils {
      * 获取请求的IP
      * @return
      */
-    public static String getIP() {
-        return getIP(getRequest());
+    public static String getIp() {
+        return getIp(getRequest());
     }
 
     /**
@@ -95,7 +95,7 @@ public class HttpUtils {
      * @param request
      * @return
      */
-    public static String getIP(HttpServletRequest request) {
+    public static String getIp(HttpServletRequest request) {
 
         if (request == null) {
             return "";

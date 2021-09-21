@@ -3,7 +3,7 @@
 <mapper namespace="com.lhd.qd.module.sys.role.dao.RoleResourceMapper">
 
     <select id="selectMenuListByRoleIdList"
-            resultType="com.lhd.qd.module.sys.menu.model.entity.MenuDO">
+            resultType="com.lhd.qd.module.sys.menu.model.entity.MenuDo">
         select
         rr.resource_id id,
         m.parent_id parentId,
@@ -20,7 +20,7 @@
         </foreach>
     </select>
 
-    <select id="selectPageElementGroupByRoleIdList" resultType="com.lhd.qd.module.sys.menu.model.entity.PageElementDO">
+    <select id="selectPageElementGroupByRoleIdList" resultType="com.lhd.qd.module.sys.menu.model.entity.PageElementDo">
         select
         pe.menu_id menuId,
         group_concat(pe.element_code) elementCode
@@ -34,7 +34,7 @@
         group by pe.menu_id
     </select>
 
-    <select id="selectPageElementAndMenuListByRoleId" resultType="com.lhd.qd.module.sys.role.model.dto.RoleResourceDTO">
+    <select id="selectPageElementAndMenuListByRoleId" resultType="com.lhd.qd.module.sys.role.model.dto.RoleResourceDto">
         select
           -id id,
           0 parentId,
@@ -79,7 +79,7 @@
         </foreach>
     </select>
 
-    <select id="selectCheckedMenuByRoleId" resultType="com.lhd.qd.module.sys.role.model.dto.RoleCheckedResourceDTO">
+    <select id="selectCheckedMenuByRoleId" resultType="com.lhd.qd.module.sys.role.model.dto.RoleCheckedResourceDto">
         select
           m.id, m.parent_id parentId,
           m.menu_name title,
@@ -91,7 +91,7 @@
         where m.is_deleted = 0;
     </select>
 
-    <select id="selectCheckedPageElementByRoleId" resultType="com.lhd.qd.module.sys.role.model.vo.RoleCheckedPageElementVO">
+    <select id="selectCheckedPageElementByRoleId" resultType="com.lhd.qd.module.sys.role.model.vo.RoleCheckedPageElementVo">
         select
           pe.id, pe.menu_id menuId,
           pe.element_code elementCode, pe.element_name elementName,

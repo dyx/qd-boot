@@ -1,9 +1,9 @@
 
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/qd_admin
+    url: jdbc:mysql://localhost:3307/qd_admin
     username: root
-    password: aA@123456
+    password: 123456
     hikari:
         minimum-idle: 10
         maximum-pool-size: 20
@@ -13,7 +13,7 @@ spring:
     database: 15
     host: localhost
     port: 6379
-    password:
+    password: redis
 
 logging:
   level:

@@ -1,10 +1,10 @@
 package com.lhd.qd.module.sys.menu.service;
 
 import com.lhd.qd.base.QdBaseService;
-import com.lhd.qd.module.sys.menu.model.dto.MenuSaveDTO;
-import com.lhd.qd.module.sys.menu.model.entity.MenuDO;
-import com.lhd.qd.tree.AbstractTreeVO;
-import com.lhd.qd.module.sys.menu.model.vo.MenuDetailVO;
+import com.lhd.qd.module.sys.menu.model.dto.MenuSaveDto;
+import com.lhd.qd.module.sys.menu.model.entity.MenuDo;
+import com.lhd.qd.tree.AbstractTreeVo;
+import com.lhd.qd.module.sys.menu.model.vo.MenuDetailVo;
 
 import java.util.List;
 
@@ -16,34 +16,34 @@ import java.util.List;
  * @author lhd
  * @since 2019-05-25
  */
-public interface MenuService extends QdBaseService<MenuDO> {
+public interface MenuService extends QdBaseService<MenuDo> {
 
     /**
      * 获取菜单树
      * @return
      */
-    List<AbstractTreeVO> getMenuTree();
+    List<AbstractTreeVo> getMenuTree();
 
     /**
      * 菜单详情
      * @param id
      * @return
      */
-    MenuDetailVO getMenuById(Long id);
+    MenuDetailVo getMenuById(Long id);
 
     /**
      * 新增菜单
-     * @param saveDTO
+     * @param saveDto
      * @return
      */
-    Long saveMenu(MenuSaveDTO saveDTO);
+    Long saveMenu(MenuSaveDto saveDto);
 
     /**
      * 修改菜单
      * @param id
-     * @param saveDTO
+     * @param saveDto
      */
-    void updateMenu(Long id, MenuSaveDTO saveDTO);
+    void updateMenu(Long id, MenuSaveDto saveDto);
 
     /**
      * 删除菜单

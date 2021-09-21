@@ -4,24 +4,16 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.lhd.qd.base.QdBaseServiceImpl;
 import com.lhd.qd.module.sys.org.dao.DeptMapper;
 import com.lhd.qd.module.sys.org.model.converter.AbstractDeptConverter;
-import com.lhd.qd.module.sys.org.model.dto.DeptSaveDTO;
-import com.lhd.qd.module.sys.org.model.entity.DeptDO;
-import com.lhd.qd.module.sys.org.model.vo.DeptDetailVO;
-import com.lhd.qd.module.sys.org.model.vo.DeptTreeVO;
+import com.lhd.qd.module.sys.org.model.dto.DeptSaveDto;
+import com.lhd.qd.module.sys.org.model.entity.DeptDo;
+import com.lhd.qd.module.sys.org.model.vo.DeptDetailVo;
+import com.lhd.qd.module.sys.org.model.vo.DeptTreeVo;
 import com.lhd.qd.module.sys.org.service.DeptService;
-import com.lhd.qd.module.sys.trans.model.dto.TransDTO;
-import com.lhd.qd.module.sys.trans.model.vo.TransVO;
-import com.lhd.qd.module.sys.trans.service.TransService;
-import com.lhd.qd.module.sys.trans.util.SysTransDtoUtils;
 import com.lhd.qd.util.UserUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-
-import static java.util.stream.Collectors.toSet;
 
 /**
  * <p>
@@ -32,46 +24,43 @@ import static java.util.stream.Collectors.toSet;
  * @since 2019-07-12
  */
 @Service
-public class DeptServiceImpl extends QdBaseServiceImpl<DeptMapper, DeptDO> implements DeptService {
-
-    @Autowired
-    private TransService transService;
+public class DeptServiceImpl extends QdBaseServiceImpl<DeptMapper, DeptDo> implements DeptService {
 
     @Override
-    public List<DeptTreeVO> getDeptTreeByCompanyId(Long companyId) {
+    public List<DeptTreeVo> getDeptTreeByCompanyId(Long companyId) {
 
-        List<DeptDO> doList = list(Wrappers.<DeptDO>lambdaQuery().eq(DeptDO::getCompanyId, companyId));
+        List<DeptDo> doList = list(Wrappers.<DeptDo>lambdaQuery().eq(DeptDo::getCompanyId, companyId));
 
         return buildTree(0L, doList);
     }
 
     @Override
-    public List<DeptTreeVO> getDeptRefTreeByCompanyId(Long companyId) {
+    public List<DeptTreeVo> getDeptRefTreeByCompanyId(Long companyId) {
 
-        List<DeptDO> doList = list(Wrappers.<DeptDO>lambdaQuery().eq(DeptDO::getCompanyId, companyId));
+        List<DeptDo> doList = list(Wrappers.<DeptDo>lambdaQuery().eq(DeptDo::getCompanyId, companyId));
 
         return buildTree(0L, doList);
     }
 
     @Override
-    public DeptDetailVO getDeptById(Long id) {
+    public DeptDetailVo getDeptById(Long id) {
 
-        DeptDO dataObj = getById(id);
+        DeptDo dataObj = getById(id);
 
-        return AbstractDeptConverter.INSTANCE.do2DetailVO(dataObj, getTransVO(Collections.singletonList(dataObj)));
+        return AbstractDeptConverter.INSTANCE.do2DetailVo(dataObj);
     }
 
     @Override
-    public void saveDept(DeptSaveDTO saveDTO) {
+    public void saveDept(DeptSaveDto saveDto) {
 
-        DeptDO dataObj = AbstractDeptConverter.INSTANCE.saveDTO2DO(saveDTO);
+        DeptDo dataObj = AbstractDeptConverter.INSTANCE.saveDto2Do(saveDto);
         save(dataObj);
     }
 
     @Override
-    public void updateDept(Long id, DeptSaveDTO saveDTO) {
+    public void updateDept(Long id, DeptSaveDto saveDto) {
 
-        DeptDO dataObj = AbstractDeptConverter.INSTANCE.saveDTO2DO(saveDTO);
+        DeptDo dataObj = AbstractDeptConverter.INSTANCE.saveDto2Do(saveDto);
         dataObj.setId(id);
         updateById(dataObj);
     }
@@ -100,14 +89,14 @@ public class DeptServiceImpl extends QdBaseServiceImpl<DeptMapper, DeptDO> imple
         return baseMapper.selectDeptAndSubDeptDeptIds(id);
     }
 
-    private static List<DeptTreeVO> buildTree(Long parentId, List<DeptDO> doList) {
+    private static List<DeptTreeVo> buildTree(Long parentId, List<DeptDo> doList) {
 
-        List<DeptTreeVO> treeList =  new ArrayList<>();
-        for (DeptDO dataObj : doList) {
+        List<DeptTreeVo> treeList =  new ArrayList<>();
+        for (DeptDo dataObj : doList) {
 
             if (parentId.equals(dataObj.getParentId())) {
 
-                DeptTreeVO vo = AbstractDeptConverter.INSTANCE.do2TreeVO(dataObj);
+                DeptTreeVo vo = AbstractDeptConverter.INSTANCE.do2TreeVo(dataObj);
                 vo.setChildren(buildTree(dataObj.getId(), doList));
 
                 treeList.add(vo);
@@ -116,19 +105,4 @@ public class DeptServiceImpl extends QdBaseServiceImpl<DeptMapper, DeptDO> imple
 
         return treeList;
     }
-
-    private List<TransVO> getTransVO(List<DeptDO> doList) {
-
-        List<TransDTO> dtoList = new ArrayList<>();
-
-        dtoList.add(SysTransDtoUtils.transCompanyNameById(doList.stream().map(DeptDO::getCompanyId).collect(toSet()),
-                DeptDO::getCompanyId, DeptDetailVO::getCompanyName));
-
-        dtoList.add(SysTransDtoUtils.transDeptNameById(doList.stream().map(DeptDO::getParentId).collect(toSet()),
-                DeptDO::getParentId, DeptDetailVO::getParentName));
-
-        return transService.getTransValue(dtoList);
-    }
-
-
 }

@@ -1,7 +1,7 @@
 package com.lhd.qd.module.sys.menu.dao;
 
 import com.lhd.qd.base.QdBaseMapper;
-import com.lhd.qd.module.sys.menu.model.entity.PageElementDO;
+import com.lhd.qd.module.sys.menu.model.entity.PageElementDo;
 
 /**
  * <p>
@@ -11,6 +11,6 @@ import com.lhd.qd.module.sys.menu.model.entity.PageElementDO;
  * @author lhd
  * @since 2019-05-25
  */
-public interface PageElementMapper extends QdBaseMapper<PageElementDO> {
+public interface PageElementMapper extends QdBaseMapper<PageElementDo> {
 
 }

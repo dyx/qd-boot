@@ -2,17 +2,15 @@ package com.lhd.qd.module.sys.org.model.converter;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.lhd.qd.module.sys.org.model.dto.CompanySaveDTO;
-import com.lhd.qd.module.sys.org.model.entity.CompanyDO;
-import com.lhd.qd.module.sys.org.model.vo.CompanyDetailVO;
-import com.lhd.qd.module.sys.org.model.vo.CompanyListVO;
-import com.lhd.qd.module.sys.org.model.vo.CompanyTreeVO;
-import com.lhd.qd.module.sys.trans.model.vo.TransVO;
-import com.lhd.qd.module.sys.trans.util.TransUtils;
-import org.mapstruct.*;
+import com.lhd.qd.module.sys.org.model.dto.CompanySaveDto;
+import com.lhd.qd.module.sys.org.model.entity.CompanyDo;
+import com.lhd.qd.module.sys.org.model.vo.CompanyDetailVo;
+import com.lhd.qd.module.sys.org.model.vo.CompanyListVo;
+import com.lhd.qd.module.sys.org.model.vo.CompanyTreeVo;
+import org.mapstruct.BeanMapping;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
-
-import java.util.List;
 
 /**
  * @author lhd
@@ -29,14 +27,14 @@ public abstract class AbstractCompanyConverter {
      * @return
      */
     @BeanMapping(resultType = Page.class)
-    public abstract IPage<CompanyListVO> doPage2ListVOPage(IPage<CompanyDO> doPage);
+    public abstract IPage<CompanyListVo> doPage2ListVoPage(IPage<CompanyDo> doPage);
 
     /**
      * do 转换为 列表vo
      * @param dataObj
      * @return
      */
-    public abstract CompanyListVO do2ListVO(CompanyDO dataObj);
+    public abstract CompanyListVo do2ListVo(CompanyDo dataObj);
 
     /**
      * do 转换为 树vo
@@ -44,25 +42,19 @@ public abstract class AbstractCompanyConverter {
      * @return
      */
     @Mapping(target = "title", source = "companyName")
-    public abstract CompanyTreeVO do2TreeVO(CompanyDO dataObj);
+    public abstract CompanyTreeVo do2TreeVo(CompanyDo dataObj);
 
     /**
      * do 转换为 详情vo
      * @param dataObj
-     * @param transVOList
      * @return
      */
-    public abstract CompanyDetailVO do2DetailVO(CompanyDO dataObj, @Context List<TransVO> transVOList);
-    @AfterMapping
-    public void fillJoinField(CompanyDO dataObj, @MappingTarget CompanyDetailVO detailVO, @Context List<TransVO> transVOList) {
-
-        TransUtils.trans(dataObj, detailVO, transVOList);
-    }
+    public abstract CompanyDetailVo do2DetailVo(CompanyDo dataObj);
 
     /**
      * 新增dto 转换为 do
-     * @param saveDTO
+     * @param saveDto
      * @return
      */
-    public abstract CompanyDO saveDTO2DO(CompanySaveDTO saveDTO);
+    public abstract CompanyDo saveDto2Do(CompanySaveDto saveDto);
 }

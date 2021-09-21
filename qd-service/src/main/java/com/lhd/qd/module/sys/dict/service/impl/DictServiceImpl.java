@@ -3,32 +3,28 @@ package com.lhd.qd.module.sys.dict.service.impl;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.lhd.qd.base.QdBaseDO;
 import com.lhd.qd.base.QdBaseServiceImpl;
 import com.lhd.qd.constant.RedisConsts;
 import com.lhd.qd.exception.BusinessException;
 import com.lhd.qd.module.sys.dict.dao.DictMapper;
 import com.lhd.qd.module.sys.dict.model.converter.AbstractDictConverter;
 import com.lhd.qd.module.sys.dict.model.dto.DictPageQuery;
-import com.lhd.qd.module.sys.dict.model.dto.DictSaveDTO;
-import com.lhd.qd.module.sys.dict.model.entity.DictDO;
-import com.lhd.qd.module.sys.dict.model.vo.DictDetailVO;
-import com.lhd.qd.module.sys.dict.model.vo.DictListVO;
-import com.lhd.qd.module.sys.dict.model.vo.DictPageBindVO;
+import com.lhd.qd.module.sys.dict.model.dto.DictSaveDto;
+import com.lhd.qd.module.sys.dict.model.entity.DictDo;
+import com.lhd.qd.module.sys.dict.model.vo.DictDetailVo;
+import com.lhd.qd.module.sys.dict.model.vo.DictListVo;
+import com.lhd.qd.module.sys.dict.model.vo.DictPageBindVo;
 import com.lhd.qd.module.sys.dict.service.DictService;
-import com.lhd.qd.module.sys.trans.model.dto.TransDTO;
-import com.lhd.qd.module.sys.trans.model.vo.TransVO;
-import com.lhd.qd.module.sys.trans.service.TransService;
-import com.lhd.qd.module.sys.trans.util.SysTransDtoUtils;
 import com.lhd.qd.util.RedisUtils;
 import com.lhd.qd.util.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.*;
-
-import static java.util.stream.Collectors.toSet;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -39,73 +35,70 @@ import static java.util.stream.Collectors.toSet;
  * @since 2019-05-31
  */
 @Service
-public class DictServiceImpl extends QdBaseServiceImpl<DictMapper, DictDO> implements DictService {
+public class DictServiceImpl extends QdBaseServiceImpl<DictMapper, DictDo> implements DictService {
 
     @Autowired
     private RedisUtils redisUtils;
 
     @Autowired
-    private TransService transService;
-
-    @Autowired
     private DictTypeServiceImpl typeService;
 
     @Override
-    public IPage<DictListVO> pageDict(DictPageQuery query) {
+    public IPage<DictListVo> pageDict(DictPageQuery query) {
 
-        IPage<DictDO> doPage = this.page(new Page<>(query.getPage(), query.getSize()),
-                Wrappers.<DictDO>lambdaQuery());
+        IPage<DictDo> doPage = this.page(new Page<>(query.getPage(), query.getSize()),
+                Wrappers.<DictDo>lambdaQuery());
 
-        return AbstractDictConverter.INSTANCE.doPage2ListVOPage(doPage, getTransVO(doPage.getRecords()));
+        return AbstractDictConverter.INSTANCE.doPage2ListVoPage(doPage);
     }
 
     @Override
-    public IPage<DictListVO> pageDictByTypeCode(String typeCode, DictPageQuery query) {
+    public IPage<DictListVo> pageDictByTypeCode(String typeCode, DictPageQuery query) {
 
         @SuppressWarnings("unchecked")
-        IPage<DictDO> doPage = this.page(new Page<>(query.getPage(), query.getSize()),
-                Wrappers.<DictDO>lambdaQuery()
-                        .eq(DictDO::getTypeCode, typeCode)
-                        .orderBy(isOrderBy(query, DictDO::getSortNum), isAsc(query), DictDO::getSortNum));
+        IPage<DictDo> doPage = this.page(new Page<>(query.getPage(), query.getSize()),
+                Wrappers.<DictDo>lambdaQuery()
+                        .eq(DictDo::getTypeCode, typeCode)
+                        .orderBy(isOrderBy(query, "sort_number"), isAsc(query), DictDo::getSortNum));
 
-        return AbstractDictConverter.INSTANCE.doPage2ListVOPage(doPage, getTransVO(doPage.getRecords()));
+        return AbstractDictConverter.INSTANCE.doPage2ListVoPage(doPage);
     }
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<DictPageBindVO> listDictCacheByTypeCode(String typeCode) {
-        return (List<DictPageBindVO>) redisUtils.getHash(RedisConsts.DICT_KEY, typeCode);
+    public List<DictPageBindVo> listDictCacheByTypeCode(String typeCode) {
+        return (List<DictPageBindVo>) redisUtils.getHash(RedisConsts.DICT_KEY, typeCode);
     }
 
     @Override
-    public DictDetailVO getDictById(Long id) {
+    public DictDetailVo getDictById(Long id) {
 
-        DictDO dataObj = getById(id);
+        DictDo dataObj = getById(id);
 
-        return AbstractDictConverter.INSTANCE.do2DetailVO(dataObj, getTransVO(Collections.singletonList(dataObj)));
+        return AbstractDictConverter.INSTANCE.do2DetailVo(dataObj);
     }
 
     @Override
-    public void saveDict(DictSaveDTO saveDTO) {
+    public void saveDict(DictSaveDto saveDto) {
 
-        vaild(null, saveDTO);
+        valid(null, saveDto);
 
-        DictDO dataObj = AbstractDictConverter.INSTANCE.saveDTO2DO(saveDTO);
+        DictDo dataObj = AbstractDictConverter.INSTANCE.saveDto2Do(saveDto);
         save(dataObj);
 
-        updateDictCache(saveDTO.getTypeCode());
+        updateDictCache(saveDto.getTypeCode());
     }
 
     @Override
-    public void updateDict(Long id, DictSaveDTO saveDTO) {
+    public void updateDict(Long id, DictSaveDto saveDto) {
 
-        vaild(id, saveDTO);
+        valid(id, saveDto);
 
-        DictDO dataObj = AbstractDictConverter.INSTANCE.saveDTO2DO(saveDTO);
+        DictDo dataObj = AbstractDictConverter.INSTANCE.saveDto2Do(saveDto);
         dataObj.setId(id);
         updateById(dataObj);
 
-        updateDictCache(saveDTO.getTypeCode());
+        updateDictCache(saveDto.getTypeCode());
     }
 
     @Override
@@ -121,9 +114,9 @@ public class DictServiceImpl extends QdBaseServiceImpl<DictMapper, DictDO> imple
     @Override
     public void updateDictCache(String typeCode) {
 
-        List<DictDO> doList =list(Wrappers.<DictDO>lambdaQuery().eq(DictDO::getTypeCode, typeCode).orderByAsc(DictDO::getSortNum));
+        List<DictDo> doList =list(Wrappers.<DictDo>lambdaQuery().eq(DictDo::getTypeCode, typeCode).orderByAsc(DictDo::getSortNum));
 
-        redisUtils.setHash(RedisConsts.DICT_KEY, typeCode, AbstractDictConverter.INSTANCE.doList2PageBindVOList(doList));
+        redisUtils.setHash(RedisConsts.DICT_KEY, typeCode, AbstractDictConverter.INSTANCE.doList2PageBindVoList(doList));
     }
 
     @Override
@@ -131,7 +124,7 @@ public class DictServiceImpl extends QdBaseServiceImpl<DictMapper, DictDO> imple
 
         String typeCode = getById(id).getTypeCode();
 
-        DictDO dataObj = new DictDO();
+        DictDo dataObj = new DictDo();
         dataObj.setId(id);
         removeByIdWithFill(dataObj);
 
@@ -141,65 +134,53 @@ public class DictServiceImpl extends QdBaseServiceImpl<DictMapper, DictDO> imple
     @Override
     public void removeDictByTypeCode(String typeCode) {
 
-        DictDO dataObj = new DictDO();
+        DictDo dataObj = new DictDo();
         dataObj.setUpdateTime(LocalDateTime.now());
         dataObj.setUpdateUserId(UserUtils.getUserId());
         dataObj.setDeleted(true);
-        update(dataObj, Wrappers.<DictDO>lambdaQuery().eq(DictDO::getTypeCode, typeCode));
+        update(dataObj, Wrappers.<DictDo>lambdaQuery().eq(DictDo::getTypeCode, typeCode));
 
         removeDictCache(typeCode);
     }
 
     @Override
-    public Map<String, List<DictPageBindVO>> getPageCacheMap() {
+    public Map<String, List<DictPageBindVo>> getPageCacheMap() {
 
         @SuppressWarnings("unchecked")
-        List<DictDO> doList = list(Wrappers.<DictDO>lambdaQuery().orderByAsc(DictDO::getTypeCode, DictDO::getSortNum));
+        List<DictDo> doList = list(Wrappers.<DictDo>lambdaQuery().orderByAsc(DictDo::getTypeCode, DictDo::getSortNum));
 
-        Map<String, List<DictPageBindVO>> dictMap = new HashMap<>(16);
-        for (DictDO dataObj : doList) {
+        Map<String, List<DictPageBindVo>> dictMap = new HashMap<>(16);
+        for (DictDo dataObj : doList) {
 
             // 显示列表
-            List<DictPageBindVO> voList = dictMap.computeIfAbsent(dataObj.getTypeCode(), key -> new ArrayList<>());
-            voList.add(AbstractDictConverter.INSTANCE.do2PageBindVO(dataObj));
+            List<DictPageBindVo> voList = dictMap.computeIfAbsent(dataObj.getTypeCode(), key -> new ArrayList<>());
+            voList.add(AbstractDictConverter.INSTANCE.do2PageBindVo(dataObj));
         }
 
         return dictMap;
     }
 
-    private void vaild(Long id, DictSaveDTO saveDTO) {
+    private void valid(Long id, DictSaveDto saveDto) {
 
-        if (!typeService.isExistByCode(saveDTO.getTypeCode())) {
+        if (!typeService.isExistByCode(saveDto.getTypeCode())) {
             throw new BusinessException("分类编码不存在，请更换");
         }
 
-        boolean isExistValue = count(Wrappers.<DictDO>lambdaQuery()
-                .eq(DictDO::getTypeCode, saveDTO.getTypeCode())
-                .eq(DictDO::getDictValue, saveDTO.getDictValue())
-                .ne(id != null, DictDO::getId, id)) > 0;
+        boolean isExistValue = count(Wrappers.<DictDo>lambdaQuery()
+                .eq(DictDo::getTypeCode, saveDto.getTypeCode())
+                .eq(DictDo::getDictValue, saveDto.getDictValue())
+                .ne(id != null, DictDo::getId, id)) > 0;
         if (isExistValue) {
             throw new BusinessException("值在该分类下已存在，请更换");
         }
 
-        boolean isExistDesc = count(Wrappers.<DictDO>lambdaQuery()
-                .eq(DictDO::getTypeCode, saveDTO.getTypeCode())
-                .eq(DictDO::getDictDesc, saveDTO.getDictDesc())
-                .ne(id != null, DictDO::getId, id)) > 0;
+        boolean isExistDesc = count(Wrappers.<DictDo>lambdaQuery()
+                .eq(DictDo::getTypeCode, saveDto.getTypeCode())
+                .eq(DictDo::getDictDesc, saveDto.getDictDesc())
+                .ne(id != null, DictDo::getId, id)) > 0;
         if (isExistDesc) {
             throw new BusinessException("描述在该分类下已存在，请更换");
         }
-    }
-
-    private List<TransVO> getTransVO(List<DictDO> doList) {
-
-        List<TransDTO> dtoList = new ArrayList<>();
-        Set<String> codeList = doList.stream().map(DictDO::getTypeCode).collect(toSet());
-        dtoList.add(SysTransDtoUtils.transDictTypeDescByCode(codeList, DictDO::getTypeCode, DictListVO::getTypeName));
-
-        dtoList.add(SysTransDtoUtils.transCreateUser(doList.stream().map(QdBaseDO::getCreateUserId).collect(toSet())));
-        dtoList.add(SysTransDtoUtils.transUpdateUser(doList.stream().map(QdBaseDO::getUpdateUserId).collect(toSet())));
-
-        return transService.getTransValue(dtoList);
     }
 
     private void removeDictCache(String typeCode) {

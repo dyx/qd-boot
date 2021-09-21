@@ -2,7 +2,7 @@ package com.lhd.qd.module.sys.org.controller;
 
 import com.lhd.qd.base.QdBaseController;
 import com.lhd.qd.constant.http.ApiResult;
-import com.lhd.qd.module.sys.org.model.vo.OrgTreeVO;
+import com.lhd.qd.module.sys.org.model.vo.OrgTreeVo;
 import com.lhd.qd.module.sys.org.service.OrgService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -29,9 +29,9 @@ public class OrgController extends QdBaseController {
     @Autowired
     private OrgService service;
 
-    @ApiOperation(value = "树", response = OrgTreeVO.class)
+    @ApiOperation(value = "树", response = OrgTreeVo.class)
     @GetMapping(value = "tree")
-    public ApiResult<List<OrgTreeVO>> getTree() {
+    public ApiResult<List<OrgTreeVo>> getTree() {
 
         return success(service.getTree());
     }

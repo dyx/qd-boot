@@ -16,13 +16,13 @@ public class QdMetaObjectHandler implements MetaObjectHandler {
 
     @Override
     public void insertFill(MetaObject metaObject) {
-        setInsertFieldValByName("createUserId", UserUtils.getUserId(), metaObject);
-        setInsertFieldValByName("createTime", LocalDateTime.now(), metaObject);
+        strictUpdateFill(metaObject, "createUserId", Long.class, UserUtils.getUserId());
+        strictUpdateFill(metaObject, "createTime", LocalDateTime.class, LocalDateTime.now());
     }
 
     @Override
     public void updateFill(MetaObject metaObject) {
-        setUpdateFieldValByName("updateUserId", UserUtils.getUserId(), metaObject);
-        setUpdateFieldValByName("updateTime", LocalDateTime.now(), metaObject);
+        strictUpdateFill(metaObject, "updateUserId", Long.class, UserUtils.getUserId());
+        strictUpdateFill(metaObject, "updateTime", LocalDateTime.class, LocalDateTime.now());
     }
 }

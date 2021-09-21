@@ -1,9 +1,9 @@
 package com.lhd.qd.module.sys.data.rule.model.converter;
 
-import com.lhd.qd.module.sys.data.rule.model.dto.DataRuleCheckedDTO;
-import com.lhd.qd.module.sys.data.rule.model.dto.DataRuleSaveDTO;
-import com.lhd.qd.module.sys.data.rule.model.entity.DataRuleDO;
-import com.lhd.qd.module.sys.data.rule.model.vo.DataRuleCheckedTreeVO;
+import com.lhd.qd.module.sys.data.rule.model.dto.DataRuleCheckedDto;
+import com.lhd.qd.module.sys.data.rule.model.dto.DataRuleSaveDto;
+import com.lhd.qd.module.sys.data.rule.model.entity.DataRuleDo;
+import com.lhd.qd.module.sys.data.rule.model.vo.DataRuleCheckedTreeVo;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
@@ -19,16 +19,16 @@ public abstract class AbstractDataRuleConverter {
 
     /**
      * 选中dto 转换为 选中树vo
-     * @param saveDTO
+     * @param saveDto
      * @return
      */
-    public abstract DataRuleCheckedTreeVO checkedDTO2CheckedTreeVO(DataRuleCheckedDTO saveDTO);
+    public abstract DataRuleCheckedTreeVo checkedDto2CheckedTreeVo(DataRuleCheckedDto saveDto);
 
     /**
      * 新增dto 转换为 do
-     * @param saveDTO
+     * @param saveDto
      * @return
      */
-    @Mapping(target = "customDeptIds", expression = "java( org.apache.commons.lang3.StringUtils.join(saveDTO.getCustomDeptIds(),\",\") )")
-    public abstract DataRuleDO saveDTO2DO(DataRuleSaveDTO saveDTO);
+    @Mapping(target = "customDeptIds", expression = "java( org.apache.commons.lang3.StringUtils.join(saveDto.getCustomDeptIds(),\",\") )")
+    public abstract DataRuleDo saveDto2Do(DataRuleSaveDto saveDto);
 }

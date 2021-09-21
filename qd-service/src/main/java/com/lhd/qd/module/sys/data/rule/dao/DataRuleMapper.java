@@ -1,9 +1,9 @@
 package com.lhd.qd.module.sys.data.rule.dao;
 
 import com.lhd.qd.base.QdBaseMapper;
-import com.lhd.qd.module.sys.data.rule.model.dto.DataObjDTO;
-import com.lhd.qd.module.sys.data.rule.model.dto.DataRulePermDTO;
-import com.lhd.qd.module.sys.data.rule.model.entity.DataRuleDO;
+import com.lhd.qd.module.sys.data.rule.model.dto.DataObjDto;
+import com.lhd.qd.module.sys.data.rule.model.dto.DataRulePermDto;
+import com.lhd.qd.module.sys.data.rule.model.entity.DataRuleDo;
 
 import java.util.List;
 
@@ -15,9 +15,17 @@ import java.util.List;
  * @author lhd
  * @since 2019-07-24
  */
-public interface DataRuleMapper extends QdBaseMapper<DataRuleDO> {
+public interface DataRuleMapper extends QdBaseMapper<DataRuleDo> {
 
-    List<DataObjDTO> selectDataObjList();
+    /**
+     * 查询数据对象列表
+     * @return
+     */
+    List<DataObjDto> selectDataObjList();
 
-    List<DataRulePermDTO> selectDataPermList();
+    /**
+     * 查询数据权限列表
+     * @return
+     */
+    List<DataRulePermDto> selectDataPermList();
 }
