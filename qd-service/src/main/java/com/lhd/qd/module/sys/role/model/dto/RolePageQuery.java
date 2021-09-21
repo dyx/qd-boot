@@ -3,17 +3,13 @@ package com.lhd.qd.module.sys.role.model.dto;
 import com.lhd.qd.base.QdBasePageQuery;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
 
 /**
  * @author lhd
  * @since 2019-05-23
  */
-@Setter
-@Getter
-@ToString(callSuper = true)
+@Data
 @ApiModel(value = "角色分页查询对象")
 public class RolePageQuery extends QdBasePageQuery {
 

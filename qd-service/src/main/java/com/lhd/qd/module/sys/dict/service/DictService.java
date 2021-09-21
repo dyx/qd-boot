@@ -94,4 +94,11 @@ public interface DictService extends QdBaseService<DictDo> {
      * @return
      */
     Map<String, List<DictPageBindVo>> getPageCacheMap();
+
+    /**
+     * 根据字典编码列表查询字典
+     * @param typeCodeList
+     * @return
+     */
+    Map<String, Map<Integer, String>> findDictMapByTypeCodeList(List<String> typeCodeList);
 }

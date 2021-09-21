@@ -2,6 +2,7 @@ package com.lhd.qd.module.sys.dict.model.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.lhd.qd.base.QdBaseDo;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -14,9 +15,7 @@ import lombok.ToString;
  * @author lhd
  * @since 2019-05-31
  */
-@Setter
-@Getter
-@ToString(callSuper = true)
+@Data
 @TableName("sys_dict")
 public class DictDo extends QdBaseDo {
 

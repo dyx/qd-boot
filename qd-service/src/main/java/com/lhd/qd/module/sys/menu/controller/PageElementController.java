@@ -46,7 +46,7 @@ public class PageElementController extends QdBaseController {
 
     @ApiOperation(value = "新增")
     @PostMapping("{menuId}/page-element")
-    public ApiResult save(@PathVariable("menuId") Long menuId, @Validated @RequestBody PageElementSaveDto saveDto) {
+    public ApiResult<?> save(@PathVariable("menuId") Long menuId, @Validated @RequestBody PageElementSaveDto saveDto) {
 
         service.savePageElement(menuId, saveDto);
 
@@ -55,7 +55,7 @@ public class PageElementController extends QdBaseController {
 
     @ApiOperation(value = "修改")
     @PutMapping(value = "page-element/{id}")
-    public ApiResult update(@PathVariable("id") Long id, @Validated @RequestBody PageElementSaveDto saveDto) {
+    public ApiResult<?> update(@PathVariable("id") Long id, @Validated @RequestBody PageElementSaveDto saveDto) {
 
         service.updatePageElement(id, saveDto);
 
@@ -64,7 +64,7 @@ public class PageElementController extends QdBaseController {
 
     @ApiOperation(value = "删除")
     @DeleteMapping(value = "page-element/{id}")
-    public ApiResult remove(@PathVariable("id") Long id) {
+    public ApiResult<?> remove(@PathVariable("id") Long id) {
 
         service.removePageElement(id);
 

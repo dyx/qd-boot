@@ -3,6 +3,7 @@ package com.lhd.qd.module.sys.menu.model.entity;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.lhd.qd.base.QdBaseDo;
 import com.lhd.qd.tree.ITree;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -15,9 +16,7 @@ import lombok.ToString;
  * @author lhd
  * @since 2019-05-25
  */
-@Setter
-@Getter
-@ToString(callSuper = true)
+@Data
 @TableName("sys_menu")
 public class MenuDo extends QdBaseDo implements ITree {
 

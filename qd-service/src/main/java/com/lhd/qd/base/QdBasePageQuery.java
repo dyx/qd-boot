@@ -5,18 +5,12 @@ import cn.hutool.core.util.StrUtil;
 import com.lhd.qd.constant.SortOrderEnum;
 import com.lhd.qd.exception.BusinessException;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
 
 import java.io.Serializable;
 
 /**
  * @author lhd
  */
-@Setter
-@Getter
-@ToString
 public class QdBasePageQuery implements Serializable {
 
     private final static Integer DEFAULT_PAGE = 1;
@@ -24,21 +18,20 @@ public class QdBasePageQuery implements Serializable {
     private final static Integer MAX_SIZE = 100;
 
     @ApiModelProperty(value = "当前页数")
-    @Setter
     private Integer page;
 
     @ApiModelProperty(value = "每页记录数")
-    @Setter
     private Integer size;
 
     @ApiModelProperty(value = "排序字段")
-    @Setter
-    @Getter
     private String sortField;
 
     @ApiModelProperty(value = "排序顺序")
-    @Getter
     private String sortOrder;
+
+    public void setPage(Integer page) {
+        this.page = page;
+    }
 
     public Integer getPage() {
 
@@ -47,6 +40,10 @@ public class QdBasePageQuery implements Serializable {
         }
 
         return page;
+    }
+
+    public void setSize(Integer size) {
+        this.size = size;
     }
 
     public Integer getSize() {
@@ -62,6 +59,14 @@ public class QdBasePageQuery implements Serializable {
         return size;
     }
 
+    public String getSortField() {
+        return sortField;
+    }
+
+    public void setSortField(String sortField) {
+        this.sortField = sortField;
+    }
+
     public void setSortOrder(String sortOrder) {
 
         if (StrUtil.isNotEmpty(sortOrder)
@@ -70,5 +75,9 @@ public class QdBasePageQuery implements Serializable {
         }
 
         this.sortOrder = sortOrder;
+    }
+
+    public String getSortOrder() {
+        return sortOrder;
     }
 }

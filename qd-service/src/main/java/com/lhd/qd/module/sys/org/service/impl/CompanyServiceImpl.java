@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.lhd.qd.base.QdBaseServiceImpl;
 import com.lhd.qd.constant.CommonConsts;
 import com.lhd.qd.module.sys.org.dao.CompanyMapper;
-import com.lhd.qd.module.sys.org.model.converter.AbstractCompanyConverter;
+import com.lhd.qd.module.sys.org.model.converter.CompanyConverter;
 import com.lhd.qd.module.sys.org.model.dto.CompanySaveDto;
 import com.lhd.qd.module.sys.org.model.entity.CompanyDo;
 import com.lhd.qd.module.sys.org.model.vo.CompanyDetailVo;
@@ -15,10 +15,7 @@ import com.lhd.qd.util.UserUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-
-import static java.util.stream.Collectors.toSet;
 
 /**
  * <p>
@@ -58,20 +55,20 @@ public class CompanyServiceImpl extends QdBaseServiceImpl<CompanyMapper, Company
 
         CompanyDo dataObj = getById(id);
 
-        return AbstractCompanyConverter.INSTANCE.do2DetailVo(dataObj);
+        return CompanyConverter.INSTANCE.do2DetailVo(dataObj);
     }
 
     @Override
     public void saveCompany(CompanySaveDto saveDto) {
 
-        CompanyDo dataObj = AbstractCompanyConverter.INSTANCE.saveDto2Do(saveDto);
+        CompanyDo dataObj = CompanyConverter.INSTANCE.saveDto2Do(saveDto);
         save(dataObj);
     }
 
     @Override
     public void updateCompany(Long id, CompanySaveDto saveDto) {
 
-        CompanyDo dataObj = AbstractCompanyConverter.INSTANCE.saveDto2Do(saveDto);
+        CompanyDo dataObj = CompanyConverter.INSTANCE.saveDto2Do(saveDto);
         dataObj.setId(id);
         updateById(dataObj);
     }
@@ -92,7 +89,7 @@ public class CompanyServiceImpl extends QdBaseServiceImpl<CompanyMapper, Company
 
             if (parentId.equals(dataObj.getParentId())) {
 
-                CompanyTreeVo vo = AbstractCompanyConverter.INSTANCE.do2TreeVo(dataObj);
+                CompanyTreeVo vo = CompanyConverter.INSTANCE.do2TreeVo(dataObj);
                 vo.setChildren(buildTree(dataObj.getId(), doList));
 
                 treeList.add(vo);

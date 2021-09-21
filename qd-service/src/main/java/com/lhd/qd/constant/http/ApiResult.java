@@ -1,16 +1,12 @@
 package com.lhd.qd.constant.http;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
 
 /**
  * 接口返回结果
  * @author lhd
  */
-@Setter
-@Getter
-@ToString
+@Data
 public class ApiResult<T> {
 
     /**

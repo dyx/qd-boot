@@ -57,7 +57,7 @@ public class UserController extends QdBaseController {
 
     @ApiOperation(value = "新增")
     @PostMapping
-    public ApiResult save(@Validated @RequestBody UserSaveDto saveDto) {
+    public ApiResult<?> save(@Validated @RequestBody UserSaveDto saveDto) {
 
         service.saveUser(saveDto);
 
@@ -66,7 +66,7 @@ public class UserController extends QdBaseController {
 
     @ApiOperation(value = "修改")
     @PutMapping(value = "{id}")
-    public ApiResult update(@PathVariable("id") Long id, @Validated @RequestBody UserSaveDto saveDto) {
+    public ApiResult<?> update(@PathVariable("id") Long id, @Validated @RequestBody UserSaveDto saveDto) {
 
         service.updateUser(id, saveDto);
 
@@ -75,7 +75,7 @@ public class UserController extends QdBaseController {
 
     @ApiOperation(value = "删除")
     @DeleteMapping(value = "{id}")
-    public ApiResult remove(@PathVariable("id") Long id) {
+    public ApiResult<?> remove(@PathVariable("id") Long id) {
 
         service.removeUser(id);
 
@@ -84,7 +84,7 @@ public class UserController extends QdBaseController {
 
     @ApiOperation(value = "批量删除")
     @DeleteMapping(value = "batch")
-    public ApiResult batchRemove(@RequestBody List<Long> idList) {
+    public ApiResult<?> batchRemove(@RequestBody List<Long> idList) {
 
         service.batchRemoveUser(idList);
 
@@ -100,7 +100,7 @@ public class UserController extends QdBaseController {
 
     @ApiOperation(value = "用户分配角色")
     @PutMapping(value = "{id}/role/assign")
-    public ApiResult getAssignRoleList(@PathVariable("id") Long id, @RequestBody List<Long> roleIdList) {
+    public ApiResult<?> getAssignRoleList(@PathVariable("id") Long id, @RequestBody List<Long> roleIdList) {
 
         userRoleService.updateUserAssignRole(id, roleIdList);
 

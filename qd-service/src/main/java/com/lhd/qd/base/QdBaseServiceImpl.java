@@ -40,7 +40,7 @@ public class QdBaseServiceImpl<M extends QdBaseMapper<T>, T> extends ServiceImpl
 
     protected boolean isAsc(QdBasePageQuery query) {
 
-        if (query == null) {
+        if (query == null || StrUtil.isEmpty(query.getSortOrder())) {
             return false;
         }
 

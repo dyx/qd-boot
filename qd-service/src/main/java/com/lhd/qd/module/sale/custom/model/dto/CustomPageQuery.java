@@ -3,6 +3,7 @@ package com.lhd.qd.module.sale.custom.model.dto;
 import com.lhd.qd.base.QdBasePageQuery;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -11,9 +12,7 @@ import lombok.ToString;
  * @author lhd
  * @since 2019-07-19
  */
-@Setter
-@Getter
-@ToString(callSuper = true)
+@Data
 @ApiModel(value = "客户分页查询对象")
 public class CustomPageQuery extends QdBasePageQuery {
 

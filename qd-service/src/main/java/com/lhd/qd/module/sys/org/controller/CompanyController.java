@@ -53,7 +53,7 @@ public class CompanyController extends QdBaseController {
 
     @ApiOperation(value = "新增")
     @PostMapping
-    public ApiResult save(@Validated @RequestBody CompanySaveDto saveDto) {
+    public ApiResult<?> save(@Validated @RequestBody CompanySaveDto saveDto) {
 
         service.saveCompany(saveDto);
 
@@ -62,7 +62,7 @@ public class CompanyController extends QdBaseController {
 
     @ApiOperation(value = "修改")
     @PutMapping(value = "{id}")
-    public ApiResult update(@PathVariable("id") Long id, @Validated @RequestBody CompanySaveDto saveDto) {
+    public ApiResult<?> update(@PathVariable("id") Long id, @Validated @RequestBody CompanySaveDto saveDto) {
 
         service.updateCompany(id, saveDto);
 
@@ -71,7 +71,7 @@ public class CompanyController extends QdBaseController {
 
     @ApiOperation(value = "删除")
     @DeleteMapping(value = "{id}")
-    public ApiResult remove(@PathVariable("id") Long id) {
+    public ApiResult<?> remove(@PathVariable("id") Long id) {
 
         service.removeCompany(id);
 

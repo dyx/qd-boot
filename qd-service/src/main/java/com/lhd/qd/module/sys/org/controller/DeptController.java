@@ -53,7 +53,7 @@ public class DeptController extends QdBaseController {
 
     @ApiOperation(value = "新增")
     @PostMapping
-    public ApiResult save(@Validated @RequestBody DeptSaveDto saveDto) {
+    public ApiResult<?> save(@Validated @RequestBody DeptSaveDto saveDto) {
 
         service.saveDept(saveDto);
 
@@ -62,7 +62,7 @@ public class DeptController extends QdBaseController {
 
     @ApiOperation(value = "修改")
     @PutMapping(value = "{id}")
-    public ApiResult update(@PathVariable("id") Long id, @Validated @RequestBody DeptSaveDto saveDto) {
+    public ApiResult<?> update(@PathVariable("id") Long id, @Validated @RequestBody DeptSaveDto saveDto) {
 
         service.updateDept(id, saveDto);
 
@@ -71,7 +71,7 @@ public class DeptController extends QdBaseController {
 
     @ApiOperation(value = "删除")
     @DeleteMapping(value = "{id}")
-    public ApiResult remove(@PathVariable("id") Long id) {
+    public ApiResult<?> remove(@PathVariable("id") Long id) {
 
         service.removeDept(id);
 

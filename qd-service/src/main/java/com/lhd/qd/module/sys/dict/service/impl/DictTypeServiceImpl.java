@@ -7,7 +7,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lhd.qd.base.QdBaseServiceImpl;
 import com.lhd.qd.exception.BusinessException;
 import com.lhd.qd.module.sys.dict.dao.DictTypeMapper;
-import com.lhd.qd.module.sys.dict.model.converter.AbstractDictTypeConverter;
+import com.lhd.qd.module.sys.dict.model.converter.DictTypeConverter;
 import com.lhd.qd.module.sys.dict.model.dto.DictTypePageQuery;
 import com.lhd.qd.module.sys.dict.model.dto.DictTypeSaveDto;
 import com.lhd.qd.module.sys.dict.model.entity.DictTypeDo;
@@ -15,6 +15,9 @@ import com.lhd.qd.module.sys.dict.model.vo.DictTypeDetailVo;
 import com.lhd.qd.module.sys.dict.model.vo.DictTypeListVo;
 import com.lhd.qd.module.sys.dict.service.DictService;
 import com.lhd.qd.module.sys.dict.service.DictTypeService;
+import com.lhd.qd.trans.annotation.RefTrans;
+import com.lhd.qd.trans.annotation.RefTranslating;
+import com.lhd.qd.trans.consts.RefTransType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -40,15 +43,19 @@ public class DictTypeServiceImpl extends QdBaseServiceImpl<DictTypeMapper, DictT
                         .like(StrUtil.isNotEmpty(query.getTypeCode()), DictTypeDo::getTypeCode, query.getTypeCode())
                         .like(StrUtil.isNotEmpty(query.getTypeDesc()), DictTypeDo::getTypeDesc, query.getTypeDesc()));
 
-        return AbstractDictTypeConverter.INSTANCE.doPage2ListVoPage(doPage);
+        return DictTypeConverter.INSTANCE.doPage2ListVoPage(doPage);
     }
 
+    @RefTranslating({
+            @RefTrans(type = RefTransType.USER, readFieldName = "createUserId", writeFieldNames = "createUserName"),
+            @RefTrans(type = RefTransType.USER, readFieldName = "updateUserId", writeFieldNames = "updateUserName")
+    })
     @Override
     public DictTypeDetailVo getDictTypeById(Long id) {
 
         DictTypeDo dataObj = getById(id);
 
-        return AbstractDictTypeConverter.INSTANCE.do2DetailVo(dataObj);
+        return DictTypeConverter.INSTANCE.do2DetailVo(dataObj);
     }
 
     @Override
@@ -61,7 +68,7 @@ public class DictTypeServiceImpl extends QdBaseServiceImpl<DictTypeMapper, DictT
 
         valid(null, saveDto);
 
-        DictTypeDo dataObj = AbstractDictTypeConverter.INSTANCE.saveDto2Do(saveDto);
+        DictTypeDo dataObj = DictTypeConverter.INSTANCE.saveDto2Do(saveDto);
         save(dataObj);
     }
 
@@ -70,7 +77,7 @@ public class DictTypeServiceImpl extends QdBaseServiceImpl<DictTypeMapper, DictT
 
         valid(id, saveDto);
 
-        DictTypeDo dataObj = AbstractDictTypeConverter.INSTANCE.saveDto2Do(saveDto);
+        DictTypeDo dataObj = DictTypeConverter.INSTANCE.saveDto2Do(saveDto);
         dataObj.setId(id);
         updateById(dataObj);
 
@@ -91,7 +98,7 @@ public class DictTypeServiceImpl extends QdBaseServiceImpl<DictTypeMapper, DictT
 
     private void valid(Long id, DictTypeSaveDto saveDto) {
 
-        Long count = count(Wrappers.<DictTypeDo>lambdaQuery()
+        long count = count(Wrappers.<DictTypeDo>lambdaQuery()
                 .eq(DictTypeDo::getTypeCode, saveDto.getTypeCode())
                 .ne(id != null, DictTypeDo::getId, id));
         if (count > 0) {

@@ -48,7 +48,7 @@ public class CustomController extends QdBaseController {
 
     @ApiOperation(value = "新增")
     @PostMapping
-    public ApiResult save(@Validated @RequestBody CustomSaveDto saveDto) {
+    public ApiResult<?> save(@Validated @RequestBody CustomSaveDto saveDto) {
 
         service.saveCustom(saveDto);
 
@@ -57,7 +57,7 @@ public class CustomController extends QdBaseController {
 
     @ApiOperation(value = "修改")
     @PutMapping(value = "{id}")
-    public ApiResult update(@PathVariable("id") Long id, @Validated @RequestBody CustomSaveDto saveDto) {
+    public ApiResult<?> update(@PathVariable("id") Long id, @Validated @RequestBody CustomSaveDto saveDto) {
 
         service.updateCustom(id, saveDto);
 
@@ -66,7 +66,7 @@ public class CustomController extends QdBaseController {
 
     @ApiOperation(value = "删除")
     @DeleteMapping(value = "{id}")
-    public ApiResult remove(@PathVariable("id") Long id) {
+    public ApiResult<?> remove(@PathVariable("id") Long id) {
 
         service.removeCustom(id);
 
@@ -75,7 +75,7 @@ public class CustomController extends QdBaseController {
 
     @ApiOperation(value = "批量删除")
     @DeleteMapping(value = "batch")
-    public ApiResult batchRemove(@RequestBody List<Long> idList) {
+    public ApiResult<?> batchRemove(@RequestBody List<Long> idList) {
 
         service.batchRemoveCustom(idList);
 

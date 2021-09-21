@@ -23,20 +23,20 @@ import org.springframework.web.bind.annotation.RestController;
 public class LoginController extends QdBaseController {
 
     @Autowired
-    private LoginService service;
+    private LoginService loginService;
 
     @ApiOperation(value = "登录")
     @PostMapping("login")
     public ApiResult<LoginVo> login(@RequestBody LoginDto dto) {
 
-        return success(service.login(dto));
+        return success(loginService.login(dto));
     }
 
     @ApiOperation(value = "登出")
     @PostMapping("logout")
-    public ApiResult logout() {
+    public ApiResult<?> logout() {
 
-        service.logout();
+        loginService.logout();
 
         return success();
     }

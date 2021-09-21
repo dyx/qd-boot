@@ -7,7 +7,7 @@ import com.lhd.qd.base.QdBaseServiceImpl;
 import com.lhd.qd.constant.RedisConsts;
 import com.lhd.qd.exception.BusinessException;
 import com.lhd.qd.module.sys.dict.dao.DictMapper;
-import com.lhd.qd.module.sys.dict.model.converter.AbstractDictConverter;
+import com.lhd.qd.module.sys.dict.model.converter.DictConverter;
 import com.lhd.qd.module.sys.dict.model.dto.DictPageQuery;
 import com.lhd.qd.module.sys.dict.model.dto.DictSaveDto;
 import com.lhd.qd.module.sys.dict.model.entity.DictDo;
@@ -49,7 +49,7 @@ public class DictServiceImpl extends QdBaseServiceImpl<DictMapper, DictDo> imple
         IPage<DictDo> doPage = this.page(new Page<>(query.getPage(), query.getSize()),
                 Wrappers.<DictDo>lambdaQuery());
 
-        return AbstractDictConverter.INSTANCE.doPage2ListVoPage(doPage);
+        return DictConverter.INSTANCE.doPage2ListVoPage(doPage);
     }
 
     @Override
@@ -61,7 +61,7 @@ public class DictServiceImpl extends QdBaseServiceImpl<DictMapper, DictDo> imple
                         .eq(DictDo::getTypeCode, typeCode)
                         .orderBy(isOrderBy(query, "sort_number"), isAsc(query), DictDo::getSortNum));
 
-        return AbstractDictConverter.INSTANCE.doPage2ListVoPage(doPage);
+        return DictConverter.INSTANCE.doPage2ListVoPage(doPage);
     }
 
     @SuppressWarnings("unchecked")
@@ -75,7 +75,7 @@ public class DictServiceImpl extends QdBaseServiceImpl<DictMapper, DictDo> imple
 
         DictDo dataObj = getById(id);
 
-        return AbstractDictConverter.INSTANCE.do2DetailVo(dataObj);
+        return DictConverter.INSTANCE.do2DetailVo(dataObj);
     }
 
     @Override
@@ -83,7 +83,7 @@ public class DictServiceImpl extends QdBaseServiceImpl<DictMapper, DictDo> imple
 
         valid(null, saveDto);
 
-        DictDo dataObj = AbstractDictConverter.INSTANCE.saveDto2Do(saveDto);
+        DictDo dataObj = DictConverter.INSTANCE.saveDto2Do(saveDto);
         save(dataObj);
 
         updateDictCache(saveDto.getTypeCode());
@@ -94,7 +94,7 @@ public class DictServiceImpl extends QdBaseServiceImpl<DictMapper, DictDo> imple
 
         valid(id, saveDto);
 
-        DictDo dataObj = AbstractDictConverter.INSTANCE.saveDto2Do(saveDto);
+        DictDo dataObj = DictConverter.INSTANCE.saveDto2Do(saveDto);
         dataObj.setId(id);
         updateById(dataObj);
 
@@ -116,7 +116,7 @@ public class DictServiceImpl extends QdBaseServiceImpl<DictMapper, DictDo> imple
 
         List<DictDo> doList =list(Wrappers.<DictDo>lambdaQuery().eq(DictDo::getTypeCode, typeCode).orderByAsc(DictDo::getSortNum));
 
-        redisUtils.setHash(RedisConsts.DICT_KEY, typeCode, AbstractDictConverter.INSTANCE.doList2PageBindVoList(doList));
+        redisUtils.setHash(RedisConsts.DICT_KEY, typeCode, DictConverter.INSTANCE.doList2PageBindVoList(doList));
     }
 
     @Override
@@ -154,10 +154,26 @@ public class DictServiceImpl extends QdBaseServiceImpl<DictMapper, DictDo> imple
 
             // 显示列表
             List<DictPageBindVo> voList = dictMap.computeIfAbsent(dataObj.getTypeCode(), key -> new ArrayList<>());
-            voList.add(AbstractDictConverter.INSTANCE.do2PageBindVo(dataObj));
+            voList.add(DictConverter.INSTANCE.do2PageBindVo(dataObj));
         }
 
         return dictMap;
+    }
+
+    @Override
+    public Map<String, Map<Integer, String>> findDictMapByTypeCodeList(List<String> typeCodeList) {
+
+        // TODO 从缓存中获取
+
+        List<DictDo> doList = list(Wrappers.<DictDo>lambdaQuery().in(DictDo::getTypeCode, typeCodeList));
+
+        Map<String, Map<Integer, String>> resultMap = new HashMap<>(16);
+        for (DictDo dataObj : doList) {
+            Map<Integer, String> dictMap = resultMap.computeIfAbsent(dataObj.getTypeCode(), k -> new HashMap<>(16));
+            dictMap.put(dataObj.getDictValue(), dataObj.getDictDesc());
+        }
+
+        return resultMap;
     }
 
     private void valid(Long id, DictSaveDto saveDto) {

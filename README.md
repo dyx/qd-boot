@@ -152,7 +152,7 @@ qd-boot
         password:
     ```
 - 运行QdApplication.java，则可启动后台项目
-- 后端接口文档地址：http://localhost:20191/swagger-ui.html
+- 后端接口文档地址：http://localhost:20191/swagger-ui/
 
 ##### 前端
 - cd qd-page

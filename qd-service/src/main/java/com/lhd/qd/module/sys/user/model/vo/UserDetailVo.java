@@ -3,16 +3,12 @@ package com.lhd.qd.module.sys.user.model.vo;
 import com.lhd.qd.base.BaseDetailVo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
 
 /**
  * @author lhd
  */
-@Setter
-@Getter
-@ToString
+@Data
 @ApiModel(value = "用户详情视图对象")
 public class UserDetailVo extends BaseDetailVo {
 

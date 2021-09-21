@@ -1,15 +1,8 @@
 package com.lhd.qd.module.sale.custom.model.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import java.time.LocalDateTime;
-import java.io.Serializable;
 import com.lhd.qd.base.QdBaseDo;
-import com.baomidou.mybatisplus.annotation.TableId;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
 
 /**
  * <p>
@@ -19,9 +12,7 @@ import lombok.ToString;
  * @author lhd
  * @since 2019-07-19
  */
-@Setter
-@Getter
-@ToString(callSuper = true)
+@Data
 @TableName("sale_custom")
 public class CustomDo extends QdBaseDo {
 

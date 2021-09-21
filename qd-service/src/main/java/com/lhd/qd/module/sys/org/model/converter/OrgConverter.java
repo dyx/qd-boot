@@ -11,9 +11,9 @@ import org.mapstruct.factory.Mappers;
  * @since 2019-07-12
  */
 @Mapper
-public abstract class AbstractOrgConverter {
+public interface OrgConverter {
 
-    public static AbstractOrgConverter INSTANCE = Mappers.getMapper(AbstractOrgConverter.class);
+    OrgConverter INSTANCE = Mappers.getMapper(OrgConverter.class);
 
     /**
      * do 转换为 树vo
@@ -22,6 +22,6 @@ public abstract class AbstractOrgConverter {
      */
     @Mapping(target = "id", expression = "java( Math.abs(dto.getId()) )")
     @Mapping(target = "parentId", expression = "java( Math.abs(dto.getParentId()) )")
-    public abstract OrgTreeVo dto2TreeVo(OrgTreeDto dto);
+    OrgTreeVo dto2TreeVo(OrgTreeDto dto);
 
 }

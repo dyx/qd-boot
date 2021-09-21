@@ -13,16 +13,16 @@ import org.mapstruct.factory.Mappers;
  * @since 2019-07-24
  */
 @Mapper
-public abstract class AbstractDataRuleConverter {
+public interface DataRuleConverter {
 
-    public static AbstractDataRuleConverter INSTANCE = Mappers.getMapper(AbstractDataRuleConverter.class);
+    DataRuleConverter INSTANCE = Mappers.getMapper(DataRuleConverter.class);
 
     /**
      * 选中dto 转换为 选中树vo
      * @param saveDto
      * @return
      */
-    public abstract DataRuleCheckedTreeVo checkedDto2CheckedTreeVo(DataRuleCheckedDto saveDto);
+    DataRuleCheckedTreeVo checkedDto2CheckedTreeVo(DataRuleCheckedDto saveDto);
 
     /**
      * 新增dto 转换为 do
@@ -30,5 +30,5 @@ public abstract class AbstractDataRuleConverter {
      * @return
      */
     @Mapping(target = "customDeptIds", expression = "java( cn.hutool.core.util.ArrayUtil.join(saveDto.getCustomDeptIds(),\",\") )")
-    public abstract DataRuleDo saveDto2Do(DataRuleSaveDto saveDto);
+    DataRuleDo saveDto2Do(DataRuleSaveDto saveDto);
 }

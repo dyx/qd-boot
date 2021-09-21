@@ -72,7 +72,7 @@ public class DictController extends QdBaseController {
 
     @ApiOperation(value = "新增")
     @PostMapping
-    public ApiResult save(@Validated @RequestBody DictSaveDto saveDto) {
+    public ApiResult<?> save(@Validated @RequestBody DictSaveDto saveDto) {
 
         service.saveDict(saveDto);
 
@@ -81,7 +81,7 @@ public class DictController extends QdBaseController {
 
     @ApiOperation(value = "修改")
     @PutMapping(value = "{id}")
-    public ApiResult update(@PathVariable("id") Long id, @Validated @RequestBody DictSaveDto saveDto) {
+    public ApiResult<?> update(@PathVariable("id") Long id, @Validated @RequestBody DictSaveDto saveDto) {
 
         service.updateDict(id, saveDto);
 
@@ -90,7 +90,7 @@ public class DictController extends QdBaseController {
 
     @ApiOperation(value = "更新字典缓存")
     @PutMapping(value = "code/{typeCode}/cache")
-    public ApiResult updateDictCacheByTypeCode(@PathVariable("typeCode") String typeCode) {
+    public ApiResult<?> updateDictCacheByTypeCode(@PathVariable("typeCode") String typeCode) {
 
         service.updateDictCacheWithValid(typeCode);
 
@@ -99,7 +99,7 @@ public class DictController extends QdBaseController {
 
     @ApiOperation(value = "删除")
     @DeleteMapping(value = "{id}")
-    public ApiResult remove(@PathVariable("id") Long id) {
+    public ApiResult<?> remove(@PathVariable("id") Long id) {
 
         service.removeDict(id);
 

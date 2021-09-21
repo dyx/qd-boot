@@ -1,6 +1,7 @@
 package com.lhd.qd.module.sys.role.model.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -13,9 +14,7 @@ import lombok.ToString;
  * @author lhd
  * @since 2019-05-25
  */
-@Setter
-@Getter
-@ToString(callSuper = true)
+@Data
 @TableName("sys_role_resource")
 public class RoleResourceDo {
 

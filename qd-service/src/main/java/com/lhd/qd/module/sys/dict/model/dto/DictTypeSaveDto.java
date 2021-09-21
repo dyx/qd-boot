@@ -2,17 +2,13 @@ package com.lhd.qd.module.sys.dict.model.dto;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
 
 /**
  * @author lhd
  * @since 2019-06-01
  */
-@Setter
-@Getter
-@ToString
+@Data
 @ApiModel(value = "字典类型新增传输对象")
 public class DictTypeSaveDto {
 

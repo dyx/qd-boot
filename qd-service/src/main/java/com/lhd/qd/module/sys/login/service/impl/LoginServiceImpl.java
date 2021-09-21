@@ -2,6 +2,7 @@ package com.lhd.qd.module.sys.login.service.impl;
 
 import cn.hutool.core.date.DateField;
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.lang.UUID;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.lhd.qd.base.QdBaseServiceImpl;
 import com.lhd.qd.config.QdProperty;
@@ -14,7 +15,7 @@ import com.lhd.qd.module.sys.login.service.LoginService;
 import com.lhd.qd.module.sys.org.service.DeptService;
 import com.lhd.qd.module.sys.role.service.RoleResourceService;
 import com.lhd.qd.module.sys.user.dao.UserMapper;
-import com.lhd.qd.module.sys.user.model.converter.AbstractUserConverter;
+import com.lhd.qd.module.sys.user.model.converter.UserConverter;
 import com.lhd.qd.module.sys.user.model.entity.UserDo;
 import com.lhd.qd.module.sys.user.model.vo.UserCacheVo;
 import com.lhd.qd.module.sys.user.model.vo.UserInfoVo;
@@ -64,7 +65,7 @@ public class LoginServiceImpl extends QdBaseServiceImpl<UserMapper, UserDo> impl
         }
 
         Long userId = dataObj.getId();
-        UserInfoVo userVo = AbstractUserConverter.INSTANCE.do2InfoVo(dataObj);
+        UserInfoVo userVo = UserConverter.INSTANCE.do2InfoVo(dataObj);
 
         List<UserRoleVo> userRoleVoList = userRoleService.getRoleListByUserId(userId);
         if (userRoleVoList == null || userRoleVoList.size() == 0) {
@@ -86,16 +87,14 @@ public class LoginServiceImpl extends QdBaseServiceImpl<UserMapper, UserDo> impl
         userVo.setPageElementMap(roleResourceService.getPageElementMapByRoleIdList(roleIdList));
 
 
-        String clientId = UuidUtils.getId();
+        String clientId = UUID.fastUUID().toString(true);
         // 生成token
         String token = JwtUtils.generate(new TokenDto(dataObj.getId(), clientId),
                 dataObj.getSalt(),
                 DateUtil.date().offset(DateField.MINUTE, qdProperty.getTokenExpiresMinutes()));
         long expireSeconds = qdProperty.getTokenExpiresMinutes() * 60;
-
-
-        // 缓存token
         String userTokenKey = RedisConsts.getUserTokenKey(clientId, dataObj.getId());
+        // 缓存token
         redisUtils.setValue(userTokenKey, token, expireSeconds);
 
         // 缓存用户信息

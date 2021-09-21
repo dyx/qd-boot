@@ -8,7 +8,7 @@ import com.lhd.qd.constant.http.ApiResult;
  */
 public class QdBaseController {
 
-    protected static ApiResult success() {
+    protected static ApiResult<?> success() {
         return ApiResult.success();
     }
 

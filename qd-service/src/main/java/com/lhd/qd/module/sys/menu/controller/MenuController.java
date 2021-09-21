@@ -47,14 +47,14 @@ public class MenuController extends QdBaseController {
 
     @ApiOperation(value = "新增")
     @PostMapping
-    public ApiResult save(@Validated @RequestBody MenuSaveDto saveDto) {
+    public ApiResult<?> save(@Validated @RequestBody MenuSaveDto saveDto) {
 
         return success(service.saveMenu(saveDto));
     }
 
     @ApiOperation(value = "修改")
     @PutMapping(value = "{id}")
-    public ApiResult update(@PathVariable("id") Long id, @Validated @RequestBody MenuSaveDto saveDto) {
+    public ApiResult<?> update(@PathVariable("id") Long id, @Validated @RequestBody MenuSaveDto saveDto) {
 
         service.updateMenu(id, saveDto);
 
@@ -63,7 +63,7 @@ public class MenuController extends QdBaseController {
 
     @ApiOperation(value = "删除")
     @DeleteMapping(value = "{id}")
-    public ApiResult remove(@PathVariable("id") Long id) {
+    public ApiResult<?> remove(@PathVariable("id") Long id) {
 
         service.removeMenu(id);
 

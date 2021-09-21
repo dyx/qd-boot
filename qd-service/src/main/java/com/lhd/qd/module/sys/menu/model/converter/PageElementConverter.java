@@ -6,7 +6,6 @@ import com.lhd.qd.module.sys.menu.model.dto.PageElementSaveDto;
 import com.lhd.qd.module.sys.menu.model.entity.PageElementDo;
 import com.lhd.qd.module.sys.menu.model.vo.PageElementDetailVo;
 import com.lhd.qd.module.sys.menu.model.vo.PageElementListVo;
-import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
@@ -15,36 +14,35 @@ import org.mapstruct.factory.Mappers;
  * @since 2019-05-25
  */
 @Mapper
-public abstract class AbstractPageElementConverter {
+public interface PageElementConverter {
 
-    public static AbstractPageElementConverter INSTANCE = Mappers.getMapper(AbstractPageElementConverter.class);
+    PageElementConverter INSTANCE = Mappers.getMapper(PageElementConverter.class);
 
     /**
      * do分页集合 转换为 列表vo分页集合
      * @param doPage
      * @return
      */
-    @BeanMapping(resultType = Page.class)
-    public abstract IPage<PageElementListVo> doPage2ListVoPage(IPage<PageElementDo> doPage);
+    Page<PageElementListVo> doPage2ListVoPage(IPage<PageElementDo> doPage);
 
     /**
      * do 转换为 列表vo
      * @param dataObj
      * @return
      */
-    public abstract PageElementListVo do2ListVo(PageElementDo dataObj);
+    PageElementListVo do2ListVo(PageElementDo dataObj);
 
     /**
      * do 转换为 详情vo
      * @param dataObj
      * @return
      */
-    public abstract PageElementDetailVo do2DetailVo(PageElementDo dataObj);
+    PageElementDetailVo do2DetailVo(PageElementDo dataObj);
 
     /**
      * 新增dto 转换为 do
      * @param saveDto
      * @return
      */
-    public abstract PageElementDo saveDto2Do(PageElementSaveDto saveDto);
+    PageElementDo saveDto2Do(PageElementSaveDto saveDto);
 }

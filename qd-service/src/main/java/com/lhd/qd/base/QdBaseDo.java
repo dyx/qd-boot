@@ -1,18 +1,14 @@
 package com.lhd.qd.base;
 
 import com.baomidou.mybatisplus.annotation.*;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
 
 import java.time.LocalDateTime;
 
 /**
  * @author lhd
  */
-@Setter
-@Getter
-@ToString
+@Data
 public class QdBaseDo {
 
     /**

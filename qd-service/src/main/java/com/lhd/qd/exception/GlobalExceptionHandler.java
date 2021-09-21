@@ -30,7 +30,7 @@ public class GlobalExceptionHandler {
      * @return
      */
     @ExceptionHandler(HttpMessageNotReadableException.class)
-    public ApiResult handle(HttpMessageNotReadableException e) {
+    public ApiResult<?> handle(HttpMessageNotReadableException e) {
 
         log.error(e.getMessage(), e);
 
@@ -43,7 +43,7 @@ public class GlobalExceptionHandler {
      * @return
      */
     @ExceptionHandler(HttpMediaTypeNotSupportedException.class)
-    public ApiResult handle(HttpMediaTypeNotSupportedException e) {
+    public ApiResult<?> handle(HttpMediaTypeNotSupportedException e) {
 
         log.error(e.getMessage(), e);
 
@@ -56,7 +56,7 @@ public class GlobalExceptionHandler {
      * @return
      */
     @ExceptionHandler(ConstraintViolationException.class)
-    public ApiResult handle(ConstraintViolationException e) {
+    public ApiResult<?> handle(ConstraintViolationException e) {
         StringBuilder msgBuilder = new StringBuilder();
         for (ConstraintViolation violation : e.getConstraintViolations()) {
             msgBuilder.append(violation.getMessage());
@@ -72,7 +72,7 @@ public class GlobalExceptionHandler {
      * @return
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ApiResult handle(MethodArgumentNotValidException e) {
+    public ApiResult<?> handle(MethodArgumentNotValidException e) {
         StringBuilder msgBuilder = new StringBuilder();
         for (FieldError error : e.getBindingResult().getFieldErrors()) {
             msgBuilder.append(error.getDefaultMessage());
@@ -88,7 +88,7 @@ public class GlobalExceptionHandler {
      * @return
      */
     @ExceptionHandler(BindException.class)
-    public ApiResult handler(BindException e) {
+    public ApiResult<?> handler(BindException e) {
         StringBuilder msgBuilder = new StringBuilder();
         for (FieldError error : e.getBindingResult().getFieldErrors()) {
             msgBuilder.append(error.getDefaultMessage());
@@ -101,7 +101,7 @@ public class GlobalExceptionHandler {
     // todo 数据库异常，主键冲突、字段超长
 
     @ExceptionHandler(BusinessException.class)
-    public ApiResult handle(BusinessException e) {
+    public ApiResult<?> handle(BusinessException e) {
         log.error(e.getMessage(), e.getDetail());
 
         // 显示失败信息
@@ -114,7 +114,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(Exception.class)
-    public ApiResult handle(Exception e) {
+    public ApiResult<?> handle(Exception e) {
         log.error(e.getMessage(), e);
         return ApiResult.error();
     }

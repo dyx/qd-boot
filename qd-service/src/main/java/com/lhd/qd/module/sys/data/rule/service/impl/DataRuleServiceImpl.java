@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.lhd.qd.base.QdBaseServiceImpl;
 import com.lhd.qd.constant.dict.DataPermissionTypeEnum;
 import com.lhd.qd.module.sys.data.rule.dao.DataRuleMapper;
-import com.lhd.qd.module.sys.data.rule.model.converter.AbstractDataRuleConverter;
+import com.lhd.qd.module.sys.data.rule.model.converter.DataRuleConverter;
 import com.lhd.qd.module.sys.data.rule.model.dto.DataObjDto;
 import com.lhd.qd.module.sys.data.rule.model.dto.DataRuleDto;
 import com.lhd.qd.module.sys.data.rule.model.dto.DataRulePermDto;
@@ -134,7 +134,7 @@ public class DataRuleServiceImpl extends QdBaseServiceImpl<DataRuleMapper, DataR
         List<DataRuleDo> doList = new ArrayList<>();
         for (DataRuleSaveDto dto: dtoList) {
 
-            DataRuleDo dataObj = AbstractDataRuleConverter.INSTANCE.saveDto2Do(dto);
+            DataRuleDo dataObj = DataRuleConverter.INSTANCE.saveDto2Do(dto);
             dataObj.setRoleId(roleId);
             doList.add(dataObj);
         }

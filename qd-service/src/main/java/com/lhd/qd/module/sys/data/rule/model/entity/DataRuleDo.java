@@ -1,9 +1,7 @@
 package com.lhd.qd.module.sys.data.rule.model.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
 
 /**
  * <p>
@@ -13,9 +11,7 @@ import lombok.ToString;
  * @author lhd
  * @since 2019-07-24
  */
-@Setter
-@Getter
-@ToString(callSuper = true)
+@Data
 @TableName("sys_data_rule")
 public class DataRuleDo {
 

@@ -4,6 +4,7 @@ import com.lhd.qd.constant.CommonConsts;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpHeaders;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -34,13 +35,12 @@ public class SwaggerConfig {
                 .paths(PathSelectors.any())
                 .build()
                 .securitySchemes(securitySchemes())
-                .securityContexts(securityContexts())
-                ;
+                .securityContexts(securityContexts());
     }
 
     private List<SecurityScheme> securitySchemes() {
         return Collections.singletonList(
-                new ApiKey(CommonConsts.REQUEST_HEADER_KEY_AUTH, CommonConsts.REQUEST_HEADER_KEY_AUTH, "header"));
+                new ApiKey(HttpHeaders.AUTHORIZATION, HttpHeaders.AUTHORIZATION, "header"));
     }
 
     private List<SecurityContext> securityContexts() {

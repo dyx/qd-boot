@@ -14,36 +14,35 @@ import org.mapstruct.factory.Mappers;
  * @since 2019-06-01
  */
 @Mapper
-public abstract class AbstractDictTypeConverter {
+public interface DictTypeConverter {
 
-    public static AbstractDictTypeConverter INSTANCE = Mappers.getMapper(AbstractDictTypeConverter.class);
+    DictTypeConverter INSTANCE = Mappers.getMapper(DictTypeConverter.class);
 
     /**
      * do分页集合 转换为 列表vo分页集合
      * @param doPage
      * @return
      */
-    @BeanMapping(resultType = Page.class)
-    public abstract IPage<DictTypeListVo> doPage2ListVoPage(IPage<DictTypeDo> doPage);
+    Page<DictTypeListVo> doPage2ListVoPage(IPage<DictTypeDo> doPage);
 
     /**
      * do 转换为 列表vo
      * @param dataObj
      * @return
      */
-    public abstract DictTypeListVo do2ListVo(DictTypeDo dataObj);
+    DictTypeListVo do2ListVo(DictTypeDo dataObj);
 
     /**
      * do 转换为 详情vo
      * @param dataObj
      * @return
      */
-    public abstract DictTypeDetailVo do2DetailVo(DictTypeDo dataObj);
+    DictTypeDetailVo do2DetailVo(DictTypeDo dataObj);
 
     /**
      * 新增dto 转换为 do
      * @param saveDto
      * @return
      */
-    public abstract DictTypeDo saveDto2Do(DictTypeSaveDto saveDto);
+    DictTypeDo saveDto2Do(DictTypeSaveDto saveDto);
 }

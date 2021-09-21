@@ -1,7 +1,7 @@
 package com.lhd.qd.module.sys.org.service.impl;
 
 import com.lhd.qd.module.sys.org.dao.OrgMapper;
-import com.lhd.qd.module.sys.org.model.converter.AbstractOrgConverter;
+import com.lhd.qd.module.sys.org.model.converter.OrgConverter;
 import com.lhd.qd.module.sys.org.model.dto.OrgTreeDto;
 import com.lhd.qd.module.sys.org.model.vo.OrgTreeVo;
 import com.lhd.qd.module.sys.org.service.OrgService;
@@ -40,7 +40,7 @@ public class OrgServiceImpl implements OrgService {
 
             if (parentId.equals(dto.getParentId())) {
 
-                OrgTreeVo treeVo = AbstractOrgConverter.INSTANCE.dto2TreeVo(dto);
+                OrgTreeVo treeVo = OrgConverter.INSTANCE.dto2TreeVo(dto);
                 treeVo.setChildren(buildTree(dto.getId(), dtoList));
 
                 treeList.add(treeVo);

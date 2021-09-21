@@ -3,6 +3,7 @@ package com.lhd.qd.module.sys.user.model.dto;
 import com.lhd.qd.base.QdBasePageQuery;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -10,9 +11,7 @@ import lombok.ToString;
 /**
  * @author lhd
  */
-@Setter
-@Getter
-@ToString(callSuper = true)
+@Data
 @ApiModel(value = "用户参照分页查询数据对象")
 public class UserRefPageQuery extends QdBasePageQuery {
 

@@ -2,17 +2,13 @@ package com.lhd.qd.exception;
 
 import com.lhd.qd.constant.http.ApiCodeEnum;
 import com.lhd.qd.constant.http.ErrorCodeEnum;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
 
 /**
  * 业务异常
  * @author lhd
  */
-@Setter
-@Getter
-@ToString
+@Data
 public class BusinessException extends RuntimeException {
 
     /**

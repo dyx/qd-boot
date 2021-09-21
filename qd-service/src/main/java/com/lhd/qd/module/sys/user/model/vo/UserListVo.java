@@ -2,18 +2,14 @@ package com.lhd.qd.module.sys.user.model.vo;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
 
 import java.time.LocalDateTime;
 
 /**
  * @author lhd
  */
-@Setter
-@Getter
-@ToString
+@Data
 @ApiModel(value = "用户列表视图对象")
 public class UserListVo {
 
@@ -25,6 +21,9 @@ public class UserListVo {
 
     @ApiModelProperty(value = "性别")
     private Integer gender;
+
+    @ApiModelProperty(value = "性别名称")
+    private String genderName;
 
     @ApiModelProperty(value = "用户名")
     private String username;

@@ -3,9 +3,7 @@ package com.lhd.qd.module.sys.user.model.vo;
 import com.lhd.qd.tree.AbstractTreeVo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
 
 import java.util.List;
 import java.util.Map;
@@ -13,9 +11,7 @@ import java.util.Map;
 /**
  * @author lhd
  */
-@Setter
-@Getter
-@ToString
+@Data
 @ApiModel(value = "用户信息数据视图对象")
 public class UserInfoVo {
 

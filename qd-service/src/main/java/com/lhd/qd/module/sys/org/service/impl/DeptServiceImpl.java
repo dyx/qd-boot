@@ -3,7 +3,7 @@ package com.lhd.qd.module.sys.org.service.impl;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.lhd.qd.base.QdBaseServiceImpl;
 import com.lhd.qd.module.sys.org.dao.DeptMapper;
-import com.lhd.qd.module.sys.org.model.converter.AbstractDeptConverter;
+import com.lhd.qd.module.sys.org.model.converter.DeptConverter;
 import com.lhd.qd.module.sys.org.model.dto.DeptSaveDto;
 import com.lhd.qd.module.sys.org.model.entity.DeptDo;
 import com.lhd.qd.module.sys.org.model.vo.DeptDetailVo;
@@ -47,20 +47,20 @@ public class DeptServiceImpl extends QdBaseServiceImpl<DeptMapper, DeptDo> imple
 
         DeptDo dataObj = getById(id);
 
-        return AbstractDeptConverter.INSTANCE.do2DetailVo(dataObj);
+        return DeptConverter.INSTANCE.do2DetailVo(dataObj);
     }
 
     @Override
     public void saveDept(DeptSaveDto saveDto) {
 
-        DeptDo dataObj = AbstractDeptConverter.INSTANCE.saveDto2Do(saveDto);
+        DeptDo dataObj = DeptConverter.INSTANCE.saveDto2Do(saveDto);
         save(dataObj);
     }
 
     @Override
     public void updateDept(Long id, DeptSaveDto saveDto) {
 
-        DeptDo dataObj = AbstractDeptConverter.INSTANCE.saveDto2Do(saveDto);
+        DeptDo dataObj = DeptConverter.INSTANCE.saveDto2Do(saveDto);
         dataObj.setId(id);
         updateById(dataObj);
     }
@@ -96,7 +96,7 @@ public class DeptServiceImpl extends QdBaseServiceImpl<DeptMapper, DeptDo> imple
 
             if (parentId.equals(dataObj.getParentId())) {
 
-                DeptTreeVo vo = AbstractDeptConverter.INSTANCE.do2TreeVo(dataObj);
+                DeptTreeVo vo = DeptConverter.INSTANCE.do2TreeVo(dataObj);
                 vo.setChildren(buildTree(dataObj.getId(), doList));
 
                 treeList.add(vo);

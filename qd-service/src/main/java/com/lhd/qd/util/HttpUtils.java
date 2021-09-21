@@ -4,7 +4,7 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.servlet.ServletUtil;
 import cn.hutool.http.useragent.UserAgent;
 import cn.hutool.http.useragent.UserAgentUtil;
-import com.lhd.qd.constant.CommonConsts;
+import org.springframework.http.HttpHeaders;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -48,8 +48,11 @@ public class HttpUtils {
      * @return
      */
     public static String getToken() {
-        String token = getRequest().getHeader(CommonConsts.REQUEST_HEADER_KEY_AUTH);
-        return token;
+        HttpServletRequest request = getRequest();
+        if (request != null) {
+            return request.getHeader(HttpHeaders.AUTHORIZATION);
+        }
+        return "";
     }
 
     /**

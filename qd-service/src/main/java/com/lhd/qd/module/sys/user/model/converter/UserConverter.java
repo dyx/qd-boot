@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lhd.qd.module.sys.user.model.dto.UserSaveDto;
 import com.lhd.qd.module.sys.user.model.entity.UserDo;
 import com.lhd.qd.module.sys.user.model.vo.*;
-import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
@@ -16,54 +15,51 @@ import java.util.Map;
  * @author lhd
  */
 @Mapper
-public abstract class AbstractUserConverter {
+public interface UserConverter {
 
-    public static AbstractUserConverter INSTANCE = Mappers.getMapper(AbstractUserConverter.class);
+    UserConverter INSTANCE = Mappers.getMapper(UserConverter.class);
 
     /**
      * do分页集合 转换为 列表vo分页集合
      * @param doPage
      * @return
      */
-    @BeanMapping(resultType = Page.class)
-    public abstract IPage<UserListVo> doPage2ListVoPage(IPage<UserDo> doPage);
+    Page<UserListVo> doPage2ListVoPage(IPage<UserDo> doPage);
 
     /**
      * do分页集合 转换为 参照列表vo分页集合
      * @param doPage
      * @return
      */
-    @BeanMapping(resultType = Page.class)
-    public abstract IPage<UserRefListVo> doPage2RefListVoPage(IPage<UserDo> doPage);
+    Page<UserRefListVo> doPage2RefListVoPage(IPage<UserDo> doPage);
 
     /**
      * do 转换为 列表vo
      * @param dataObj
      * @return
      */
-    public abstract UserListVo do2ListVo(UserDo dataObj);
+    UserListVo do2ListVo(UserDo dataObj);
 
     /**
      * do 转换为 参照列表vo
      * @param dataObj
      * @return
      */
-    public abstract UserRefListVo do2RefListVo(UserDo dataObj);
+    UserRefListVo do2RefListVo(UserDo dataObj);
 
     /**
      * do 转换为 信息vo
      * @param dataObj
      * @return
      */
-    public abstract UserInfoVo do2InfoVo(UserDo dataObj);
+    UserInfoVo do2InfoVo(UserDo dataObj);
 
     /**
      * map 转换为 缓存vo
      * @param map
      * @return
      */
-    @SuppressWarnings("unchecked")
-    public UserCacheVo map2CacheVo(Map<String, Object> map) {
+    default UserCacheVo map2CacheVo(Map<String, Object> map) {
         if ( map == null ) {
             return null;
         }
@@ -88,12 +84,12 @@ public abstract class AbstractUserConverter {
      * @param dataObj
      * @return
      */
-    public abstract UserDetailVo do2DetailVo(UserDo dataObj);
+    UserDetailVo do2DetailVo(UserDo dataObj);
 
     /**
      * 新增dto 转换为 do
      * @param saveDto
      * @return
      */
-    public abstract UserDo saveDto2Do(UserSaveDto saveDto);
+    UserDo saveDto2Do(UserSaveDto saveDto);
 }

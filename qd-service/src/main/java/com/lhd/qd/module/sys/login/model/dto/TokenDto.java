@@ -1,16 +1,12 @@
 package com.lhd.qd.module.sys.login.model.dto;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
 
 /**
  * 凭证传输对象
  * @author lhd
  */
-@Setter
-@Getter
-@ToString
+@Data
 public class TokenDto {
 
     /**

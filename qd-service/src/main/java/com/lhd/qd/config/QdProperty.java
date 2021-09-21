@@ -1,8 +1,6 @@
 package com.lhd.qd.config;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -12,9 +10,7 @@ import java.util.List;
  * 自定义配置文件属性
  * @author lhd
  */
-@Setter
-@Getter
-@ToString
+@Data
 @Component
 public class QdProperty {
 

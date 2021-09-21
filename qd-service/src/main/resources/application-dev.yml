@@ -29,4 +29,4 @@ qd:
     expires-minutes: 600
   user:
     init-pwd: 123456
-    ignore-url: /,/login,/logout,/dict/page/cache,/csrf,/swagger-ui.html,/v2/api-docs,/swagger-resources/**,/webjars/springfox-swagger-ui/**
+    ignore-url: /,/login,/logout,/dict/page/cache,/csrf,/swagger-ui/**,/swagger-resources/**,/v2/api-docs

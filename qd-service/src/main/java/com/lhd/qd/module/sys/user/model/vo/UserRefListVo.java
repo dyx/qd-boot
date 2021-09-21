@@ -2,18 +2,14 @@ package com.lhd.qd.module.sys.user.model.vo;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
 
 import java.time.LocalDateTime;
 
 /**
  * @author lhd
  */
-@Setter
-@Getter
-@ToString
+@Data
 @ApiModel(value = "用户参照列表视图对象")
 public class UserRefListVo {
 

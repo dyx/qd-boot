@@ -2,9 +2,7 @@ package com.lhd.qd.module.sys.role.model.dto;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
 
 import java.util.List;
 
@@ -12,9 +10,7 @@ import java.util.List;
  * @author lhd
  * @since 2019-05-23
  */
-@Setter
-@Getter
-@ToString
+@Data
 @ApiModel(value = "角色分配资源传输对象")
 public class RoleAssignResourceDto {
 

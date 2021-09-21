@@ -1,7 +1,7 @@
 package com.lhd.qd.util;
 
+import cn.hutool.core.util.StrUtil;
 import org.springframework.util.DigestUtils;
-import org.springframework.util.StringUtils;
 
 /**
  * 安全工具
@@ -9,9 +9,8 @@ import org.springframework.util.StringUtils;
  */
 public class SecurityUtils {
 
-
     public static String md5(String plaintext) {
-        if (StringUtils.isEmpty(plaintext)) {
+        if (StrUtil.isEmpty(plaintext)) {
             return "";
         }
         return DigestUtils.md5DigestAsHex(plaintext.getBytes());
@@ -28,17 +27,5 @@ public class SecurityUtils {
         }
 
         return ciphertext;
-    }
-
-    public static void main(String[] args) {
-
-        String salt = "abcdefg";
-        String pwd = "123456";
-        int saltTimes = 128;
-
-        System.out.println("1:" + md5WithSalt("", "", saltTimes));
-        System.out.println("2:" + md5WithSalt(pwd, "", saltTimes));
-        System.out.println("3:" + md5WithSalt("", salt, saltTimes));
-        System.out.println("4:" + md5WithSalt(pwd, salt, saltTimes));
     }
 }

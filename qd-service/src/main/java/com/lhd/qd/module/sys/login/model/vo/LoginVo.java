@@ -3,16 +3,12 @@ package com.lhd.qd.module.sys.login.model.vo;
 import com.lhd.qd.module.sys.user.model.vo.UserInfoVo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
 
 /**
  * @author lhd
  */
-@Setter
-@Getter
-@ToString
+@Data
 @ApiModel(value = "登录视图对象")
 public class LoginVo {
 

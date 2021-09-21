@@ -46,7 +46,7 @@ public class DictTypeController extends QdBaseController {
 
     @ApiOperation(value = "新增")
     @PostMapping
-    public ApiResult save(@Validated @RequestBody DictTypeSaveDto saveDto) {
+    public ApiResult<?> save(@Validated @RequestBody DictTypeSaveDto saveDto) {
 
         service.saveDictType(saveDto);
 
@@ -55,7 +55,7 @@ public class DictTypeController extends QdBaseController {
 
     @ApiOperation(value = "修改")
     @PutMapping(value = "{id}")
-    public ApiResult update(@PathVariable("id") Long id, @Validated @RequestBody DictTypeSaveDto saveDto) {
+    public ApiResult<?> update(@PathVariable("id") Long id, @Validated @RequestBody DictTypeSaveDto saveDto) {
 
         service.updateDictType(id, saveDto);
 
@@ -64,7 +64,7 @@ public class DictTypeController extends QdBaseController {
 
     @ApiOperation(value = "删除")
     @DeleteMapping(value = "{id}")
-    public ApiResult remove(@PathVariable("id") Long id) {
+    public ApiResult<?> remove(@PathVariable("id") Long id) {
 
         service.removeDictType(id);
 

@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lhd.qd.base.QdBaseServiceImpl;
 import com.lhd.qd.exception.BusinessException;
 import com.lhd.qd.module.sys.menu.dao.PageElementMapper;
-import com.lhd.qd.module.sys.menu.model.converter.AbstractPageElementConverter;
+import com.lhd.qd.module.sys.menu.model.converter.PageElementConverter;
 import com.lhd.qd.module.sys.menu.model.dto.PageElementPageQuery;
 import com.lhd.qd.module.sys.menu.model.dto.PageElementSaveDto;
 import com.lhd.qd.module.sys.menu.model.entity.PageElementDo;
@@ -32,7 +32,7 @@ public class PageElementServiceImpl extends QdBaseServiceImpl<PageElementMapper,
         IPage<PageElementDo> doPage = this.page(new Page<>(query.getPage(), query.getSize()),
                 Wrappers.<PageElementDo>lambdaQuery().eq(PageElementDo::getMenuId, menuId));
 
-        return AbstractPageElementConverter.INSTANCE.doPage2ListVoPage(doPage);
+        return PageElementConverter.INSTANCE.doPage2ListVoPage(doPage);
     }
 
     @Override
@@ -40,7 +40,7 @@ public class PageElementServiceImpl extends QdBaseServiceImpl<PageElementMapper,
 
         PageElementDo dataObj = getById(id);
 
-        return AbstractPageElementConverter.INSTANCE.do2DetailVo(dataObj);
+        return PageElementConverter.INSTANCE.do2DetailVo(dataObj);
     }
 
     @Override
@@ -48,7 +48,7 @@ public class PageElementServiceImpl extends QdBaseServiceImpl<PageElementMapper,
 
         valid(null, menuId, saveDto);
 
-        PageElementDo dataObj = AbstractPageElementConverter.INSTANCE.saveDto2Do(saveDto);
+        PageElementDo dataObj = PageElementConverter.INSTANCE.saveDto2Do(saveDto);
         dataObj.setMenuId(menuId);
         save(dataObj);
     }
@@ -60,7 +60,7 @@ public class PageElementServiceImpl extends QdBaseServiceImpl<PageElementMapper,
 
         valid(id, menuId, saveDto);
 
-        PageElementDo dataObj = AbstractPageElementConverter.INSTANCE.saveDto2Do(saveDto);
+        PageElementDo dataObj = PageElementConverter.INSTANCE.saveDto2Do(saveDto);
         dataObj.setId(id);
         updateById(dataObj);
     }

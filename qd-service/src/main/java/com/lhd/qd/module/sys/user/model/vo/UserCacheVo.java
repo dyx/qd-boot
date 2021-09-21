@@ -1,8 +1,6 @@
 package com.lhd.qd.module.sys.user.model.vo;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
 
 import java.util.List;
 
@@ -10,9 +8,7 @@ import java.util.List;
  * redis存储的用户信息
  * @author lhd
  */
-@Setter
-@Getter
-@ToString
+@Data
 public class UserCacheVo {
 
     /**

@@ -1,11 +1,10 @@
 package com.lhd.qd.util;
 
 import cn.hutool.core.util.StrUtil;
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.lhd.qd.constant.CommonConsts;
 import com.lhd.qd.constant.RedisConsts;
 import com.lhd.qd.constant.dict.PageElementMethodEnum;
-import com.lhd.qd.module.sys.user.model.converter.AbstractUserConverter;
+import com.lhd.qd.module.sys.user.model.converter.UserConverter;
 import com.lhd.qd.module.sys.user.model.vo.UserCacheVo;
 
 import java.util.List;
@@ -28,9 +27,7 @@ public class UserUtils {
     public static UserCacheVo getCurrentUser() {
 
         RedisUtils redisUtils = SpringUtils.getBean(RedisUtils.class);
-        UserCacheVo vo = AbstractUserConverter.INSTANCE.map2CacheVo(redisUtils.getHash(RedisConsts.getUserKey(getUserId())));
-
-        return vo;
+        return UserConverter.INSTANCE.map2CacheVo(redisUtils.getHash(RedisConsts.getUserKey(getUserId())));
     }
 
     public static Boolean hasPermission(String method, String url) {
@@ -89,5 +86,4 @@ public class UserUtils {
 
         return currentUrl;
     }
-
 }

@@ -7,7 +7,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lhd.qd.base.QdBaseServiceImpl;
 import com.lhd.qd.exception.BusinessException;
 import com.lhd.qd.module.sys.role.dao.RoleMapper;
-import com.lhd.qd.module.sys.role.model.converter.AbstractRoleConverter;
+import com.lhd.qd.module.sys.role.model.converter.RoleConverter;
 import com.lhd.qd.module.sys.role.model.dto.RolePageQuery;
 import com.lhd.qd.module.sys.role.model.dto.RoleSaveDto;
 import com.lhd.qd.module.sys.role.model.entity.RoleDo;
@@ -34,7 +34,7 @@ public class RoleServiceImpl extends QdBaseServiceImpl<RoleMapper, RoleDo> imple
                 Wrappers.<RoleDo>lambdaQuery()
                         .like(StrUtil.isNotEmpty(query.getRoleName()), RoleDo::getRoleName, query.getRoleName()));
 
-        return AbstractRoleConverter.INSTANCE.doPage2ListVoPage(doPage);
+        return RoleConverter.INSTANCE.doPage2ListVoPage(doPage);
     }
 
     @Override
@@ -42,7 +42,7 @@ public class RoleServiceImpl extends QdBaseServiceImpl<RoleMapper, RoleDo> imple
 
         RoleDo dataObj = getById(id);
 
-        return AbstractRoleConverter.INSTANCE.do2DetailVo(dataObj);
+        return RoleConverter.INSTANCE.do2DetailVo(dataObj);
     }
 
     @Override
@@ -50,7 +50,7 @@ public class RoleServiceImpl extends QdBaseServiceImpl<RoleMapper, RoleDo> imple
 
         valid(null, saveDto);
 
-        RoleDo dataObj = AbstractRoleConverter.INSTANCE.saveDto2Do(saveDto);
+        RoleDo dataObj = RoleConverter.INSTANCE.saveDto2Do(saveDto);
         save(dataObj);
     }
 
@@ -59,7 +59,7 @@ public class RoleServiceImpl extends QdBaseServiceImpl<RoleMapper, RoleDo> imple
 
         valid(id, saveDto);
 
-        RoleDo dataObj = AbstractRoleConverter.INSTANCE.saveDto2Do(saveDto);
+        RoleDo dataObj = RoleConverter.INSTANCE.saveDto2Do(saveDto);
         dataObj.setId(id);
         updateById(dataObj);
     }
@@ -73,7 +73,7 @@ public class RoleServiceImpl extends QdBaseServiceImpl<RoleMapper, RoleDo> imple
     }
 
     public void valid(Long id, RoleSaveDto saveDto) {
-        Long count = count(Wrappers.<RoleDo>lambdaQuery()
+        long count = count(Wrappers.<RoleDo>lambdaQuery()
                 .eq(RoleDo::getRoleName, saveDto.getRoleName())
                 .ne(id != null, RoleDo::getId, id));
         if (count > 0) {

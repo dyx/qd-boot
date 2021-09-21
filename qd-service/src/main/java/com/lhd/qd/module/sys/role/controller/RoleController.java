@@ -67,7 +67,7 @@ public class RoleController extends QdBaseController {
 
     @ApiOperation(value = "新增")
     @PostMapping
-    public ApiResult save(@Validated @RequestBody RoleSaveDto saveDto) {
+    public ApiResult<?> save(@Validated @RequestBody RoleSaveDto saveDto) {
 
         service.saveRole(saveDto);
 
@@ -76,7 +76,7 @@ public class RoleController extends QdBaseController {
 
     @ApiOperation(value = "修改")
     @PutMapping(value = "{id}")
-    public ApiResult update(@PathVariable("id") Long id, @Validated @RequestBody RoleSaveDto saveDto) {
+    public ApiResult<?> update(@PathVariable("id") Long id, @Validated @RequestBody RoleSaveDto saveDto) {
 
         service.updateRole(id, saveDto);
 
@@ -85,7 +85,7 @@ public class RoleController extends QdBaseController {
 
     @ApiOperation(value = "删除")
     @DeleteMapping(value = "{id}")
-    public ApiResult remove(@PathVariable("id") Long id) {
+    public ApiResult<?> remove(@PathVariable("id") Long id) {
 
         service.removeRole(id);
 
@@ -108,7 +108,7 @@ public class RoleController extends QdBaseController {
 
     @ApiOperation(value = "分配资源")
     @PostMapping("/{id}/resource")
-    public ApiResult assignResource(@PathVariable("id") Long id, @RequestBody RoleAssignResourceDto dto) {
+    public ApiResult<?> assignResource(@PathVariable("id") Long id, @RequestBody RoleAssignResourceDto dto) {
 
         roleResourceService.updateRoleResource(id, dto);
 
@@ -124,7 +124,7 @@ public class RoleController extends QdBaseController {
 
     @ApiOperation(value = "分配数据权限")
     @PostMapping("/{id}/data")
-    public ApiResult assignData(@PathVariable("id") Long id, @RequestBody List<DataRuleSaveDto> dtoList) {
+    public ApiResult<?> assignData(@PathVariable("id") Long id, @RequestBody List<DataRuleSaveDto> dtoList) {
 
         dataRuleService.batchSaveByRoleId(id, dtoList);
 

@@ -3,17 +3,13 @@ package com.lhd.qd.module.sale.custom.model.vo;
 import com.lhd.qd.base.BaseDetailVo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
 
 /**
  * @author lhd
  * @since 2019-07-19
  */
-@Setter
-@Getter
-@ToString
+@Data
 @ApiModel(value = "客户详情视图对象")
 public class CustomDetailVo extends BaseDetailVo {
 

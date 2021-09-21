@@ -7,7 +7,8 @@ import com.lhd.qd.module.sys.dict.model.entity.DictDo;
 import com.lhd.qd.module.sys.dict.model.vo.DictDetailVo;
 import com.lhd.qd.module.sys.dict.model.vo.DictListVo;
 import com.lhd.qd.module.sys.dict.model.vo.DictPageBindVo;
-import org.mapstruct.*;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
@@ -17,17 +18,16 @@ import java.util.List;
  * @since 2019-05-31
  */
 @Mapper
-public abstract class AbstractDictConverter {
+public interface DictConverter {
 
-    public static AbstractDictConverter INSTANCE = Mappers.getMapper(AbstractDictConverter.class);
+    DictConverter INSTANCE = Mappers.getMapper(DictConverter.class);
 
     /**
      * do分页集合 转换为 列表vo分页集合
      * @param doPage
      * @return
      */
-    @BeanMapping(resultType = Page.class)
-    public abstract IPage<DictListVo> doPage2ListVoPage(IPage<DictDo> doPage);
+    Page<DictListVo> doPage2ListVoPage(IPage<DictDo> doPage);
 
 
     /**
@@ -35,21 +35,21 @@ public abstract class AbstractDictConverter {
      * @param dataObj
      * @return
      */
-    public abstract DictListVo do2ListVo(DictDo dataObj);
+    DictListVo do2ListVo(DictDo dataObj);
 
     /**
      * do 转换为 详情vo
      * @param dataObj
      * @return
      */
-    public abstract DictDetailVo do2DetailVo(DictDo dataObj);
+    DictDetailVo do2DetailVo(DictDo dataObj);
 
     /**
      * do列表 转换为 前端绑定vo列表
      * @param doList
      * @return
      */
-    public abstract List<DictPageBindVo> doList2PageBindVoList(List<DictDo> doList);
+    List<DictPageBindVo> doList2PageBindVoList(List<DictDo> doList);
 
     /**
      * do 转换为 前端绑定vo
@@ -58,12 +58,12 @@ public abstract class AbstractDictConverter {
      */
     @Mapping(target = "value", source = "dictValue")
     @Mapping(target = "desc", source = "dictDesc")
-    public abstract DictPageBindVo do2PageBindVo(DictDo dataObj);
+    DictPageBindVo do2PageBindVo(DictDo dataObj);
 
     /**
      * 新增dto 转换为 do
      * @param saveDto
      * @return
      */
-    public abstract DictDo saveDto2Do(DictSaveDto saveDto);
+    DictDo saveDto2Do(DictSaveDto saveDto);
 }
