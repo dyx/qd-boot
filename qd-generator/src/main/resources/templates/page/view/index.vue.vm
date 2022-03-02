@@ -57,7 +57,7 @@ export default {
       columns: [
         { type: 'selection', width: 60, align: 'center' },
         #foreach($field in ${table.fields})
-          #if((${cfg.baseDOFieldList.contains($field.propertyName)} and ${field.propertyName} != ${cfg.primaryKey}) or ${cfg.logicDeleteFieldName} == ${field.propertyName})
+          #if((${cfg.baseDoFieldList.contains($field.propertyName)} and ${field.propertyName} != ${cfg.primaryKey}) or ${cfg.logicDeleteFieldName} == ${field.propertyName})
           #elseif(${field.propertyName} == ${cfg.primaryKey})
         {
           title: '主键',

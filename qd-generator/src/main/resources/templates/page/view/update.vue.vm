@@ -7,7 +7,7 @@
            @on-submit="submit">
     <template #formItem>
       #foreach($field in ${table.fields})
-        #if(${cfg.baseDOFieldList.contains($field.propertyName)} or ${field.propertyName} == ${cfg.primaryKey} or ${cfg.logicDeleteFieldName} == ${field.propertyName})
+        #if(${cfg.baseDoFieldList.contains($field.propertyName)} or ${field.propertyName} == ${cfg.primaryKey} or ${cfg.logicDeleteFieldName} == ${field.propertyName})
         #else
       <form-text label="$!{field.comment}" prop="$!{field.propertyName}" v-model="form.$!{field.propertyName}"></form-text>
         #end

@@ -1,17 +1,17 @@
-package $!{cfg.basePackage}.service.impl;
+package $!{basePackage}.service.impl;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lhd.qd.base.QdBaseServiceImpl;
-import $!{cfg.basePackage}.dao.$!{entity}Mapper;
-import $!{cfg.basePackage}.model.converter.Abstract$!{entity}Converter;
-import $!{cfg.basePackage}.model.dto.$!{entity}PageQuery;
-import $!{cfg.basePackage}.model.dto.$!{entity}SaveDTO;
-import $!{cfg.basePackage}.model.entity.$!{entity}DO;
-import $!{cfg.basePackage}.model.vo.$!{entity}DetailVO;
-import $!{cfg.basePackage}.model.vo.$!{entity}ListVO;
-import $!{cfg.basePackage}.service.$!{entity}Service;
+import $!{basePackage}.dao.$!{entity}Mapper;
+import $!{basePackage}.model.converter.$!{entity}Converter;
+import $!{basePackage}.model.dto.$!{entity}PageQuery;
+import $!{basePackage}.model.dto.$!{entity}SaveDto;
+import $!{basePackage}.model.entity.$!{entity}Do;
+import $!{basePackage}.model.vo.$!{entity}DetailVo;
+import $!{basePackage}.model.vo.$!{entity}ListVo;
+import $!{basePackage}.service.$!{entity}Service;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,36 +25,36 @@ import java.util.List;
  * @since $!{date}
  */
 @Service
-public class $!{entity}ServiceImpl extends QdBaseServiceImpl<$!{entity}Mapper, $!{entity}DO> implements $!{entity}Service {
+public class $!{entity}ServiceImpl extends QdBaseServiceImpl<$!{entity}Mapper, $!{entity}Do> implements $!{entity}Service {
 
     @Override
-    public IPage<$!{entity}ListVO> page$!{entity}($!{entity}PageQuery query) {
+    public IPage<$!{entity}ListVo> page$!{entity}($!{entity}PageQuery query) {
 
-        IPage<$!{entity}DO> doPage = this.page(new Page<>(query.getPage(), query.getSize()),
-                Wrappers.<$!{entity}DO>lambdaQuery());
+        IPage<$!{entity}Do> doPage = this.page(new Page<>(query.getPage(), query.getSize()),
+                Wrappers.<$!{entity}Do>lambdaQuery());
 
-        return Abstract$!{entity}Converter.INSTANCE.doPage2ListVOPage(doPage);
+        return $!{entity}Converter.INSTANCE.doPage2ListVoPage(doPage);
     }
 
     @Override
-    public $!{entity}DetailVO get$!{entity}ById(Long id) {
+    public $!{entity}DetailVo get$!{entity}ById(Long id) {
 
-        $!{entity}DO dataObj = getById(id);
+        $!{entity}Do dataObj = getById(id);
 
-        return Abstract$!{entity}Converter.INSTANCE.do2DetailVO(dataObj);
+        return $!{entity}Converter.INSTANCE.do2DetailVo(dataObj);
     }
 
     @Override
-    public void save$!{entity}($!{entity}SaveDTO saveDTO) {
+    public void save$!{entity}($!{entity}SaveDto saveDto) {
 
-        $!{entity}DO dataObj = Abstract$!{entity}Converter.INSTANCE.saveDTO2DO(saveDTO);
+        $!{entity}Do dataObj = $!{entity}Converter.INSTANCE.saveDto2Do(saveDto);
         save(dataObj);
     }
 
     @Override
-    public void update$!{entity}(Long id, $!{entity}SaveDTO saveDTO) {
+    public void update$!{entity}(Long id, $!{entity}SaveDto saveDto) {
 
-        $!{entity}DO dataObj = Abstract$!{entity}Converter.INSTANCE.saveDTO2DO(saveDTO);
+        $!{entity}Do dataObj = $!{entity}Converter.INSTANCE.saveDto2Do(saveDto);
         dataObj.setId(id);
         updateById(dataObj);
     }
@@ -62,7 +62,7 @@ public class $!{entity}ServiceImpl extends QdBaseServiceImpl<$!{entity}Mapper, $
     @Override
     public void remove$!{entity}(Long id) {
 
-        $!{entity}DO dataObj = new $!{entity}DO();
+        $!{entity}Do dataObj = new $!{entity}Do();
         dataObj.setId(id);
         removeByIdWithFill(dataObj);
     }
@@ -70,6 +70,6 @@ public class $!{entity}ServiceImpl extends QdBaseServiceImpl<$!{entity}Mapper, $
     @Override
     public void batchRemove$!{entity}(List<Long> idList) {
 
-        removeByIdsWithFill(new $!{entity}DO(), idList);
+        removeByIdsWithFill(new $!{entity}Do(), idList);
     }
 }

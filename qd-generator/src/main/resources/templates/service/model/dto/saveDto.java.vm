@@ -1,0 +1,22 @@
+package $!{basePackage}.model.dto;
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+
+/**
+ * @author $!{author}
+ * @since $!{date}
+ */
+@Data
+@ApiModel(value = "$!{table.comment}新增传输对象")
+public class $!{entity}SaveDto {
+
+#foreach($field in ${table.fields})
+    #if(${baseDoFieldList.contains($field.propertyName)})
+    #else
+    @ApiModelProperty(value = "$!{field.comment}")
+    private $!{field.propertyType} $!{field.propertyName};
+    #end
+#end
+}

@@ -10,4 +10,5 @@ import java.util.List;
 public class CommonConsts {
 
     public final static List<String> BASE_DO_FIELD_LIST = Arrays.asList("id", "deleted", "createUserId", "createTime", "updateUserId", "updateTime");
+    public final static String LOGIC_DELETE_FIELD = "deleted";
 }

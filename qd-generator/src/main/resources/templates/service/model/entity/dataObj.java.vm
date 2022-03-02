@@ -1,86 +1,64 @@
-package $!{cfg.basePackage}.model.entity;
+package $!{basePackage}.model.entity;
 
 #foreach($pkg in ${table.importPackages})
-import $!{pkg};
+import ${pkg};
 #end
-#if(${cfg.isExtendsBaseDO})
-import com.lhd.qd.base.QdBaseDO;
+#if(${isExtendsBaseDo})
+import com.lhd.qd.base.QdBaseDo;
 #end
-import com.baomidou.mybatisplus.annotation.TableId;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
 
 /**
  * <p>
  * $!{table.comment}
  * </p>
  *
- * @author $!{author}
- * @since $!{date}
+ * @author ${author}
+ * @since ${date}
  */
-@Setter
-@Getter
-@ToString(callSuper = true)
+@Data
 #if(${table.convert})
-@TableName("$!{table.name}")
+@TableName("${table.name}")
 #end
-#if(${cfg.isExtendsBaseDO})
-public class $!{entity}DO extends QdBaseDO {
+#if(${isExtendsBaseDo})
+public class $!{entity}Do extends QdBaseDo {
 #else
-public class $!{entity}DO {
+public class $!{entity}Do {
 #end
-
-## ----------  BEGIN 字段循环遍历  ----------
 #foreach($field in ${table.fields})
-## 过滤掉父类字段
-#if(${cfg.isExtendsBaseDO} && ${cfg.baseDOFieldList.contains($field.propertyName)})
+#if(${isExtendsBaseDo} && ${baseDoFieldList.contains($field.propertyName)})
 #else
 #if(${field.keyFlag})
     #set($keyPropertyName=${field.propertyName})
 #end
 #if("$!field.comment" != "")
     /**
-     * $!{field.comment}
+     * ${field.comment}
      */
 #end
 #if(${field.keyFlag})
-## 主键
-    #if(${field.keyIdentityFlag})
-    @TableId(value = "$!{field.name}", type = IdType.AUTO)
-    #elseif(!$null.isNull(${idType}) && "$!idType" != "")
-    @TableId(value = "$!{field.name}", type = IdType.$!{idType})
-    #elseif(${field.convert})
-    @TableId("$!{field.name}")
-    #end
-## 普通字段
-#elseif(${field.fill})
-## -----   存在字段填充设置   -----
-    #if(${field.convert})
-    @TableField(value = "$!{field.name}", fill = FieldFill.$!{field.fill})
-    #else
-    @TableField(fill = FieldFill.$!{field.fill})
-    #end
+#if(${field.keyIdentityFlag})
+    @TableId(value = "${field.annotationColumnName}", type = IdType.AUTO)
+#elseif(!$null.isNull(${idType}) && "$!idType" != "")
+    @TableId(value = "${field.annotationColumnName}", type = IdType.${idType})
 #elseif(${field.convert})
-    @TableField("$!{field.name}")
+    @TableId("${field.annotationColumnName}")
 #end
-## 乐观锁注解
-#if(${versionFieldName}==${field.name})
-    @Version
+#elseif(${field.fill})
+#if(${field.convert})
+    @TableField(value = "${field.annotationColumnName}", fill = FieldFill.${field.fill})
+#else
+    @TableField(fill = FieldFill.${field.fill})
 #end
-## 逻辑删除注解
-#if(${logicDeleteFieldName}==${field.name})
+#elseif(${field.convert})
+    @TableField("${field.annotationColumnName}")
+#end
+#if(${field.logicDeleteField})
     @TableLogic
 #end
-    private $!{field.propertyType} $!{field.propertyName};
+    private ${field.propertyType} ${field.propertyName};
 #end
-#end
-## ----------  END 字段循环遍历  ----------
-
-#if(${entityColumnConstant})
-    #foreach($field in ${table.fields})
-    public static final String $!{field.name.toUpperCase()} = "$!{field.name}";
-
-    #end
 #end
 }
+
+

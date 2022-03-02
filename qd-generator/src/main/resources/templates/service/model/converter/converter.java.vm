@@ -1,11 +1,11 @@
-package $!{cfg.basePackage}.model.converter;
+package $!{basePackage}.model.converter;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import $!{cfg.basePackage}.model.dto.$!{entity}SaveDTO;
-import $!{cfg.basePackage}.model.entity.$!{entity}DO;
-import $!{cfg.basePackage}.model.vo.$!{entity}DetailVO;
-import $!{cfg.basePackage}.model.vo.$!{entity}ListVO;
+import $!{basePackage}.model.dto.$!{entity}SaveDto;
+import $!{basePackage}.model.entity.$!{entity}Do;
+import $!{basePackage}.model.vo.$!{entity}DetailVo;
+import $!{basePackage}.model.vo.$!{entity}ListVo;
 import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
@@ -15,36 +15,35 @@ import org.mapstruct.factory.Mappers;
  * @since $!{date}
  */
 @Mapper
-public abstract class Abstract$!{entity}Converter {
+public interface $!{entity}Converter {
 
-    public static Abstract$!{entity}Converter INSTANCE = Mappers.getMapper(Abstract$!{entity}Converter.class);
+    $!{entity}Converter INSTANCE = Mappers.getMapper($!{entity}Converter.class);
 
     /**
      * do分页集合 转换为 列表vo分页集合
      * @param doPage
      * @return
      */
-    @BeanMapping(resultType = Page.class)
-    public abstract IPage<$!{entity}ListVO> doPage2ListVOPage(IPage<$!{entity}DO> doPage);
+    Page<$!{entity}ListVo> doPage2ListVoPage(IPage<$!{entity}Do> doPage);
 
     /**
      * do 转换为 列表vo
      * @param dataObj
      * @return
      */
-    public abstract $!{entity}ListVO do2ListVO($!{entity}DO dataObj);
+    $!{entity}ListVo do2ListVo($!{entity}Do dataObj);
 
     /**
      * do 转换为 详情vo
      * @param dataObj
      * @return
      */
-    public abstract $!{entity}DetailVO do2DetailVO($!{entity}DO dataObj);
+    $!{entity}DetailVo do2DetailVo($!{entity}Do dataObj);
 
     /**
      * 新增dto 转换为 do
-     * @param saveDTO
+     * @param saveDto
      * @return
      */
-    public abstract $!{entity}DO saveDTO2DO($!{entity}SaveDTO saveDTO);
+    $!{entity}Do saveDto2Do($!{entity}SaveDto saveDto);
 }
