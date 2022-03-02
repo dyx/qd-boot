@@ -1,6 +1,7 @@
 package com.lhd.qd.module.sale.custom.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.lhd.qd.annotation.Permission;
 import com.lhd.qd.base.QdBaseController;
 import com.lhd.qd.constant.http.ApiResult;
 import com.lhd.qd.module.sale.custom.model.dto.CustomPageQuery;
@@ -46,6 +47,7 @@ public class CustomController extends QdBaseController {
         return success(service.getCustomById(id));
     }
 
+    @Permission
     @ApiOperation(value = "新增")
     @PostMapping
     public ApiResult<?> save(@Validated @RequestBody CustomSaveDto saveDto) {
@@ -55,6 +57,7 @@ public class CustomController extends QdBaseController {
         return success();
     }
 
+    @Permission
     @ApiOperation(value = "修改")
     @PutMapping(value = "{id}")
     public ApiResult<?> update(@PathVariable("id") Long id, @Validated @RequestBody CustomSaveDto saveDto) {
@@ -64,6 +67,7 @@ public class CustomController extends QdBaseController {
         return success();
     }
 
+    @Permission
     @ApiOperation(value = "删除")
     @DeleteMapping(value = "{id}")
     public ApiResult<?> remove(@PathVariable("id") Long id) {
@@ -73,6 +77,7 @@ public class CustomController extends QdBaseController {
         return success();
     }
 
+    @Permission
     @ApiOperation(value = "批量删除")
     @DeleteMapping(value = "batch")
     public ApiResult<?> batchRemove(@RequestBody List<Long> idList) {

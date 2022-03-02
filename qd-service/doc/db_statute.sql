@@ -14,7 +14,7 @@ ALTER TABLE table_name ADD is_deleted tinyint(1) NOT NULL DEFAULT '0' COMMENT '�
 
 
 # 字段命名
-# 不要是用MySQL保留字 地址 https://dev.mysql.com/doc/mysqld-version-reference/en/keywords-5-7.html
+# 不要用MySQL保留字 地址 https://dev.mysql.com/doc/mysqld-version-reference/en/keywords-5-7.html
 # 如果有关键字 可使用 model_keyword 如role_name
 
 # 字段类型

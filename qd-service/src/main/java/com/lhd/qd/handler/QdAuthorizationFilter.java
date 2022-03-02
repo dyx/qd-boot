@@ -57,14 +57,6 @@ public class QdAuthorizationFilter implements Filter {
                     response.sendError(HttpStatus.UNAUTHORIZED.value());
                     return;
                 }
-
-                String method = request.getMethod();
-                // 校验权限
-                if (!UserUtils.hasPermission(method, requestUri)) {
-                    log.debug("鉴权权限：{}:{}", method, requestUri);
-                    HttpUtils.setResponseBody(response, JacksonUtils.toStr(ApiResult.fail("暂无此功能权限")));
-                    return;
-                }
             }
             catch (Exception e) {
                 log.error(ErrorCodeEnum.AUTHORIZATION_ERROR.getMsg(), e);

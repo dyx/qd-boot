@@ -1,6 +1,7 @@
 package com.lhd.qd.module.sys.dict.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.lhd.qd.annotation.Permission;
 import com.lhd.qd.base.QdBaseController;
 import com.lhd.qd.constant.RedisConsts;
 import com.lhd.qd.constant.http.ApiResult;
@@ -70,6 +71,7 @@ public class DictController extends QdBaseController {
         return success(service.getDictById(id));
     }
 
+    @Permission
     @ApiOperation(value = "新增")
     @PostMapping
     public ApiResult<?> save(@Validated @RequestBody DictSaveDto saveDto) {
@@ -79,6 +81,7 @@ public class DictController extends QdBaseController {
         return success();
     }
 
+    @Permission
     @ApiOperation(value = "修改")
     @PutMapping(value = "{id}")
     public ApiResult<?> update(@PathVariable("id") Long id, @Validated @RequestBody DictSaveDto saveDto) {
@@ -88,6 +91,7 @@ public class DictController extends QdBaseController {
         return success();
     }
 
+    @Permission
     @ApiOperation(value = "更新字典缓存")
     @PutMapping(value = "code/{typeCode}/cache")
     public ApiResult<?> updateDictCacheByTypeCode(@PathVariable("typeCode") String typeCode) {
@@ -97,6 +101,7 @@ public class DictController extends QdBaseController {
         return success();
     }
 
+    @Permission
     @ApiOperation(value = "删除")
     @DeleteMapping(value = "{id}")
     public ApiResult<?> remove(@PathVariable("id") Long id) {
